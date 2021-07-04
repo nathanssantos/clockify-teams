@@ -24,9 +24,9 @@ const TimeEntry = (props) => {
       <div className="time-entry__top">
         <div
           className="time-entry__project-name"
-          style={{
-            color: project.color,
-          }}
+          // style={{
+          //   color: project.color,
+          // }}
         >
           {project.name}
         </div>
