@@ -1,5 +1,5 @@
 import React from "react";
-import { HashRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { observer } from "mobx-react";
 
 import { useStore } from "../../hooks";
@@ -19,7 +19,7 @@ const Router = () => {
   const store = useStore();
 
   return (
-    <HashRouter>
+    <BrowserRouter>
       {store?.authStore?.isAuthenticated ? (
         <>
           <Header />
@@ -54,7 +54,7 @@ const Router = () => {
           </Route>
         </Switch>
       )}
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 
