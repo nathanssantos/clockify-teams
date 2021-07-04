@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Container } from "@material-ui/core";
 import _ from "lodash";
@@ -14,13 +14,17 @@ import "./styles.scss";
 const TeamDetail = () => {
   const store = useStore();
   const params = useParams();
-  const project = store.projectStore.projectList.find(
+  const [project, setProject] = useState(null);
+  const projectData = store.projectStore.projectList.find(
     (project) => project.id === params.id
   );
 
-  store.projectStore.fetchProjectTimeEntries(project);
+  useEffect(() => {
+    setProject(projectData);
+  }, [store.projectStore.projectList]);
 
   useEffect(() => {
+    store.projectStore.fetchProjectTimeEntries(projectData);
     window.scrollTo(0, 0);
   }, []);
 
