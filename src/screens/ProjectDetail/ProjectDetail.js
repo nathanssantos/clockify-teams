@@ -21,12 +21,14 @@ const TeamDetail = () => {
 
   useEffect(() => {
     setProject(projectData);
-  }, [store.projectStore.projectList]);
+  }, [projectData]);
 
   useEffect(() => {
     store.projectStore.fetchProjectTimeEntries(projectData);
     window.scrollTo(0, 0);
   }, []);
+
+  if (!project) return null;
 
   return (
     <div className="screen team-detail">

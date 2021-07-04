@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Container } from "@material-ui/core";
 import _ from "lodash";
@@ -15,15 +15,21 @@ import { Avatar } from "@material-ui/core";
 const TeamDetail = () => {
   const store = useStore();
   const params = useParams();
-  const team = store.teamStore.teamList.find(
+  const [team, setTeam] = useState(null);
+  const teamData = store.teamStore.teamList.find(
     (team) => team.id === Number(params.id)
   );
 
-  store.teamStore.fetchTeamTimeEntries(team);
+  useEffect(() => {
+    setTeam(teamData);
+  }, [teamData]);
 
   useEffect(() => {
+    store.teamStore.fetchTeamTimeEntries(teamData);
     window.scrollTo(0, 0);
   }, []);
+
+  if (!team) return null;
 
   return (
     <div className="screen team-detail">

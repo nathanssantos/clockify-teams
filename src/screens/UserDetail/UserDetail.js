@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Avatar, Container } from "@material-ui/core";
 
@@ -14,15 +14,21 @@ import "./styles.scss";
 const UserDetail = () => {
   const store = useStore();
   const params = useParams();
-  const user = store.userStore.userList.find(
+  const [user, setUser] = useState(null);
+  const userData = store.userStore.userList.find(
     (project) => project.id === params.id
   );
 
-  store.userStore.fetchUserData(user);
+  useEffect(() => {
+    setUser(userData);
+  }, [userData]);
 
   useEffect(() => {
+    store.userStore.fetchUserData(userData);
     window.scrollTo(0, 0);
   }, []);
+
+  if (!user) return null;
 
   return (
     <div className="screen user-detail">
@@ -102,6 +108,13 @@ const UserDetail = () => {
                   </div>
                 </div>
               ))}
+            </div>
+          ) : null}
+
+          {!user?.timeEntries.length ? (
+            <div>
+              Nenhuma entrada encontrada para este usuário no período
+              selecionado.
             </div>
           ) : null}
         </main>
