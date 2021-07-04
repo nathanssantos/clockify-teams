@@ -1,0 +1,24 @@
+.user {
+  display: flex;
+  align-items: center;
+  padding-top: 16px !important;
+  padding-bottom: 16px !important;
+
+  &:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.03);
+  }
+
+  &__avatar {
+    width: 50px !important;
+    height: 50px !important;
+    margin-right: 10px;
+  }
+
+  &__name {
+    font-size: 16px;
+  }
+
+  &__email {
+    font-size: 12px;
+  }
+}

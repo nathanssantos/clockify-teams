@@ -1,0 +1,21 @@
+.project {
+  display: flex;
+  align-items: center;
+  padding-left: 12px !important;
+  padding-top: 16px !important;
+  padding-bottom: 16px !important;
+
+  &.MuiListItem-root {
+    border-left: 5px solid transparent;
+    transition: border-color 1s ease-in,
+      background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  }
+
+  &:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.03);
+  }
+
+  &__name {
+    font-size: 16px;
+  }
+}

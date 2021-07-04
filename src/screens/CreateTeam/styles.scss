@@ -1,0 +1,54 @@
+.create-team {
+  &__form {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 32px;
+
+    &__content {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      flex: 1;
+    }
+  }
+
+  &__user-lists {
+    display: flex;
+    flex: 1;
+    gap: 16px;
+
+    .user-list {
+      flex: 1;
+
+      .section-header {
+        padding: 32px 0;
+
+        h3 {
+          font-weight: 100;
+          margin: 0;
+          font-size: 18px;
+        }
+      }
+
+      &__item {
+        display: flex;
+
+        .user.MuiListItem-button {
+          background-color: transparent;
+        }
+
+        &:nth-of-type(odd) {
+          background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        &__bt-add {
+          border-radius: 0;
+        }
+      }
+    }
+  }
+}

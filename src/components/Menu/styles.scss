@@ -1,0 +1,23 @@
+.menu {
+  &__list {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    &__item {
+      list-style: none;
+
+      &__button {
+        font-weight: 100 !important;
+        text-transform: none !important;
+      }
+    }
+  }
+
+  &.vertical {
+    .menu__list {
+      flex-direction: column;
+    }
+  }
+}
