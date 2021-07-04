@@ -1,10 +1,11 @@
 {
   "name": "clockify-teams",
+  "version": "1.0.0",
   "author": {
     "name": "Nathan Silva Santos",
     "email": "nathansilvasantos@gmail.com"
   },
-  "version": "1.0.0",
+  "homepage": "https://nathanssantos.github.io/clockify-teams/",
   "private": true,
   "dependencies": {
     "@date-io/date-fns": "1.x",
@@ -33,7 +34,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -52,5 +55,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^3.2.3"
   }
 }
