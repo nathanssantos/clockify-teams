@@ -22,18 +22,19 @@ const TimeEntry = (props) => {
       }}
     >
       <div className="time-entry__top">
-        <div
-          className="time-entry__project-name"
-          // style={{
-          //   color: project.color,
-          // }}
-        >
-          {project.name}
-        </div>
+        <div className="time-entry__project-name">{project.name}</div>
       </div>
-      <div className="time-entry__bottom">{`${time
-        .replace("PT", "")
-        .replace("H", "H")} - ${description}`}</div>
+      <div className="time-entry__bottom">
+        <div
+          className="time-entry__time"
+          style={{
+            borderColor: project.color,
+          }}
+        >
+          {time.replace("PT", "").replace("H", "hr ").replace("M", "min")}
+        </div>
+        -<div className="time-entry__description">{description}</div>
+      </div>
     </ListItem>
   );
 };

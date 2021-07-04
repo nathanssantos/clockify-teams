@@ -20,6 +20,19 @@
     margin-bottom: 4px;
   }
 
+  &__time {
+    margin-right: 8px;
+    border: 1px solid;
+    border-radius: 4px;
+    padding: 4px 6px;
+    line-height: 1;
+    font-weight: 100;
+  }
+
+  &__description {
+    margin-left: 8px;
+  }
+
   &__bottom {
     display: flex;
     align-items: center;
