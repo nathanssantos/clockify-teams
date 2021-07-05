@@ -15,16 +15,16 @@ const UserDetail = () => {
   const store = useStore();
   const params = useParams();
   const [user, setUser] = useState(null);
-  const userData = store.userStore.userList.find(
+  const foundUser = store.userStore.userList.find(
     (project) => project.id === params.id
   );
 
   useEffect(() => {
-    setUser(userData);
-  }, [userData]);
+    setUser(foundUser);
+  }, [foundUser]);
 
   useEffect(() => {
-    store.userStore.fetchUserData(userData);
+    store.userStore.fetchUserData(foundUser);
     window.scrollTo(0, 0);
   }, []);
 
@@ -91,7 +91,7 @@ const UserDetail = () => {
           {user?.timeEntries?.length ? (
             <div className="time-entries">
               {user.timeEntriesByDay.map((day) => (
-                <div className="time-entries__day">
+                <div className="time-entries__day" key={day.date}>
                   <header className="section-header">
                     <h3>{day.date}</h3>
                   </header>

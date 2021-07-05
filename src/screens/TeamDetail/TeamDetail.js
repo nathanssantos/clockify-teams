@@ -16,16 +16,16 @@ const TeamDetail = () => {
   const store = useStore();
   const params = useParams();
   const [team, setTeam] = useState(null);
-  const teamData = store.teamStore.teamList.find(
+  const foundTeam = store.teamStore.teamList.find(
     (team) => team.id === Number(params.id)
   );
 
   useEffect(() => {
-    setTeam(teamData);
-  }, [teamData]);
+    setTeam(foundTeam);
+  }, [foundTeam]);
 
   useEffect(() => {
-    store.teamStore.fetchTeamTimeEntries(teamData);
+    store.teamStore.fetchTeamData(foundTeam);
     window.scrollTo(0, 0);
   }, []);
 
@@ -41,7 +41,7 @@ const TeamDetail = () => {
               src={team?.image}
               className="team-detail__avatar"
             />
-            <h2>Equipe {team?.name}</h2>
+            <h2>{team?.name}</h2>
           </div>
         </header>
 

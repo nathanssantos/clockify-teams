@@ -7,6 +7,7 @@ import { useStore } from "../../hooks";
 import Header from "../Header/Header";
 
 import TeamDetail from "../../screens/TeamDetail/TeamDetail";
+import EditTeam from "../../screens/EditTeam/EditTeam";
 import CreateTeam from "../../screens/CreateTeam/CreateTeam";
 import Teams from "../../screens/Teams/Teams";
 import UserDetail from "../../screens/UserDetail/UserDetail";
@@ -24,6 +25,9 @@ const Router = () => {
         <>
           <Header />
           <Switch>
+            <Route path="/teams/edit/:id">
+              <EditTeam />
+            </Route>
             <Route path="/teams/create">
               <CreateTeam />
             </Route>

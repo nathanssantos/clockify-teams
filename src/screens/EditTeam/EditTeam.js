@@ -4,6 +4,7 @@ import { observer } from "mobx-react";
 import { TextField, Button, Container } from "@material-ui/core";
 import { ArrowBack, ArrowForward } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import _ from "lodash";
 
 import { useStore } from "../../hooks";
@@ -13,9 +14,13 @@ import Team from "../../components/Team/Team";
 
 import "./styles.scss";
 
-const CreateTeam = () => {
+const EditTeam = () => {
   const store = useStore();
+  const params = useParams();
   const history = useHistory();
+  const teamData = store.teamStore.teamList.find(
+    (team) => team.id === Number(params.id)
+  );
   const [teamName, setTeamName] = useState("");
   const [teamImage, setTeamImage] = useState("");
   const [userList, setUserList] = useState([]);
@@ -41,19 +46,24 @@ const CreateTeam = () => {
     setUserList(_.sortBy([...userList, _user], "name"));
   };
 
-  const createTeam = async () => {
-    const newTeamId = store.teamStore.createTeam({
+  const editTeam = async () => {
+    const newTeamId = await store.teamStore.editTeam(teamData.id, {
       name: teamName,
       image: teamImage,
       users: newUserList,
     });
 
-    store.teamStore.fetchTeamList();
-
     history.push(`/teams/${newTeamId}`);
 
     if (newTeamId) alert(`A equipe ${teamName} foi criada.`);
   };
+
+  useEffect(() => {
+    for (const user of teamData.users) {
+      console.log(teamData.users);
+      addUser(user);
+    }
+  }, [teamData]);
 
   useEffect(() => {
     setUserList(store.userStore.userList);
@@ -64,7 +74,7 @@ const CreateTeam = () => {
     <div className="screen create-team">
       <Container maxWidth="xl">
         <header className="screen__header">
-          <h2>Criar equipe</h2>
+          <h2>{`Editar equipe ${teamData.name}`}</h2>
         </header>
 
         <main>
@@ -100,8 +110,8 @@ const CreateTeam = () => {
                 </div>
               ) : null}
             </div>
-            <Button variant="outlined" onClick={createTeam}>
-              Criar
+            <Button variant="outlined" onClick={editTeam}>
+              Salvar Alterações
             </Button>
           </div>
 
@@ -162,4 +172,4 @@ const CreateTeam = () => {
   );
 };
 
-export default observer(CreateTeam);
+export default observer(EditTeam);

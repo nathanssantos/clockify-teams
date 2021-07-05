@@ -6,10 +6,12 @@ const getHours = (_time) => {
 
     if (time?.length) {
       if (time?.length === 2) {
-        hours = Number(time[0].split("PT")[1]);
-        minutes = Number(time[1].split("M")[0]);
+        hours = Number(time[0].split("PT")[1]) || 0;
+        minutes = Number(time[1].split("M")[0]) || 0;
       } else {
-        minutes = Number(time[0].replace("PT", "").replace("M", ""));
+        if (time[0] !== "PT0S") {
+          minutes = Number(time[0].replace("PT", "").replace("M", ""));
+        }
       }
 
       return Number(hours + minutes / 60);

@@ -15,7 +15,7 @@ export default class TeamStore {
 
       setTeamList: action.bound,
       fetchTeamList: action.bound,
-      fetchTeamTimeEntries: action.bound,
+      fetchTeamData: action.bound,
     });
   }
 
@@ -39,7 +39,7 @@ export default class TeamStore {
             id,
             name,
             image,
-            users,
+            users: users.map((user) => user.id),
           },
         ];
       } else {
@@ -48,7 +48,7 @@ export default class TeamStore {
             id,
             name,
             image,
-            users,
+            users: users.map((user) => user.id),
           },
         ];
       }
@@ -71,7 +71,15 @@ export default class TeamStore {
       const [teamList] = useLocalStorage("team-list");
 
       if (teamList.length) {
-        this.setTeamList(teamList);
+        this.setTeamList(
+          teamList.map((team) => ({
+            ...team,
+            users: getRoot().userStore.userList.filter((user) =>
+              team.users.includes(user.id)
+            ),
+          }))
+        );
+
         getRoot().authStore.feedFetchDataLog(
           "fetch team list success",
           "success"
@@ -86,7 +94,7 @@ export default class TeamStore {
     }
   }
 
-  fetchTeamTimeEntries(payload = {}) {
+  fetchTeamData(payload = {}) {
     try {
       const { id, users = [] } = payload;
 
@@ -136,8 +144,12 @@ export default class TeamStore {
             }
           }
 
+          const newUser = getRoot().userStore.userList.find(
+            (_user) => _user.id === user.id
+          );
+
           usersWithTimeEntries.push({
-            ...user,
+            ...newUser,
             timeEntries,
             hours,
           });
@@ -169,22 +181,24 @@ export default class TeamStore {
         index++;
       }
 
+      const newTeam = {
+        ...payload,
+        users: usersWithTimeEntries,
+        timeEntriesByProject: teamTimeEntriesByProject,
+        fetchedTimeEntries: true,
+      };
+
       this.setTeamList(
         this.teamList.map((team) => {
           if (team.id === id) {
-            return {
-              ...payload,
-              users: usersWithTimeEntries,
-              timeEntriesByProject: teamTimeEntriesByProject,
-              fetchedTimeEntries: true,
-            };
+            return newTeam;
           }
 
           return team;
         })
       );
 
-      return true;
+      return newTeam;
     } catch (error) {
       console.log(error);
       return false;

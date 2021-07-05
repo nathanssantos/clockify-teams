@@ -12,7 +12,7 @@ export default class ProjectStore {
     makeObservable(this, {
       projectList: observable,
       setProjectList: action.bound,
-      fetchProjectTimeEntries: action.bound,
+      fetchProjectData: action.bound,
       fetchProjectList: flow,
     });
   }
@@ -25,7 +25,7 @@ export default class ProjectStore {
     try {
       getRoot().authStore.feedFetchDataLog("fetching project list...");
 
-      const { pageSize = 300 } = payload;
+      const { pageSize = 1000 } = payload;
       const { defaultWorkspace } = getRoot().authStore.user;
 
       const response = yield getEnv().get(
@@ -64,7 +64,7 @@ export default class ProjectStore {
     }
   }
 
-  fetchProjectTimeEntries(payload = {}) {
+  fetchProjectData(payload = {}) {
     try {
       const { id } = payload;
 
@@ -114,7 +114,6 @@ export default class ProjectStore {
           if (project.id === id) {
             return {
               ...payload,
-
               timeEntriesByUser: projectTimeEntriesByUser,
               fetchedTimeEntries: true,
             };

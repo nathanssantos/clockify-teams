@@ -6,6 +6,8 @@ export default class Project {
   email = null;
   workspaceId = null;
   color = null;
+  duration = null;
+  estimate = null;
   users = [];
   fetchedTimeEntries = false;
   timeEntriesByUser = [];
@@ -17,6 +19,8 @@ export default class Project {
       email: observable,
       workspaceId: observable,
       color: observable,
+      duration: observable,
+      estimate: observable,
       users: observable,
       fetchedTimeEntries: observable,
       timeEntriesByUser: observable,
@@ -32,6 +36,8 @@ export default class Project {
       email,
       workspaceId,
       color,
+      duration,
+      estimate,
       users,
       fetchedTimeEntries,
       timeEntriesByUser,
@@ -42,6 +48,8 @@ export default class Project {
     this.email = email || "";
     this.workspaceId = workspaceId || "";
     this.color = color || "";
+    this.duration = duration || "";
+    this.estimate = estimate || "";
     this.users = users || [];
     this.fetchedTimeEntries = fetchedTimeEntries || false;
     this.timeEntriesByUser = timeEntriesByUser || [];
@@ -53,6 +61,8 @@ export default class Project {
     email,
     workspaceId,
     color,
+    duration,
+    estimate,
     users,
     fetchedTimeEntries,
     timeEntriesByUser,
@@ -63,6 +73,8 @@ export default class Project {
       email,
       workspaceId,
       color,
+      duration,
+      estimate,
       users,
       fetchedTimeEntries,
       timeEntriesByUser,

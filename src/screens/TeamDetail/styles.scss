@@ -22,6 +22,17 @@
     }
   }
 
+  &__edit-team {
+    position: fixed !important;
+    bottom: 16px;
+    right: 16px;
+
+    @media screen and(min-width: 600px) {
+      bottom: 24px;
+      right: 24px;
+    }
+  }
+
   &__chart {
     margin-bottom: 32px;
 

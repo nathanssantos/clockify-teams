@@ -5,43 +5,69 @@ import { Container } from "@material-ui/core";
 import _ from "lodash";
 
 import { useStore } from "../../hooks";
+import getDuration from "../../utils/getDuration";
 
 import User from "../../components/User/User";
 import HorizontalBarChart from "../../components/Chart/HorizontalBarChart";
 
 import "./styles.scss";
 
-const TeamDetail = () => {
+const ProjectDetail = () => {
   const store = useStore();
   const params = useParams();
   const [project, setProject] = useState(null);
-  const projectData = store.projectStore.projectList.find(
+  const foundProject = store.projectStore.projectList.find(
     (project) => project.id === params.id
   );
 
   useEffect(() => {
-    setProject(projectData);
-  }, [projectData]);
+    setProject(foundProject);
+  }, [foundProject]);
 
   useEffect(() => {
-    store.projectStore.fetchProjectTimeEntries(projectData);
+    store.projectStore.fetchProjectData(foundProject);
     window.scrollTo(0, 0);
   }, []);
 
   if (!project) return null;
 
   return (
-    <div className="screen team-detail">
+    <div className="screen project-detail">
       <Container maxWidth="xl">
         <header className="screen__header">
           <div className="screen__header__left">
             <h2>{project?.name}</h2>
           </div>
+          <div className="screen__header__right">
+            {
+              <div className="project-detail__estimate">
+                <div>
+                  {`Estimativa: ${getDuration(
+                    project?.estimate.estimate
+                  )} horas`}
+                </div>
+                <div>
+                  {`Total: ${getDuration(project?.duration).toFixed(2)} horas`}
+                </div>
+
+                {getDuration(project?.estimate.estimate) &&
+                getDuration(project?.duration) ? (
+                  <div>
+                    {`Esforço: ${(
+                      (getDuration(project?.duration) /
+                        getDuration(project?.estimate.estimate)) *
+                      100
+                    ).toFixed(2)}%`}
+                  </div>
+                ) : null}
+              </div>
+            }
+          </div>
         </header>
         <main>
           {project?.fetchedTimeEntries && project?.timeEntriesByUser.length ? (
             <>
-              <div className="team-detail__chart">
+              <div className="project-detail__chart">
                 <header className="section-header">
                   <h3>Horas por colaborador</h3>
                 </header>
@@ -106,4 +132,4 @@ const TeamDetail = () => {
   );
 };
 
-export default TeamDetail;
+export default ProjectDetail;

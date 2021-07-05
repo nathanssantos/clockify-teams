@@ -122,7 +122,7 @@ export default class UserStore {
     try {
       getRoot().authStore.feedFetchDataLog("fetching user list...");
 
-      const { pageSize = 300 } = payload;
+      const { pageSize = 1000 } = payload;
       const { defaultWorkspace } = getRoot().authStore.user;
 
       const response = yield getEnv().get(

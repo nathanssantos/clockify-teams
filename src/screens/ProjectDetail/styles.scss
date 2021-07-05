@@ -1,14 +1,20 @@
-.team-detail {
+.project-detail {
   .screen__header {
+    align-items: flex-start;
     &__left {
       display: flex;
       align-items: center;
       gap: 16px;
 
-      .team-detail__avatar {
+      .project-detail__avatar {
         width: 80px;
         height: 80px;
       }
+    }
+
+    &__right {
+      text-align: right;
+      font-weight: 100;
     }
   }
 
@@ -28,6 +34,10 @@
     .section-header {
       padding-bottom: 16px;
     }
+  }
+
+  &__estimate {
+    margin-bottom: 16px;
   }
 
   .user-list {
