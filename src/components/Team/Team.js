@@ -13,8 +13,29 @@ const Team = (props) => {
     avatarSize = 50,
     fontSize = 16,
     disabled = false,
+    card = false,
   } = props;
   const history = useHistory();
+
+  if (card) {
+    return (
+      <ListItem
+        className="team card"
+        button={!disabled}
+        onClick={() => (!disabled ? history.push(`/teams/${id}`) : null)}
+      >
+        {image.length ? (
+          <img className="team__image" src={image} alt={name} />
+        ) : null}
+
+        <div className="team__data">
+          <div className="team__name" style={{ fontSize }}>
+            {name}
+          </div>
+        </div>
+      </ListItem>
+    );
+  }
 
   return (
     <ListItem

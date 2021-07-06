@@ -25,18 +25,6 @@ const Router = () => {
         <>
           <Header />
           <Switch>
-            <Route path="/teams/edit/:id">
-              <EditTeam />
-            </Route>
-            <Route path="/teams/create">
-              <CreateTeam />
-            </Route>
-            <Route path="/teams/:id">
-              <TeamDetail />
-            </Route>
-            <Route path="/teams">
-              <Teams />
-            </Route>
             <Route path="/users/:id">
               <UserDetail />
             </Route>
@@ -46,8 +34,20 @@ const Router = () => {
             <Route path="/projects/:id">
               <ProjectDetail />
             </Route>
-            <Route path="/">
+            <Route path="/projects">
               <Projects />
+            </Route>
+            <Route path="/teams/edit/:id">
+              <EditTeam />
+            </Route>
+            <Route path="/teams/create">
+              <CreateTeam />
+            </Route>
+            <Route path="/teams/:id">
+              <TeamDetail />
+            </Route>
+            <Route path="/">
+              <Teams />
             </Route>
           </Switch>
         </>

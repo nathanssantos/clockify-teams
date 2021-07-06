@@ -9,4 +9,10 @@
       right: 24px;
     }
   }
+
+  main {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
 }

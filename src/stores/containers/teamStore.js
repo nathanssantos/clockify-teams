@@ -89,8 +89,11 @@ export default class TeamStore {
   removeTeam(payload = {}) {
     try {
       const [teamList, setTeamList] = useLocalStorage("team-list");
+
       const newTeamList = teamList.filter((team) => team.id !== payload.id);
+
       setTeamList(newTeamList);
+
       this.setTeamList(
         newTeamList.map((team) => ({
           ...team,
@@ -144,6 +147,7 @@ export default class TeamStore {
 
       let usersWithTimeEntries = [];
       let teamTimeEntriesByProject = [];
+
       for (const user of users) {
         const userFound = getRoot().userStore.userList.find(
           (_user) => _user.id === user.id
@@ -201,6 +205,7 @@ export default class TeamStore {
       }
 
       let index = 0;
+
       for (const project of teamTimeEntriesByProject) {
         if (project.id) {
           const projectFound = getRoot().projectStore.projectList.find(

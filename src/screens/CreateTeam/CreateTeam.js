@@ -88,17 +88,6 @@ const CreateTeam = () => {
                   setTeamImage(e.target.value);
                 }}
               />
-              {teamName?.length || teamImage?.length ? (
-                <div className="screen__header__preview">
-                  <Team
-                    name={teamName}
-                    image={teamImage}
-                    avatarSize={80}
-                    fontSize={22}
-                    disabled
-                  />
-                </div>
-              ) : null}
             </div>
             <Button variant="outlined" onClick={createTeam}>
               Criar
