@@ -18,6 +18,7 @@ export default class Team {
       timeEntriesByProject: observable,
     });
 
+    console.log(newTeam.id);
     if (newTeam == null || newTeam.id == null) {
       throw new Error("Invalid Team constructor");
     }

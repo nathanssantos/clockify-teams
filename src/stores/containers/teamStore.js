@@ -28,9 +28,10 @@ export default class TeamStore {
 
       const teamList = _teamList || [];
 
-      let id = teamList.length + 1;
+      let id = 1;
 
       if (teamList.length) {
+        id = teamList.length + 1;
         setTeamList([
           ...teamList,
           {
@@ -43,7 +44,7 @@ export default class TeamStore {
         setTeamList([
           {
             ...payload,
-            id,
+            id: 1,
             users: users.map((user) => user.id),
           },
         ]);
@@ -113,6 +114,7 @@ export default class TeamStore {
 
       const [teamList] = useLocalStorage("team-list");
 
+      console.log(teamList);
       if (teamList.length) {
         this.setTeamList(
           teamList.map((team) => ({
