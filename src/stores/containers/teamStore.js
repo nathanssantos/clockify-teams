@@ -14,54 +14,85 @@ export default class TeamStore {
       teamList: observable,
 
       setTeamList: action.bound,
+      createTeam: action.bound,
+      editTeam: action.bound,
       fetchTeamList: action.bound,
       fetchTeamData: action.bound,
     });
   }
 
-  setTeamList(payload = []) {
-    this.teamList = payload.map((team) => Team.fromApi(team));
-  }
-
   createTeam(payload = {}) {
     try {
-      const { name, image, users } = payload;
-      const [teamList, setTeamList] = useLocalStorage("team-list");
+      const { users } = payload;
+      const [teamList = [], setTeamList] = useLocalStorage("team-list");
 
-      let newTeamList = [];
-      let id = 1;
+      let id = teamList.length + 1;
 
-      if (teamList?.length) {
-        id = teamList.length + 1;
-        newTeamList = [
-          ...teamList,
-          {
-            id,
-            name,
-            image,
-            users: users.map((user) => user.id),
-          },
-        ];
-      } else {
-        newTeamList = [
-          {
-            id,
-            name,
-            image,
-            users: users.map((user) => user.id),
-          },
-        ];
-      }
-
-      setTeamList(newTeamList);
-
-      this.setTeamList(newTeamList);
+      setTeamList([
+        ...teamList,
+        {
+          ...payload,
+          id,
+          users: users.map((user) => user.id),
+        },
+      ]);
 
       return id;
     } catch (error) {
       console.log(error);
       return false;
+    } finally {
+      this.fetchTeamList();
     }
+  }
+
+  editTeam(id, payload = {}) {
+    try {
+      const [teamList, setTeamList] = useLocalStorage("team-list");
+      const { users } = payload;
+
+      setTeamList(
+        teamList.map((team) => {
+          if (team.id === id) {
+            return {
+              ...team,
+              ...payload,
+              users: users.map((user) => user.id),
+            };
+          }
+          return team;
+        })
+      );
+
+      return id;
+    } catch (error) {
+      console.log(error);
+      return false;
+    } finally {
+      this.fetchTeamList();
+    }
+  }
+
+  removeTeam(payload = {}) {
+    try {
+      const [teamList, setTeamList] = useLocalStorage("team-list");
+      const newTeamList = teamList.filter((team) => team.id !== payload.id);
+      setTeamList(newTeamList);
+      this.setTeamList(
+        newTeamList.map((team) => ({
+          ...team,
+          users: getRoot().userStore.userList.filter((user) =>
+            team.users.includes(user.id)
+          ),
+        }))
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  setTeamList(payload = []) {
+    this.teamList = payload.map((team) => Team.fromApi(team));
   }
 
   fetchTeamList() {

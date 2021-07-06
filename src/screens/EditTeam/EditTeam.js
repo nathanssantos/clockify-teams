@@ -26,24 +26,25 @@ const EditTeam = () => {
   const [userList, setUserList] = useState([]);
   const [newUserList, setNewUserList] = useState([]);
 
-  const addUser = (_user) => {
+  const addUser = (_user, _userList, _newUserList) => {
+    console.log(_user);
     setUserList(
       _.sortBy(
-        userList.filter((user) => user.id !== _user.id),
+        _userList.filter((user) => user.id !== _user.id),
         "name"
       )
     );
-    setNewUserList(_.sortBy([...newUserList, _user], "name"));
+    setNewUserList(_.sortBy([..._newUserList, _user], "name"));
   };
 
-  const removeUser = (_user) => {
+  const removeUser = (_user, _userList, _newUserList) => {
     setNewUserList(
       _.sortBy(
-        newUserList.filter((user) => user.id !== _user.id),
+        _newUserList.filter((user) => user.id !== _user.id),
         "name"
       )
     );
-    setUserList(_.sortBy([...userList, _user], "name"));
+    setUserList(_.sortBy([..._userList, _user], "name"));
   };
 
   const editTeam = async () => {
@@ -55,18 +56,24 @@ const EditTeam = () => {
 
     history.push(`/teams/${newTeamId}`);
 
-    if (newTeamId) alert(`A equipe ${teamName} foi criada.`);
+    if (newTeamId) alert(`Suas alterações foram salvas.`);
   };
 
   useEffect(() => {
-    for (const user of teamData.users) {
-      console.log(teamData.users);
-      addUser(user);
-    }
+    setTeamName(teamData.name);
+    setTeamImage(teamData.image);
+    setNewUserList(teamData.users);
+
+    const _userList = [...store.userStore.userList];
+    teamData.users.forEach((_user) => {
+      _userList.forEach((user, index) => {
+        if (user.id === _user.id) _userList.splice(index, 1);
+      });
+    });
+    setUserList(_userList);
   }, [teamData]);
 
   useEffect(() => {
-    setUserList(store.userStore.userList);
     window.scrollTo(0, 0);
   }, []);
 
@@ -134,7 +141,7 @@ const EditTeam = () => {
                   />
                   <Button
                     className="user-list__item__bt-add"
-                    onClick={() => addUser(user)}
+                    onClick={() => addUser(user, userList, newUserList)}
                   >
                     <ArrowForward />
                   </Button>
@@ -149,7 +156,7 @@ const EditTeam = () => {
                 <div className="user-list__item" key={user.id}>
                   <Button
                     className="user-list__item__bt-add"
-                    onClick={() => removeUser(user)}
+                    onClick={() => removeUser(user, userList, newUserList)}
                   >
                     <ArrowBack />
                   </Button>

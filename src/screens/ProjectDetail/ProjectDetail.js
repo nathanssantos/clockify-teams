@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Container } from "@material-ui/core";
+import { observer } from "mobx-react";
 import _ from "lodash";
 
 import { useStore } from "../../hooks";
@@ -132,4 +133,4 @@ const ProjectDetail = () => {
   );
 };
 
-export default ProjectDetail;
+export default observer(ProjectDetail);

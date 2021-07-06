@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Avatar, Container } from "@material-ui/core";
+import { observer } from "mobx-react";
 
 import { useStore } from "../../hooks";
 
@@ -123,4 +124,4 @@ const UserDetail = () => {
   );
 };
 
-export default UserDetail;
+export default observer(UserDetail);
