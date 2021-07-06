@@ -62,7 +62,7 @@ const TeamDetail = () => {
   return (
     <>
       <div className="screen team-detail">
-        <Container maxWidth="xl">
+        <Container maxWidth="lg">
           <header className="screen__header">
             <div className="screen__header__left">
               <Avatar

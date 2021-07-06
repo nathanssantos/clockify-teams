@@ -78,7 +78,7 @@ const EditTeam = () => {
 
   return (
     <div className="screen create-team">
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <header className="screen__header">
           <h2>{`Editar equipe ${teamData.name}`}</h2>
         </header>

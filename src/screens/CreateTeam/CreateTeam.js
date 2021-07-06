@@ -62,7 +62,7 @@ const CreateTeam = () => {
 
   return (
     <div className="screen create-team">
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <header className="screen__header">
           <h2>Criar equipe</h2>
         </header>

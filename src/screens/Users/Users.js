@@ -31,7 +31,7 @@ const Users = () => {
 
   return (
     <div className="screen users">
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <header className="screen__header">
           <h2>Colaboradoes</h2>
 

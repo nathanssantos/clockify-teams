@@ -34,7 +34,7 @@ const ProjectDetail = () => {
 
   return (
     <div className="screen project-detail">
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <header className="screen__header">
           <div className="screen__header__left">
             <h2>{project?.name}</h2>

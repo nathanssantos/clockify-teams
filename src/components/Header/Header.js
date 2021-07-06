@@ -12,7 +12,7 @@ import "./styles.scss";
 const Header = () => {
   return (
     <header className="header">
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <div className="header__content">
           <Logo />
           <div className="header__menu">

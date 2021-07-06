@@ -61,7 +61,7 @@ const Login = () => {
 
   return (
     <div className="screen login">
-      <Container maxWidth="xl" className="login__container">
+      <Container maxWidth="lg" className="login__container">
         <h1>Clockify Teams</h1>
         <div className="login__box">
           {!store.authStore.isConfirmingIdentity ? (

@@ -36,7 +36,7 @@ const Teams = () => {
 
   return (
     <div className="screen teams">
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <header className="screen__header">
           <h2>Equipes</h2>
 

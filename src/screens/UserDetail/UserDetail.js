@@ -33,7 +33,7 @@ const UserDetail = () => {
 
   return (
     <div className="screen user-detail">
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <header className="screen__header">
           <div className="screen__header__left">
             <Avatar

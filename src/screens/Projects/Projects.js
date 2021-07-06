@@ -31,7 +31,7 @@ const Projects = () => {
 
   return (
     <div className="screen projects">
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <header className="screen__header">
           <h2>Projetos</h2>
 
