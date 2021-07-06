@@ -27,7 +27,6 @@ const EditTeam = () => {
   const [newUserList, setNewUserList] = useState([]);
 
   const addUser = (_user, _userList, _newUserList) => {
-    console.log(_user);
     setUserList(
       _.sortBy(
         _userList.filter((user) => user.id !== _user.id),

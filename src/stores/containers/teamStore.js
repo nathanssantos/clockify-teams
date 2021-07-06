@@ -114,7 +114,6 @@ export default class TeamStore {
 
       const [teamList] = useLocalStorage("team-list");
 
-      console.log(teamList);
       if (teamList.length) {
         this.setTeamList(
           teamList.map((team) => ({
