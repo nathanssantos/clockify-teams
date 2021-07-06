@@ -28,14 +28,24 @@ export default class TeamStore {
 
       let id = teamList.length + 1;
 
-      setTeamList([
-        ...teamList,
-        {
-          ...payload,
-          id,
-          users: users.map((user) => user.id),
-        },
-      ]);
+      if (teamList.length) {
+        setTeamList([
+          ...teamList,
+          {
+            ...payload,
+            id,
+            users: users.map((user) => user.id),
+          },
+        ]);
+      } else {
+        setTeamList([
+          {
+            ...payload,
+            id,
+            users: users.map((user) => user.id),
+          },
+        ]);
+      }
 
       return id;
     } catch (error) {
