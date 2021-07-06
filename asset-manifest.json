@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/clockify-teams/static/css/main.2b095027.chunk.css",
-    "main.js": "/clockify-teams/static/js/main.575196ff.chunk.js",
-    "main.js.map": "/clockify-teams/static/js/main.575196ff.chunk.js.map",
+    "main.js": "/clockify-teams/static/js/main.80b32c95.chunk.js",
+    "main.js.map": "/clockify-teams/static/js/main.80b32c95.chunk.js.map",
     "runtime-main.js": "/clockify-teams/static/js/runtime-main.35c71d7b.js",
     "runtime-main.js.map": "/clockify-teams/static/js/runtime-main.35c71d7b.js.map",
     "static/css/2.ffad6533.chunk.css": "/clockify-teams/static/css/2.ffad6533.chunk.css",
@@ -22,6 +22,6 @@
     "static/css/2.ffad6533.chunk.css",
     "static/js/2.46ccf8cf.chunk.js",
     "static/css/main.2b095027.chunk.css",
-    "static/js/main.575196ff.chunk.js"
+    "static/js/main.80b32c95.chunk.js"
   ]
 }
