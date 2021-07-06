@@ -24,7 +24,9 @@ export default class TeamStore {
   createTeam(payload = {}) {
     try {
       const { users } = payload;
-      const [teamList = [], setTeamList] = useLocalStorage("team-list");
+      const [_teamList, setTeamList] = useLocalStorage("team-list");
+
+      const teamList = _teamList || [];
 
       let id = teamList.length + 1;
 
