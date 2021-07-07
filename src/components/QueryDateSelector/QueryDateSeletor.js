@@ -43,7 +43,7 @@ const QueryDateSeletor = () => {
 
       <div className="query-date-selector__content">
         <KeyboardDatePicker
-          margin="normal"
+          inputVariant="filled"
           id="start-date"
           label="Data inicial"
           format="dd/MM/yyyy"
@@ -55,7 +55,7 @@ const QueryDateSeletor = () => {
           disabled={fetching}
         />
         <KeyboardDatePicker
-          margin="normal"
+          inputVariant="filled"
           id="end-date"
           label="Data final"
           format="dd/MM/yyyy"
@@ -67,6 +67,7 @@ const QueryDateSeletor = () => {
           disabled={fetching}
         />
         <Button
+          variant="outlined"
           disabled={fetching}
           onClick={fetchData}
           className="query-date-selector__bt-search"

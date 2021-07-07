@@ -9,18 +9,13 @@
   align-items: center;
 
   &__content {
-    padding: 0 12px 0 16px;
+    padding: 8px;
     display: flex;
     align-items: center;
-    gap: 16px;
-
-    @media screen and (min-width: 600px) {
-      padding: 0 0 0 24px;
-    }
+    gap: 8px;
   }
 
   &__bt-search {
-    height: 72px;
-    border-radius: 0 !important;
+    height: 56px;
   }
 }
