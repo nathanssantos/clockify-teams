@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { flowResult } from "mobx";
+import { observer } from "mobx-react";
 import { Button } from "@material-ui/core";
 import { KeyboardDatePicker } from "@material-ui/pickers";
 import { Search } from "@material-ui/icons";
@@ -33,6 +34,8 @@ const QueryDateSeletor = () => {
     setFetching(false);
     store.authStore.confirmIdentity();
   };
+
+  if (store.authStore.isUnauthenticated) return null;
 
   return (
     <div className="query-date-selector">
@@ -75,4 +78,4 @@ const QueryDateSeletor = () => {
   );
 };
 
-export default QueryDateSeletor;
+export default observer(QueryDateSeletor);

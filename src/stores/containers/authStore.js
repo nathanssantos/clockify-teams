@@ -20,6 +20,7 @@ export default class AuthStore {
 
       isAuthenticated: computed,
       isConfirmingIdentity: computed,
+      isUnauthenticated: computed,
 
       setUser: action.bound,
       confirmIdentity: action.bound,
@@ -39,6 +40,10 @@ export default class AuthStore {
 
   get isConfirmingIdentity() {
     return this.authStatus === "confirming-identity";
+  }
+
+  get isUnauthenticated() {
+    return this.authStatus === "unauthenticated";
   }
 
   setUser(user) {

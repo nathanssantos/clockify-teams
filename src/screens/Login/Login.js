@@ -8,7 +8,6 @@ import {
   Button,
   LinearProgress,
 } from "@material-ui/core";
-import { KeyboardDatePicker } from "@material-ui/pickers";
 
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { useStore } from "../../hooks";
@@ -17,35 +16,16 @@ import User from "../../components/User/User";
 
 import "./styles.scss";
 
-const date = new Date();
-
 const Login = () => {
   const store = useStore();
   const [inputValue, setInputValue] = useState("");
   const [fetching, setFetching] = useState(false);
   const [apiKey] = useLocalStorage("clockify-api-key");
-  const [startDate, setStartDate] = useState(
-    new Date(date.getFullYear(), date.getMonth(), 1)
-  );
-  const [endDate, setEndDate] = useState(
-    new Date(date.getFullYear(), date.getMonth() + 1, 0)
-  );
 
   const authenticate = async () => {
     setFetching(true);
     await flowResult(store.authStore.authenticate(inputValue));
     setFetching(false);
-  };
-
-  const fetchData = async () => {
-    store.userStore.setQueryDate(startDate, endDate);
-    setFetching(true);
-    await flowResult(store.projectStore.fetchProjectList());
-    await flowResult(store.userStore.fetchUserList());
-    await flowResult(store.userStore.fetchAllUsersTimeEntries());
-    store.teamStore.fetchTeamList();
-    setFetching(false);
-    store.authStore.confirmIdentity();
   };
 
   useEffect(() => {
