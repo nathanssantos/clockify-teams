@@ -72,6 +72,7 @@ const Teams = () => {
         </main>
       </Container>
       <Fab
+        variant="outlined"
         className="teams__create-team"
         color="primary"
         aria-label="Criar equipe"

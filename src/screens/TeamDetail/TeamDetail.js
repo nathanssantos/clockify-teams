@@ -162,6 +162,7 @@ const TeamDetail = () => {
           </main>
         </Container>
         <Fab
+          variant="outlined"
           className="team-detail__edit-team"
           color="primary"
           aria-label="Editar equipe"
