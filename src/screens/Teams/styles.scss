@@ -1,11 +1,11 @@
 .teams {
   &__create-team {
     position: fixed !important;
-    bottom: 16px;
+    bottom: 88px;
     right: 16px;
 
     @media screen and(min-width: 600px) {
-      bottom: 24px;
+      bottom: 96px;
       right: 24px;
     }
   }

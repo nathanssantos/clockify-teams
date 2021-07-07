@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { flowResult } from "mobx";
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
+import { flowResult } from "mobx";
 import {
   TextField,
   Container,
@@ -93,30 +93,6 @@ const Login = () => {
                 profilePicture={store?.authStore?.user?.profilePicture}
                 email={store?.authStore?.user?.email}
               />
-              <div className="query-date">
-                <KeyboardDatePicker
-                  margin="normal"
-                  id="start-date"
-                  label="Data inicial"
-                  format="dd/MM/yyyy"
-                  value={startDate}
-                  onChange={setStartDate}
-                  KeyboardButtonProps={{
-                    "aria-label": "Selecione a data inicial",
-                  }}
-                />
-                <KeyboardDatePicker
-                  margin="normal"
-                  id="end-date"
-                  label="Data final"
-                  format="dd/MM/yyyy"
-                  value={endDate}
-                  onChange={setEndDate}
-                  KeyboardButtonProps={{
-                    "aria-label": "Selecione a data final",
-                  }}
-                />
-              </div>
 
               <div className="fetch-data-log">
                 {store.authStore.fetchDataLog.map(({ text, color }) => (
@@ -125,13 +101,6 @@ const Login = () => {
                   </div>
                 ))}
               </div>
-              {fetching || store.authStore.autoLogin ? (
-                <LinearProgress />
-              ) : (
-                <Button variant="outlined" onClick={fetchData}>
-                  Entrar
-                </Button>
-              )}
             </>
           )}
         </div>

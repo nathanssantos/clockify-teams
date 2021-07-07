@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
+import { flowResult } from "mobx";
 import { wrapRoot } from "mobx-easy";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
@@ -12,7 +13,7 @@ import useLocalStorage from "./hooks/useLocalStorage";
 
 import Router from "./components/Router/Router";
 import Theme from "./components/Theme/Theme";
-import { flowResult } from "mobx";
+import QueryDateSeletor from "./components/QueryDateSelector/QueryDateSeletor";
 
 const App = () => {
   const [rootStore, setRootStore] = useState(null);
@@ -41,6 +42,7 @@ const App = () => {
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <Theme>
             <Router />
+            <QueryDateSeletor />
           </Theme>
         </MuiPickersUtilsProvider>
       </RootStoreProvider>

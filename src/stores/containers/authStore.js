@@ -26,6 +26,8 @@ export default class AuthStore {
       unauthenticate: action.bound,
       setAutoLogin: action.bound,
       feedFetchDataLog: action.bound,
+      setStatusConfirmingIdentity: action.bound,
+      clearDataLog: action.bound,
 
       authenticate: flow,
     });
@@ -71,6 +73,14 @@ export default class AuthStore {
     }
     if (typeof text === "string" && text.length)
       this.fetchDataLog.push({ text, color });
+  }
+
+  clearDataLog() {
+    this.fetchDataLog = [];
+  }
+
+  setStatusConfirmingIdentity() {
+    this.authStatus = "confirming-identity";
   }
 
   unauthenticate() {
