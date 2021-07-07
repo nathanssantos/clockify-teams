@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/clockify-teams/static/css/main.c1c807b1.chunk.css",
-    "main.js": "/clockify-teams/static/js/main.76ef6b1d.chunk.js",
-    "main.js.map": "/clockify-teams/static/js/main.76ef6b1d.chunk.js.map",
+    "main.css": "/clockify-teams/static/css/main.2392eec0.chunk.css",
+    "main.js": "/clockify-teams/static/js/main.d72e04b5.chunk.js",
+    "main.js.map": "/clockify-teams/static/js/main.d72e04b5.chunk.js.map",
     "runtime-main.js": "/clockify-teams/static/js/runtime-main.35c71d7b.js",
     "runtime-main.js.map": "/clockify-teams/static/js/runtime-main.35c71d7b.js.map",
     "static/css/2.ffad6533.chunk.css": "/clockify-teams/static/css/2.ffad6533.chunk.css",
@@ -10,7 +10,7 @@
     "static/js/2.575f3000.chunk.js.map": "/clockify-teams/static/js/2.575f3000.chunk.js.map",
     "index.html": "/clockify-teams/index.html",
     "static/css/2.ffad6533.chunk.css.map": "/clockify-teams/static/css/2.ffad6533.chunk.css.map",
-    "static/css/main.c1c807b1.chunk.css.map": "/clockify-teams/static/css/main.c1c807b1.chunk.css.map",
+    "static/css/main.2392eec0.chunk.css.map": "/clockify-teams/static/css/main.2392eec0.chunk.css.map",
     "static/js/2.575f3000.chunk.js.LICENSE.txt": "/clockify-teams/static/js/2.575f3000.chunk.js.LICENSE.txt",
     "static/media/300.css": "/clockify-teams/static/media/roboto-vietnamese-300-normal.af9afdc1.woff2",
     "static/media/400.css": "/clockify-teams/static/media/roboto-vietnamese-400-normal.c0bec65d.woff2",
@@ -21,7 +21,7 @@
     "static/js/runtime-main.35c71d7b.js",
     "static/css/2.ffad6533.chunk.css",
     "static/js/2.575f3000.chunk.js",
-    "static/css/main.c1c807b1.chunk.css",
-    "static/js/main.76ef6b1d.chunk.js"
+    "static/css/main.2392eec0.chunk.css",
+    "static/js/main.d72e04b5.chunk.js"
   ]
 }
