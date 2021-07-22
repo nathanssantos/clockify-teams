@@ -52,7 +52,7 @@ const UserDetail = () => {
               </header>
               {user.teams.map((team) => (
                 <Team
-                  card
+                  // card
                   key={team.id}
                   id={team.id}
                   name={team?.name}

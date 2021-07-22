@@ -61,7 +61,7 @@ const Teams = () => {
           ) : (
             filteredList.map((team) => (
               <Team
-                card
+                // card
                 key={team.id}
                 id={team.id}
                 name={team?.name}
