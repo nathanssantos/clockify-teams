@@ -12,8 +12,6 @@ import { useStore } from "../../hooks";
 import User from "../../components/User/User";
 import Team from "../../components/Team/Team";
 
-import "./styles.scss";
-
 const EditTeam = () => {
   const store = useStore();
   const params = useParams();

@@ -29,7 +29,6 @@ const QueryDateSeletor = () => {
     setFetching(true);
     await flowResult(store.projectStore.fetchProjectList());
     await flowResult(store.userStore.fetchUserList());
-    await flowResult(store.userStore.fetchAllUsersTimeEntries());
     store.teamStore.fetchTeamList();
     setFetching(false);
     store.authStore.confirmIdentity();

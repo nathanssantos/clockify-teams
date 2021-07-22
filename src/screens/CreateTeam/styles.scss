@@ -34,13 +34,17 @@
         display: flex;
         transition: border-color 1s ease-in,
           background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        background-color: transparent;
 
-        .user.MuiListItem-button {
+        &:nth-of-type(even) {
           background-color: transparent;
+          .user.MuiListItem-root {
+            background-color: transparent;
+          }
         }
 
-        &:nth-of-type(odd) {
-          background-color: rgba(255, 255, 255, 0.03);
+        .user.MuiListItem-root {
+          background-color: transparent;
         }
 
         &:hover {

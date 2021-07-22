@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Avatar, Container } from "@material-ui/core";
 import { observer } from "mobx-react";
+import { Avatar, Container } from "@material-ui/core";
+import { AccessTime } from "@material-ui/icons";
 
 import { useStore } from "../../hooks";
 
@@ -17,7 +18,7 @@ const UserDetail = () => {
   const params = useParams();
   const [user, setUser] = useState(null);
   const foundUser = store.userStore.userList.find(
-    (project) => project.id === params.id
+    (user) => user.id === params.id
   );
 
   useEffect(() => {
@@ -42,6 +43,13 @@ const UserDetail = () => {
               className="user-detail__avatar"
             />
             <h2>{user?.name}</h2>
+          </div>
+          <div
+            className="screen__header__right"
+            style={{ color: user.hours >= 200 ? "#f44336" : "#ffffff" }}
+          >
+            {user.hours.toFixed(2)}
+            <AccessTime color={user.hours >= 200 ? "error" : ""} />
           </div>
         </header>
         <main>

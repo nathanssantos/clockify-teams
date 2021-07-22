@@ -22,7 +22,6 @@ export default class UserStore {
 
       fetchUserList: flow,
       fetchUserTimeEntries: flow,
-      fetchAllUsersTimeEntries: flow,
     });
   }
 
@@ -141,12 +140,35 @@ export default class UserStore {
       }
 
       if (response?.data?.length) {
-        this.setUserList(response.data);
         getRoot().authStore.feedFetchDataLog(
           "fetch user list success",
           "success"
         );
-        return true;
+
+        let newUsers = [];
+
+        for (const user of response.data) {
+          const data = yield this.fetchUserTimeEntries(user);
+
+          if (data) {
+            const { timeEntries, hours } = data;
+
+            newUsers.push({
+              ...user,
+              timeEntries,
+              hours,
+            });
+          }
+        }
+
+        if (newUsers.length) {
+          this.setUserList(newUsers);
+          getRoot().authStore.feedFetchDataLog(
+            "fetch all users time entries success",
+            "success"
+          );
+          return true;
+        }
       }
 
       getRoot().authStore.feedFetchDataLog("fetch user list error", "error");
@@ -219,51 +241,6 @@ export default class UserStore {
       console.log(error);
       getRoot().authStore.feedFetchDataLog(
         `fetch user ${name} time entries error`,
-        "error"
-      );
-      return false;
-    }
-  }
-
-  *fetchAllUsersTimeEntries() {
-    try {
-      getRoot().authStore.feedFetchDataLog(
-        "fetching all users time entries..."
-      );
-
-      let newUsers = [];
-
-      for (const user of this.userList) {
-        const data = yield this.fetchUserTimeEntries(user);
-
-        if (data) {
-          const { timeEntries, hours } = data;
-
-          newUsers.push({
-            ...user,
-            timeEntries,
-            hours,
-          });
-        }
-      }
-
-      if (newUsers.length) {
-        this.setUserList(newUsers);
-        getRoot().authStore.feedFetchDataLog(
-          "fetch all users time entries success",
-          "success"
-        );
-        return true;
-      }
-
-      getRoot().authStore.feedFetchDataLog(
-        "fetch all users time entries error",
-        "error"
-      );
-      return false;
-    } catch (error) {
-      getRoot().authStore.feedFetchDataLog(
-        "fetch all users time entries error",
         "error"
       );
       return false;
