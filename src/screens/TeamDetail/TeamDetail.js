@@ -155,6 +155,7 @@ const TeamDetail = () => {
                       hours={user?.hours}
                       hourValue={user?.hourValue}
                       payment={user?.payment}
+                      showMeta
                     />
                   ))
                 : null}
