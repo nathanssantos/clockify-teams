@@ -106,10 +106,6 @@ const ProjectDetail = () => {
                   name={user?.name}
                   email={user?.email}
                   hours={user?.hours}
-                  hourValue={user?.hourValue}
-                  payment={user?.payment}
-                  warnings={user?.warnings}
-                  showMeta
                 />
               ))}
             </div>

@@ -119,8 +119,6 @@ const CreateTeam = () => {
                     name={user?.name}
                     email={user?.email}
                     hours={user?.hours}
-                    hourValue={user?.hourValue}
-                    payment={user?.payment}
                   />
                   <Button
                     className="user-list__item__bt-add"
@@ -149,8 +147,6 @@ const CreateTeam = () => {
                     name={user?.name}
                     email={user?.email}
                     hours={user?.hours}
-                    hourValue={user?.hourValue}
-                    payment={user?.payment}
                   />
                 </div>
               ))}
