@@ -117,6 +117,7 @@ const User = (props) => {
       <div
         className="user__pressable"
         onClick={() => (!disabled ? history.push(`/users/${id}`) : null)}
+        style={{ pointerEvents: disabled ? "none" : "initial" }}
       >
         <Avatar alt={name} src={profilePicture} className="user__avatar" />
         <div className="user__profile">
