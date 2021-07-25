@@ -2,7 +2,7 @@
 import { action, flow, makeObservable, observable } from "mobx";
 import { getEnv, getRoot } from "mobx-easy";
 
-import Project from "../models/project";
+import Project from "../models/Project";
 
 import getDuration from "../../utils/getDuration";
 export default class ProjectStore {
@@ -12,7 +12,8 @@ export default class ProjectStore {
     makeObservable(this, {
       projectList: observable,
       setProjectList: action.bound,
-      fetchProjectData: action.bound,
+      formatProjectData: action.bound,
+      formatProjectList: action.bound,
       fetchProjectList: flow,
     });
   }
@@ -21,50 +22,7 @@ export default class ProjectStore {
     this.projectList = payload.map((project) => Project.fromApi(project));
   }
 
-  *fetchProjectList(payload = {}) {
-    try {
-      getRoot().authStore.feedFetchDataLog("fetching project list...");
-
-      const { pageSize = 1000 } = payload;
-      const { defaultWorkspace } = getRoot().authStore.user;
-
-      const response = yield getEnv().get(
-        `/workspaces/${defaultWorkspace}/projects`,
-        {
-          params: {
-            archived: false,
-            "page-size": pageSize,
-          },
-        }
-      );
-
-      if (response.status !== 200) {
-        getRoot().authStore.feedFetchDataLog(
-          "fetch project list error",
-          "error"
-        );
-        return false;
-      }
-
-      if (response?.data?.length) {
-        this.setProjectList(response.data);
-        getRoot().authStore.feedFetchDataLog(
-          "fetch project list success",
-          "success"
-        );
-
-        return true;
-      }
-
-      return false;
-    } catch (error) {
-      console.log(error);
-      getRoot().authStore.feedFetchDataLog("fetch project list error", "error");
-      return false;
-    }
-  }
-
-  fetchProjectData(payload = {}) {
+  formatProjectData(payload = {}) {
     try {
       const { id } = payload;
 
@@ -109,23 +67,66 @@ export default class ProjectStore {
         }
       }
 
-      this.setProjectList(
-        this.projectList.map((project) => {
-          if (project.id === id) {
-            return {
-              ...payload,
-              timeEntriesByUser: projectTimeEntriesByUser,
-              fetchedTimeEntries: true,
-            };
-          }
-
-          return project;
-        })
-      );
-
-      return true;
+      return {
+        ...payload,
+        timeEntriesByUser: projectTimeEntriesByUser,
+      };
     } catch (error) {
       console.log(error);
+      return false;
+    }
+  }
+
+  formatProjectList() {
+    const newProjects = [];
+
+    for (const project of this.projectList) {
+      const newProject = this.formatProjectData(project);
+      newProjects.push(newProject);
+    }
+
+    this.setProjectList(newProjects);
+  }
+
+  *fetchProjectList(payload = {}) {
+    try {
+      getRoot().authStore.feedFetchDataLog("fetching project list...");
+
+      const { pageSize = 1000 } = payload;
+      const { defaultWorkspace } = getRoot().authStore.user;
+
+      const response = yield getEnv().get(
+        `/workspaces/${defaultWorkspace}/projects`,
+        {
+          params: {
+            archived: false,
+            "page-size": pageSize,
+          },
+        }
+      );
+
+      if (response.status !== 200) {
+        getRoot().authStore.feedFetchDataLog(
+          "fetch project list error",
+          "error"
+        );
+        return false;
+      }
+
+      if (response?.data?.length) {
+        this.setProjectList(response.data);
+        getRoot().authStore.feedFetchDataLog(
+          "fetch project list success",
+          "success"
+        );
+
+        return true;
+      }
+
+      return false;
+    } catch (error) {
+      console.log(error);
+      getRoot().authStore.feedFetchDataLog("fetch project list error", "error");
       return false;
     }
   }

@@ -9,7 +9,6 @@ export default class Project {
   duration = null;
   estimate = null;
   users = [];
-  fetchedTimeEntries = false;
   timeEntriesByUser = [];
 
   constructor(newProject) {
@@ -22,7 +21,6 @@ export default class Project {
       duration: observable,
       estimate: observable,
       users: observable,
-      fetchedTimeEntries: observable,
       timeEntriesByUser: observable,
     });
 
@@ -39,7 +37,6 @@ export default class Project {
       duration,
       estimate,
       users,
-      fetchedTimeEntries,
       timeEntriesByUser,
     } = newProject;
 
@@ -51,7 +48,6 @@ export default class Project {
     this.duration = duration || "";
     this.estimate = estimate || "";
     this.users = users || [];
-    this.fetchedTimeEntries = fetchedTimeEntries || false;
     this.timeEntriesByUser = timeEntriesByUser || [];
   }
 
@@ -64,7 +60,6 @@ export default class Project {
     duration,
     estimate,
     users,
-    fetchedTimeEntries,
     timeEntriesByUser,
   } = {}) {
     return new Project({
@@ -76,7 +71,6 @@ export default class Project {
       duration,
       estimate,
       users,
-      fetchedTimeEntries,
       timeEntriesByUser,
     });
   }

@@ -7,15 +7,15 @@ import "./styles.scss";
 const menuButtons = [
   {
     route: "/",
+    label: "Colaboradores",
+  },
+  {
+    route: "/teams",
     label: "Equipes",
   },
   {
     route: "/projects",
     label: "Projetos",
-  },
-  {
-    route: "/users",
-    label: "Colaboradores",
   },
 ];
 

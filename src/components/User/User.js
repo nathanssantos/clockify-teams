@@ -1,8 +1,16 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useHistory } from "react-router-dom";
-import { Avatar, IconButton, ListItem, Tooltip } from "@material-ui/core";
-import { Warning, Email, PictureAsPdf, AccessTime } from "@material-ui/icons";
+import { Avatar, /* IconButton, */ ListItem, Tooltip } from "@material-ui/core";
+import {
+  Warning,
+  Check,
+  /*   Email,
+  PictureAsPdf, */
+  AccessTime,
+} from "@material-ui/icons";
+
+import { WARNING_TYPES } from "../../stores/containers/userStore";
 
 import "./styles.scss";
 
@@ -24,23 +32,32 @@ const UserMeta = (props) => {
           <AccessTime color={hours >= 200 ? "error" : ""} />
         </div>
       </Tooltip>
-      {/* <Tooltip
-        arrow
-        interactive
-        placement="left"
-        title={
-          <ul className="warning-list">
-            {warnings.map((warning) => (
-              <li className="warning-list__item">{warning.toString()}</li>
-            ))}
-          </ul>
-        }
-      >
+
+      {Object.entries(warnings).filter(([key, value]) => value > 0)?.length ? (
+        <Tooltip
+          arrow
+          interactive
+          placement="left"
+          title={
+            <ul className="warning-list">
+              {Object.entries(warnings)
+                .filter(([key, value]) => value > 0)
+                .map(([key, value]) => (
+                  <li className="warning-list__item">{`${value}x ${WARNING_TYPES[key]}`}</li>
+                ))}
+            </ul>
+          }
+        >
+          <div className="user__meta__item">
+            <Warning color="error" />
+          </div>
+        </Tooltip>
+      ) : (
         <div className="user__meta__item">
-          <Warning color="error" />
+          <Check color="secondary" />
         </div>
-      </Tooltip>
-      <Tooltip arrow placement="left" title="Visualizar relatório">
+      )}
+      {/* <Tooltip arrow placement="left" title="Visualizar relatório">
         <IconButton>
           <PictureAsPdf />
         </IconButton>
@@ -63,6 +80,7 @@ const User = (props) => {
     showMeta = false,
     disabled = false,
     hours = 0,
+    warnings = {},
   } = props;
   const history = useHistory();
 
@@ -78,16 +96,7 @@ const User = (props) => {
           <div className="user__email">{email}</div>
         </div>
       </div>
-      {showMeta ? (
-        <UserMeta
-          hours={hours}
-          warnings={[
-            "2x Entrada maior que 4 horas",
-            "4x Entrada sem projeto",
-            "1x Entrada sem descrição",
-          ]}
-        />
-      ) : null}
+      {showMeta ? <UserMeta hours={hours} warnings={warnings} /> : null}
     </ListItem>
   );
 };

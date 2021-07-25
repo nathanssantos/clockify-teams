@@ -28,9 +28,6 @@ const Router = () => {
             <Route path="/users/:id">
               <UserDetail />
             </Route>
-            <Route path="/users">
-              <Users />
-            </Route>
             <Route path="/projects/:id">
               <ProjectDetail />
             </Route>
@@ -46,8 +43,11 @@ const Router = () => {
             <Route path="/teams/:id">
               <TeamDetail />
             </Route>
-            <Route path="/">
+            <Route path="/teams">
               <Teams />
+            </Route>
+            <Route path="/">
+              <Users />
             </Route>
           </Switch>
         </>

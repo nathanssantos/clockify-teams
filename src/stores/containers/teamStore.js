@@ -4,7 +4,7 @@ import { getRoot } from "mobx-easy";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import getDuration from "../../utils/getDuration";
 
-import Team from "../models/team";
+import Team from "../models/Team";
 
 export default class TeamStore {
   teamList = [];
@@ -17,13 +17,13 @@ export default class TeamStore {
       createTeam: action.bound,
       editTeam: action.bound,
       fetchTeamList: action.bound,
-      fetchTeamData: action.bound,
+      formatTeamData: action.bound,
     });
   }
 
-  createTeam(payload = {}) {
+  createTeam(team = {}) {
     try {
-      const { users } = payload;
+      const { users } = team;
       const [_teamList, setTeamList] = useLocalStorage("team-list");
 
       const teamList = _teamList || [];
@@ -35,7 +35,7 @@ export default class TeamStore {
         setTeamList([
           ...teamList,
           {
-            ...payload,
+            ...team,
             id,
             users: users.map((user) => user.id),
           },
@@ -43,7 +43,7 @@ export default class TeamStore {
       } else {
         setTeamList([
           {
-            ...payload,
+            ...team,
             id: 1,
             users: users.map((user) => user.id),
           },
@@ -59,17 +59,17 @@ export default class TeamStore {
     }
   }
 
-  editTeam(id, payload = {}) {
+  editTeam(id, team = {}) {
     try {
       const [teamList, setTeamList] = useLocalStorage("team-list");
-      const { users } = payload;
+      const { users } = team;
 
       setTeamList(
         teamList.map((team) => {
           if (team.id === id) {
             return {
               ...team,
-              ...payload,
+              ...team,
               users: users.map((user) => user.id),
             };
           }
@@ -118,14 +118,20 @@ export default class TeamStore {
       const [teamList] = useLocalStorage("team-list");
 
       if (teamList.length) {
-        this.setTeamList(
-          teamList.map((team) => ({
-            ...team,
+        const newTeamList = [];
+
+        for (const team of teamList) {
+          const newTeam = this.formatTeamData(team);
+
+          newTeamList.push({
+            ...newTeam,
             users: getRoot().userStore.userList.filter((user) =>
               team.users.includes(user.id)
             ),
-          }))
-        );
+          });
+        }
+
+        this.setTeamList(newTeamList);
 
         getRoot().authStore.feedFetchDataLog(
           "fetch team list success",
@@ -141,16 +147,14 @@ export default class TeamStore {
     }
   }
 
-  fetchTeamData(payload = {}) {
+  formatTeamData(team = {}) {
     try {
-      const { id, users = [] } = payload;
-
       let usersWithTimeEntries = [];
       let teamTimeEntriesByProject = [];
 
-      for (const user of users) {
+      for (const user of team.users) {
         const userFound = getRoot().userStore.userList.find(
-          (_user) => _user.id === user.id
+          (_user) => _user.id === user
         );
 
         if (userFound) {
@@ -230,24 +234,11 @@ export default class TeamStore {
         index++;
       }
 
-      const newTeam = {
-        ...payload,
+      return {
+        ...team,
         users: usersWithTimeEntries,
         timeEntriesByProject: teamTimeEntriesByProject,
-        fetchedTimeEntries: true,
       };
-
-      this.setTeamList(
-        this.teamList.map((team) => {
-          if (team.id === id) {
-            return newTeam;
-          }
-
-          return team;
-        })
-      );
-
-      return newTeam;
     } catch (error) {
       console.log(error);
       return false;

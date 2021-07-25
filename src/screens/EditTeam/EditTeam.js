@@ -115,7 +115,7 @@ const EditTeam = () => {
               ) : null}
             </div>
             <Button variant="outlined" onClick={editTeam}>
-              Salvar Alterações
+              Salvar
             </Button>
           </div>
 

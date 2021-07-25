@@ -3,7 +3,7 @@ import { action, flow, computed, makeObservable, observable } from "mobx";
 import { getEnv } from "mobx-easy";
 import useLocalStorage from "../../hooks/useLocalStorage";
 
-import User from "../models/user";
+import User from "../models/User";
 
 export default class AuthStore {
   user = null;

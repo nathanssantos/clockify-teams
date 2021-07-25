@@ -10,6 +10,7 @@ export default class User {
   timeEntriesByDay = [];
   teams = [];
   hours = null;
+  warnings = {};
 
   constructor(newUser) {
     makeObservable(this, {
@@ -22,6 +23,7 @@ export default class User {
       timeEntriesByDay: observable,
       teams: observable,
       hours: observable,
+      warnings: observable,
     });
 
     if (newUser == null || newUser.id == null) {
@@ -38,6 +40,7 @@ export default class User {
       timeEntriesByDay,
       teams,
       hours,
+      warnings,
     } = newUser;
 
     this.id = id;
@@ -49,6 +52,7 @@ export default class User {
     this.timeEntriesByDay = timeEntriesByDay || [];
     this.teams = teams || [];
     this.hours = hours || 0;
+    this.warnings = warnings || {};
   }
 
   static fromApi({
@@ -61,6 +65,7 @@ export default class User {
     timeEntriesByDay,
     teams,
     hours,
+    warnings,
   } = {}) {
     return new User({
       id,
@@ -72,6 +77,7 @@ export default class User {
       timeEntriesByDay,
       teams,
       hours,
+      warnings,
     });
   }
 }

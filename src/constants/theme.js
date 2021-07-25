@@ -4,6 +4,9 @@ const theme = {
     primary: {
       main: "#ecf0f1",
     },
+    secondary: {
+      main: "#2ecc71",
+    },
   },
 };
 

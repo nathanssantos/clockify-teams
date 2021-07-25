@@ -43,9 +43,19 @@
 
   .time-entries {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-top: 32px;
+
+    &__filter {
+      align-self: flex-end;
+    }
 
     .section-header {
       padding-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
     &__day {

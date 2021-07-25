@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Container } from "@material-ui/core";
 import { observer } from "mobx-react";
@@ -16,17 +16,11 @@ import "./styles.scss";
 const ProjectDetail = () => {
   const store = useStore();
   const params = useParams();
-  const [project, setProject] = useState(null);
-  const foundProject = store.projectStore.projectList.find(
+  const project = store.projectStore.projectList.find(
     (project) => project.id === params.id
   );
 
   useEffect(() => {
-    setProject(foundProject);
-  }, [foundProject]);
-
-  useEffect(() => {
-    store.projectStore.fetchProjectData(foundProject);
     window.scrollTo(0, 0);
   }, []);
 
@@ -66,7 +60,7 @@ const ProjectDetail = () => {
           </div>
         </header>
         <main>
-          {project?.fetchedTimeEntries && project?.timeEntriesByUser.length ? (
+          {project?.timeEntriesByUser.length ? (
             <>
               <div className="project-detail__chart">
                 <header className="section-header">
@@ -114,14 +108,14 @@ const ProjectDetail = () => {
                   hours={user?.hours}
                   hourValue={user?.hourValue}
                   payment={user?.payment}
+                  warnings={user?.warnings}
+                  showMeta
                 />
               ))}
             </div>
           ) : null}
 
-          {project?.fetchedTimeEntries &&
-          !project?.timeEntriesByUser.length &&
-          !project?.timeEntriesByUser?.length ? (
+          {!project?.timeEntriesByUser?.length ? (
             <div>
               Nenhuma entrada encontrada para este projeto no período
               selecionado.

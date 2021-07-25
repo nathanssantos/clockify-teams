@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { observer } from "mobx-react";
-import { Avatar, Container } from "@material-ui/core";
+import { Avatar, Container, FormControlLabel, Switch } from "@material-ui/core";
 import { AccessTime } from "@material-ui/icons";
 
 import { useStore } from "../../hooks";
@@ -16,17 +16,31 @@ import "./styles.scss";
 const UserDetail = () => {
   const store = useStore();
   const params = useParams();
-  const [user, setUser] = useState(null);
-  const foundUser = store.userStore.userList.find(
-    (user) => user.id === params.id
-  );
+  const user = store.userStore.userList.find((user) => user.id === params.id);
+  const [filteredTimeEntries, setFilteredTimeEntries] = useState([]);
+  const [filterWarnings, setFilterWarnings] = useState(false);
 
   useEffect(() => {
-    setUser(foundUser);
-  }, [foundUser]);
+    if (filterWarnings) {
+      setFilteredTimeEntries(
+        user.timeEntriesByDay
+          .filter((day) =>
+            day.timeEntries.find((entry) => entry?.warnings?.length)
+          )
+          .map((day) => ({
+            ...day,
+            timeEntries: day.timeEntries.filter(
+              (entry) => entry?.warnings?.length
+            ),
+          }))
+      );
+      return;
+    }
+    setFilteredTimeEntries(user.timeEntriesByDay);
+  }, [filterWarnings]);
 
   useEffect(() => {
-    store.userStore.fetchUserData(foundUser);
+    setFilteredTimeEntries(user.timeEntriesByDay);
     window.scrollTo(0, 0);
   }, []);
 
@@ -100,24 +114,45 @@ const UserDetail = () => {
 
           {user?.timeEntries?.length ? (
             <div className="time-entries">
-              {user.timeEntriesByDay.map((day) => (
-                <div className="time-entries__day" key={day.date}>
-                  <header className="section-header">
-                    <h3>{day.date}</h3>
-                  </header>
-                  <div className="description">
-                    {day.timeEntries.map((entry) => (
-                      <TimeEntry
-                        key={entry.id}
-                        disabled={!entry?.project?.id}
-                        project={entry.project}
-                        time={entry.timeInterval.duration}
-                        description={entry.description}
+              <header className="section-header">
+                <h3>Entradas de tempo</h3>
+                <div className="time-entries__filter">
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={filterWarnings}
+                        onChange={() => setFilterWarnings(!filterWarnings)}
+                        name="filterWarnings"
+                        color="primary"
                       />
-                    ))}
-                  </div>
+                    }
+                    label="Filtrar warnings"
+                  />
                 </div>
-              ))}
+              </header>
+
+              {filteredTimeEntries?.length
+                ? filteredTimeEntries.map((day) => (
+                    <div className="time-entries__day" key={day.date}>
+                      <header className="section-header">
+                        <h3>{day.date}</h3>
+                      </header>
+                      <div className="description">
+                        {day.timeEntries.map((entry) => (
+                          <TimeEntry
+                            key={entry.id}
+                            disabled={!entry?.project?.id}
+                            project={entry.project}
+                            time={entry.timeInterval.duration}
+                            description={entry.description}
+                            warnings={entry.warnings}
+                            showMeta
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  ))
+                : "Nenhuma entrada de tempo."}
             </div>
           ) : null}
 

@@ -4,8 +4,13 @@ import { getEnv, getRoot } from "mobx-easy";
 import getDuration from "../../utils/getDuration";
 import getDate from "../../utils/getDate";
 
-import User from "../models/user";
+import User from "../models/User";
 
+export const WARNING_TYPES = {
+  NO_PROJECT: "Entrada sem projeto",
+  NO_DESCRIPTION: "Entrada sem descrição",
+  TIME_LIMIT: "Entrada maior que 6 horas",
+};
 export default class UserStore {
   userList = [];
   queryStartDate = null;
@@ -18,7 +23,8 @@ export default class UserStore {
       queryEndDate: observable,
 
       setUserList: action.bound,
-      fetchUserData: action.bound,
+      formatUserData: action.bound,
+      getUsersTeams: action.bound,
 
       fetchUserList: flow,
       fetchUserTimeEntries: flow,
@@ -34,15 +40,105 @@ export default class UserStore {
     this.queryEndDate = end;
   }
 
-  fetchUserData(payload = {}) {
+  *fetchUserTimeEntries(payload = {}) {
+    const { id, name, pageSize = 1000 } = payload;
+    const { NO_DESCRIPTION, NO_PROJECT, TIME_LIMIT } = WARNING_TYPES;
+
     try {
-      const { id } = payload;
-      const userFound = this.userList.find((user) => user.id === id);
+      getRoot().authStore.feedFetchDataLog(
+        `fetching user ${name} time entries...`
+      );
 
+      const { defaultWorkspace } = getRoot().authStore.user;
+
+      const response = yield getEnv().get(
+        `/workspaces/${defaultWorkspace}/user/${id}/time-entries`,
+        {
+          params: {
+            start: this.queryStartDate,
+            end: this.queryEndDate,
+            "page-size": pageSize,
+          },
+        }
+      );
+
+      if (response.status !== 200) {
+        getRoot().authStore.feedFetchDataLog(
+          `fetch user ${name} time entries error`,
+          "error"
+        );
+        return false;
+      }
+
+      if (response?.data) {
+        let hours = 0;
+        const warnings = {};
+        Object.keys(WARNING_TYPES).forEach((key) => {
+          warnings[key] = 0;
+        });
+
+        const newTimeEntries = response.data.map((entry) => {
+          const time = entry?.timeInterval?.duration;
+          const newTimeEntry = { ...entry, warnings: [] };
+
+          if (!entry?.projectId?.length) {
+            newTimeEntry.warnings.push(NO_PROJECT);
+            warnings.NO_PROJECT++;
+          }
+
+          if (!entry?.description?.length) {
+            newTimeEntry.warnings.push(NO_DESCRIPTION);
+            warnings.NO_DESCRIPTION++;
+          }
+
+          if (time?.length) {
+            const duration = getDuration(time);
+            if (duration) {
+              hours += duration;
+
+              if (duration >= 6) {
+                newTimeEntry.warnings.push(TIME_LIMIT);
+                warnings.TIME_LIMIT++;
+              }
+            }
+          }
+
+          return newTimeEntry;
+        });
+
+        getRoot().authStore.feedFetchDataLog(
+          `fetch user ${name} time entries success`,
+          "success"
+        );
+
+        return {
+          timeEntries: newTimeEntries,
+          hours,
+          warnings,
+        };
+      }
+
+      getRoot().authStore.feedFetchDataLog(
+        `fetch user ${name} time entries error`,
+        "error"
+      );
+
+      return false;
+    } catch (error) {
+      console.log(error);
+      getRoot().authStore.feedFetchDataLog(
+        `fetch user ${name} time entries error`,
+        "error"
+      );
+      return false;
+    }
+  }
+
+  formatUserData(user) {
+    try {
       let timeEntriesByDay = [];
-      let teams = [];
 
-      for (const timeEntry of userFound.timeEntries) {
+      for (const timeEntry of user.timeEntries) {
         const time = timeEntry?.timeInterval?.duration;
         const date = timeEntry?.timeInterval?.start;
         const project = getRoot().projectStore.projectList.find(
@@ -91,30 +187,32 @@ export default class UserStore {
         }
       }
 
-      for (const team of getRoot().teamStore.teamList) {
-        for (const user of team.users) if (user.id === id) teams.push(team);
-      }
-
-      this.setUserList(
-        this.userList.map((user) => {
-          if (user.id === id) {
-            return {
-              ...payload,
-              timeEntriesByDay,
-              teams,
-            };
-          }
-
-          return user;
-        })
-      );
-
-      return false;
+      return {
+        ...user,
+        timeEntriesByDay,
+      };
     } catch (error) {
       console.log(error);
 
       return false;
     }
+  }
+
+  getUsersTeams() {
+    const newUsers = [];
+
+    for (const user of this.userList) {
+      const teams = [];
+
+      for (const team of getRoot().teamStore.teamList) {
+        for (const _user of team.users)
+          if (_user.id === user.id) teams.push(team);
+      }
+
+      newUsers.push({ ...user, teams });
+    }
+
+    this.setUserList(newUsers);
   }
 
   *fetchUserList(payload = {}) {
@@ -148,16 +246,15 @@ export default class UserStore {
         let newUsers = [];
 
         for (const user of response.data) {
-          const data = yield this.fetchUserTimeEntries(user);
+          const userTimeEntries = yield this.fetchUserTimeEntries(user);
 
-          if (data) {
-            const { timeEntries, hours } = data;
-
-            newUsers.push({
+          if (userTimeEntries) {
+            const newUser = this.formatUserData({
               ...user,
-              timeEntries,
-              hours,
+              ...userTimeEntries,
             });
+
+            newUsers.push(newUser);
           }
         }
 
@@ -176,73 +273,6 @@ export default class UserStore {
     } catch (error) {
       console.log(error);
       getRoot().authStore.feedFetchDataLog("fetch user list error", "error");
-      return false;
-    }
-  }
-
-  *fetchUserTimeEntries(payload = {}) {
-    const { id, name, pageSize = 1000 } = payload;
-
-    try {
-      getRoot().authStore.feedFetchDataLog(
-        `fetching user ${name} time entries...`
-      );
-
-      const { defaultWorkspace } = getRoot().authStore.user;
-
-      const response = yield getEnv().get(
-        `/workspaces/${defaultWorkspace}/user/${id}/time-entries`,
-        {
-          params: {
-            start: this.queryStartDate,
-            end: this.queryEndDate,
-            "page-size": pageSize,
-          },
-        }
-      );
-
-      if (response.status !== 200) {
-        getRoot().authStore.feedFetchDataLog(
-          `fetch user ${name} time entries error`,
-          "error"
-        );
-        return false;
-      }
-
-      if (response?.data) {
-        let hours = 0;
-
-        for (const item of response.data) {
-          const time = item?.timeInterval?.duration;
-
-          if (time?.length) {
-            hours += getDuration(time);
-          }
-        }
-
-        getRoot().authStore.feedFetchDataLog(
-          `fetch user ${name} time entries success`,
-          "success"
-        );
-
-        return {
-          timeEntries: response.data,
-          hours,
-        };
-      }
-
-      getRoot().authStore.feedFetchDataLog(
-        `fetch user ${name} time entries error`,
-        "error"
-      );
-
-      return false;
-    } catch (error) {
-      console.log(error);
-      getRoot().authStore.feedFetchDataLog(
-        `fetch user ${name} time entries error`,
-        "error"
-      );
       return false;
     }
   }

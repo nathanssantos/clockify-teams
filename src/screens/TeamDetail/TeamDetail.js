@@ -28,9 +28,8 @@ const TeamDetail = () => {
   const store = useStore();
   const params = useParams();
   const history = useHistory();
-  const [team, setTeam] = useState(null);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-  const foundTeam = store.teamStore.teamList.find(
+  const team = store.teamStore.teamList.find(
     (team) => team.id === Number(params.id)
   );
 
@@ -49,11 +48,6 @@ const TeamDetail = () => {
   };
 
   useEffect(() => {
-    setTeam(foundTeam);
-  }, [foundTeam]);
-
-  useEffect(() => {
-    store.teamStore.fetchTeamData(foundTeam);
     window.scrollTo(0, 0);
   }, []);
 
@@ -80,7 +74,7 @@ const TeamDetail = () => {
           </header>
 
           <main>
-            {team?.fetchedTimeEntries ? (
+            {team.timeEntriesByProject?.length ? (
               <>
                 <div className="team-detail__chart">
                   <header className="section-header">
@@ -155,6 +149,7 @@ const TeamDetail = () => {
                       hours={user?.hours}
                       hourValue={user?.hourValue}
                       payment={user?.payment}
+                      warnings={user?.warnings}
                       showMeta
                     />
                   ))
