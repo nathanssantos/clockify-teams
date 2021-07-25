@@ -1,5 +1,6 @@
 import { action, flow, makeObservable, observable } from "mobx";
 import { getEnv, getRoot } from "mobx-easy";
+import { reportsAPI } from "../../services/baseAPI";
 
 import getDuration from "../../utils/getDuration";
 import getDate from "../../utils/getDate";
@@ -28,6 +29,7 @@ export default class UserStore {
 
       fetchUserList: flow,
       fetchUserTimeEntries: flow,
+      fetchUserSummaryReport: flow,
     });
   }
 
@@ -269,6 +271,46 @@ export default class UserStore {
       }
 
       getRoot().authStore.feedFetchDataLog("fetch user list error", "error");
+      return false;
+    } catch (error) {
+      console.log(error);
+      getRoot().authStore.feedFetchDataLog("fetch user list error", "error");
+      return false;
+    }
+  }
+
+  *fetchUserSummaryReport(user) {
+    try {
+      const { defaultWorkspace } = getRoot().authStore.user;
+
+      const response = yield reportsAPI.post(
+        `/workspaces/${defaultWorkspace}/reports/summary`,
+        {
+          amountShown: "HIDE_AMOUNT",
+          dateRangeStart: this.queryStartDate,
+          dateRangeEnd: this.queryEndDate,
+          exportType: "PDF",
+          summaryFilter: {
+            groups: ["PROJECT", "TIMEENTRY"],
+          },
+          users: {
+            ids: [user.id],
+            contains: "CONTAINS",
+            status: "ALL",
+          },
+          userLocale: "pt_BR",
+        },
+        {
+          responseType: "blob",
+        }
+      );
+
+      const blob = new Blob([response.data], {
+        type: "application/pdf",
+      });
+      const url = window.URL.createObjectURL(blob);
+      window.open(url);
+
       return false;
     } catch (error) {
       console.log(error);

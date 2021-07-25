@@ -58,12 +58,13 @@ const Users = () => {
                 key={user.id}
                 profilePicture={user?.profilePicture}
                 name={user?.name}
+                lastName={user?.lastName}
                 email={user?.email}
                 hours={user?.hours}
-                hourValue={user?.hourValue}
                 payment={user?.payment}
                 warnings={user?.warnings}
                 showMeta
+                pdf
               />
             ))
           )}

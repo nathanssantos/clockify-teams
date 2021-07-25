@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { action, flow, computed, makeObservable, observable } from "mobx";
 import { getEnv } from "mobx-easy";
+import { reportsAPI } from "../../services/baseAPI";
+
 import useLocalStorage from "../../hooks/useLocalStorage";
 
 import User from "../models/User";
@@ -98,6 +100,7 @@ export default class AuthStore {
     try {
       const [, setApiKey] = useLocalStorage("clockify-api-key");
       getEnv().defaults.headers.common["X-Api-Key"] = apiKey;
+      reportsAPI.defaults.headers.common["X-Api-Key"] = apiKey;
       setApiKey(apiKey);
 
       const response = yield getEnv().get(`/user`);

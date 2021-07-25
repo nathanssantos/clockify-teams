@@ -1,21 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { observer } from "mobx-react";
 import { useHistory } from "react-router-dom";
-import { Avatar, /* IconButton, */ ListItem, Tooltip } from "@material-ui/core";
+import {
+  Avatar,
+  CircularProgress,
+  IconButton,
+  ListItem,
+  Tooltip,
+} from "@material-ui/core";
 import {
   Warning,
   Check,
-  /*   Email,
-  PictureAsPdf, */
+  /*   Email, */
+  PictureAsPdf,
   AccessTime,
 } from "@material-ui/icons";
+import { flowResult } from "mobx";
+
+import { useStore } from "../../hooks";
 
 import { WARNING_TYPES } from "../../stores/containers/userStore";
 
 import "./styles.scss";
 
 const UserMeta = (props) => {
-  const { hours, warnings } = props;
+  const store = useStore();
+  const { hours, warnings, user, pdf } = props;
+  const [fetchingPDF, setFetchingPDF] = useState(false);
+
+  const fetchPdf = async () => {
+    setFetchingPDF(true);
+    await flowResult(store.userStore.fetchUserSummaryReport(user));
+    setFetchingPDF(false);
+  };
 
   return (
     <div className="user__meta">
@@ -43,7 +60,10 @@ const UserMeta = (props) => {
               {Object.entries(warnings)
                 .filter(([key, value]) => value > 0)
                 .map(([key, value]) => (
-                  <li className="warning-list__item">{`${value}x ${WARNING_TYPES[key]}`}</li>
+                  <li
+                    key={WARNING_TYPES[key]}
+                    className="warning-list__item"
+                  >{`${value}x ${WARNING_TYPES[key]}`}</li>
                 ))}
             </ul>
           }
@@ -57,12 +77,18 @@ const UserMeta = (props) => {
           <Check color="secondary" />
         </div>
       )}
-      {/* <Tooltip arrow placement="left" title="Visualizar relatório">
-        <IconButton>
-          <PictureAsPdf />
-        </IconButton>
-      </Tooltip>
-      <Tooltip arrow placement="left" title="Enviar relatório ao colaborador">
+      {pdf ? (
+        <Tooltip arrow placement="left" title="Visualizar relatório">
+          {fetchingPDF ? (
+            <CircularProgress style={{ width: 20, height: 20, margin: 14 }} />
+          ) : (
+            <IconButton onClick={fetchPdf}>
+              <PictureAsPdf />
+            </IconButton>
+          )}
+        </Tooltip>
+      ) : null}
+      {/*  <Tooltip arrow placement="left" title="Enviar relatório ao colaborador">
         <IconButton onClick={() => {}}>
           <Email />
         </IconButton>
@@ -75,9 +101,11 @@ const User = (props) => {
   const {
     id,
     name = "",
+    lastName = "",
     profilePicture = "",
     email = "",
     showMeta = false,
+    pdf = false,
     disabled = false,
     hours = 0,
     warnings = {},
@@ -96,7 +124,14 @@ const User = (props) => {
           <div className="user__email">{email}</div>
         </div>
       </div>
-      {showMeta ? <UserMeta hours={hours} warnings={warnings} /> : null}
+      {showMeta ? (
+        <UserMeta
+          pdf={pdf}
+          hours={hours}
+          warnings={warnings}
+          user={{ id, name, lastName, email }}
+        />
+      ) : null}
     </ListItem>
   );
 };
