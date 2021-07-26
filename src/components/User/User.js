@@ -50,6 +50,18 @@ const UserMeta = (props) => {
         </div>
       </Tooltip>
 
+      {pdf ? (
+        <Tooltip arrow placement="left" title="Visualizar relatório">
+          {fetchingPDF ? (
+            <CircularProgress style={{ width: 20, height: 20, margin: 14 }} />
+          ) : (
+            <IconButton onClick={fetchPdf}>
+              <PictureAsPdf />
+            </IconButton>
+          )}
+        </Tooltip>
+      ) : null}
+
       {Object.entries(warnings).filter(([key, value]) => value > 0)?.length ? (
         <Tooltip
           arrow
@@ -77,17 +89,6 @@ const UserMeta = (props) => {
           <Check color="secondary" />
         </div>
       )}
-      {pdf ? (
-        <Tooltip arrow placement="left" title="Visualizar relatório">
-          {fetchingPDF ? (
-            <CircularProgress style={{ width: 20, height: 20, margin: 14 }} />
-          ) : (
-            <IconButton onClick={fetchPdf}>
-              <PictureAsPdf />
-            </IconButton>
-          )}
-        </Tooltip>
-      ) : null}
       {/*  <Tooltip arrow placement="left" title="Enviar relatório ao colaborador">
         <IconButton onClick={() => {}}>
           <Email />
