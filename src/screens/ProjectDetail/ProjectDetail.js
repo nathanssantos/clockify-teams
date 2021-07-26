@@ -60,6 +60,24 @@ const ProjectDetail = () => {
           </div>
         </header>
         <main>
+          {project?.timeEntriesByUser?.length ? (
+            <div className="user-list">
+              <header className="section-header">
+                <h3>Colaboradores no projeto</h3>
+              </header>
+              {project.timeEntriesByUser.map((user) => (
+                <User
+                  id={user.id}
+                  key={user.id}
+                  profilePicture={user?.profilePicture}
+                  name={user?.name}
+                  email={user?.email}
+                  hours={user?.hours}
+                />
+              ))}
+            </div>
+          ) : null}
+
           {project?.timeEntriesByUser.length ? (
             <>
               <div className="project-detail__chart">
@@ -91,24 +109,6 @@ const ProjectDetail = () => {
                 />
               </div>
             </>
-          ) : null}
-
-          {project?.timeEntriesByUser?.length ? (
-            <div className="user-list">
-              <header className="section-header">
-                <h3>Colaboradores no projeto</h3>
-              </header>
-              {project.timeEntriesByUser.map((user) => (
-                <User
-                  id={user.id}
-                  key={user.id}
-                  profilePicture={user?.profilePicture}
-                  name={user?.name}
-                  email={user?.email}
-                  hours={user?.hours}
-                />
-              ))}
-            </div>
           ) : null}
 
           {!project?.timeEntriesByUser?.length ? (

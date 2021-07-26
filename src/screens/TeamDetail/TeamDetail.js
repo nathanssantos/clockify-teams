@@ -74,6 +74,26 @@ const TeamDetail = () => {
           </header>
 
           <main>
+            <div className="user-list">
+              <header className="section-header">
+                <h3>Colaboradores na equipe</h3>
+              </header>
+              {team?.users?.length
+                ? team.users.map((user) => (
+                    <User
+                      id={user.id}
+                      key={user.id}
+                      profilePicture={user?.profilePicture}
+                      name={user?.name}
+                      email={user?.email}
+                      hours={user?.hours}
+                      warnings={user?.warnings}
+                      showMeta
+                    />
+                  ))
+                : null}
+            </div>
+
             {team.timeEntriesByProject?.length ? (
               <>
                 <div className="team-detail__chart">
@@ -133,26 +153,6 @@ const TeamDetail = () => {
                 </div>
               </>
             ) : null}
-
-            <div className="user-list">
-              <header className="section-header">
-                <h3>Colaboradores na equipe</h3>
-              </header>
-              {team?.users?.length
-                ? team.users.map((user) => (
-                    <User
-                      id={user.id}
-                      key={user.id}
-                      profilePicture={user?.profilePicture}
-                      name={user?.name}
-                      email={user?.email}
-                      hours={user?.hours}
-                      warnings={user?.warnings}
-                      showMeta
-                    />
-                  ))
-                : null}
-            </div>
           </main>
         </Container>
         <Fab
