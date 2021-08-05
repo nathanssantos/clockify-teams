@@ -4,6 +4,7 @@ import { reportsAPI } from "../../services/baseAPI";
 
 import getDuration from "../../utils/getDuration";
 import getDate from "../../utils/getDate";
+import formatDate from "../../utils/formatDate";
 
 import User from "../models/User";
 
@@ -305,11 +306,32 @@ export default class UserStore {
         }
       );
 
+      console.log(user);
+
+      const fileName = `${user.name} - ${formatDate(
+        this.queryStartDate
+      )} a ${formatDate(this.queryEndDate)}`;
+
       const blob = new Blob([response.data], {
         type: "application/pdf",
       });
-      const url = window.URL.createObjectURL(blob);
-      window.open(url);
+
+      // const url = window.URL.createObjectURL(blob);
+      // window.open(url);
+
+      if (window.navigator.msSaveOrOpenBlob) {
+        navigator.msSaveBlob(blob, fileName);
+      } else {
+        const link = document.createElement("a");
+        const body = document.querySelector("body");
+        link.href = window.URL.createObjectURL(blob);
+        link.download = fileName;
+        link.style.display = "none";
+        body.appendChild(link);
+        link.click();
+        body.removeChild(link);
+        window.URL.revokeObjectURL(link.href);
+      }
 
       return false;
     } catch (error) {

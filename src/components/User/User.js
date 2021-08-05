@@ -34,6 +34,7 @@ const UserMeta = (props) => {
     setFetchingPDF(false);
   };
 
+  console.log(warnings);
   return (
     <div className="user__meta">
       <Tooltip
@@ -80,8 +81,14 @@ const UserMeta = (props) => {
             </ul>
           }
         >
-          <div className="user__meta__item">
-            <Warning color="error" />
+          <div className="user__meta__item warning">
+            <Warning
+              color={
+                warnings.NO_PROJECT > 0 || warnings.NO_DESCRIPTION > 0
+                  ? "error"
+                  : "inherit"
+              }
+            />
           </div>
         </Tooltip>
       ) : (

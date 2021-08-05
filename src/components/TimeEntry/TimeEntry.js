@@ -61,8 +61,15 @@ const TimeEntry = (props) => {
               </ul>
             }
           >
-            <div className="time-entry__meta__item">
-              <Warning color="error" />
+            <div className="time-entry__meta__item warning">
+              <Warning
+                color={
+                  warnings.length === 1 &&
+                  warnings[0] === "Entrada maior que 6 horas"
+                    ? "inherit"
+                    : "error"
+                }
+              />
             </div>
           </Tooltip>
         </div>
