@@ -92,7 +92,7 @@ export default class ProjectStore {
     try {
       getRoot().authStore.feedFetchDataLog("fetching project list...");
 
-      const { pageSize = 1000 } = payload;
+      const { pageSize = 5000 } = payload;
       const { defaultWorkspace } = getRoot().authStore.user;
 
       const response = yield getEnv().get(

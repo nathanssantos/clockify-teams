@@ -44,7 +44,7 @@ export default class UserStore {
   }
 
   *fetchUserTimeEntries(payload = {}) {
-    const { id, name, pageSize = 1000 } = payload;
+    const { id, name, pageSize = 5000 } = payload;
     const { NO_DESCRIPTION, NO_PROJECT, TIME_LIMIT } = WARNING_TYPES;
 
     try {
@@ -58,8 +58,14 @@ export default class UserStore {
         `/workspaces/${defaultWorkspace}/user/${id}/time-entries`,
         {
           params: {
-            start: this.queryStartDate,
-            end: this.queryEndDate,
+            start:
+              new Date(this.queryStartDate).toISOString().split("T")[0] +
+              "T00:00:00.000Z",
+
+            end:
+              new Date(this.queryEndDate).toISOString().split("T")[0] +
+              "T23:59:59.999Z",
+
             "page-size": pageSize,
           },
         }
@@ -222,7 +228,7 @@ export default class UserStore {
     try {
       getRoot().authStore.feedFetchDataLog("fetching user list...");
 
-      const { pageSize = 1000 } = payload;
+      const { pageSize = 5000 } = payload;
       const { defaultWorkspace } = getRoot().authStore.user;
 
       const response = yield getEnv().get(
@@ -288,8 +294,12 @@ export default class UserStore {
         `/workspaces/${defaultWorkspace}/reports/summary`,
         {
           amountShown: "HIDE_AMOUNT",
-          dateRangeStart: this.queryStartDate,
-          dateRangeEnd: this.queryEndDate,
+          dateRangeStart:
+            new Date(this.queryStartDate).toISOString().split("T")[0] +
+            "T00:00:00.000Z",
+          dateRangeEnd:
+            new Date(this.queryEndDate).toISOString().split("T")[0] +
+            "T23:59:59.999Z",
           exportType: "PDF",
           summaryFilter: {
             groups: ["PROJECT", "TIMEENTRY"],
@@ -308,9 +318,9 @@ export default class UserStore {
 
       console.log(user);
 
-      const fileName = `${user.name} - ${formatDate(
+      const fileName = `${user.name.replace(" ", "-")}__${formatDate(
         this.queryStartDate
-      )} a ${formatDate(this.queryEndDate)}`;
+      )}_${formatDate(this.queryEndDate)}`;
 
       const blob = new Blob([response.data], {
         type: "application/pdf",

@@ -61,7 +61,7 @@ const Login = () => {
                 <LinearProgress />
               ) : (
                 <Button variant="outlined" onClick={authenticate}>
-                  Autenticar
+                  Entrar
                 </Button>
               )}
             </>
