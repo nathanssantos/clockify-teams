@@ -1,1 +1,1 @@
-# Clockify Teams v1.0.0.0
+# Clockify Teams v1.0.0
