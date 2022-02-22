@@ -33,7 +33,7 @@ const Users = () => {
     <div className="screen users">
       <Container maxWidth="lg">
         <header className="screen__header">
-          <h2>Colaboradoes</h2>
+          <h2>Colaboradores</h2>
 
           {store?.userStore?.userList?.length ? (
             <TextField
