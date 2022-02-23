@@ -1,21 +1,23 @@
-import { action, flow, makeObservable, observable } from "mobx";
-import { getEnv, getRoot } from "mobx-easy";
-import { reportsAPI } from "../../services/baseAPI";
+import { action, flow, makeObservable, observable } from 'mobx';
+import { getEnv, getRoot } from 'mobx-easy';
+import { reportsAPI } from '../../services/baseAPI';
 
-import getDuration from "../../utils/getDuration";
-import getDate from "../../utils/getDate";
-import formatDate from "../../utils/formatDate";
+import getDuration from '../../utils/getDuration';
+import getDate from '../../utils/getDate';
+import formatDate from '../../utils/formatDate';
 
-import User from "../models/User";
+import User from '../models/User';
 
 export const WARNING_TYPES = {
-  NO_PROJECT: "Entrada sem projeto",
-  NO_DESCRIPTION: "Entrada sem descrição",
-  TIME_LIMIT: "Entrada maior que 6 horas",
+  NO_PROJECT: 'Entrada sem projeto',
+  NO_DESCRIPTION: 'Entrada sem descrição',
+  TIME_LIMIT: 'Entrada maior que 6 horas',
 };
 export default class UserStore {
   userList = [];
+
   queryStartDate = null;
+
   queryEndDate = null;
 
   constructor() {
@@ -49,7 +51,7 @@ export default class UserStore {
 
     try {
       getRoot().authStore.feedFetchDataLog(
-        `fetching user ${name} time entries...`
+        `fetching user ${name} time entries...`,
       );
 
       const { defaultWorkspace } = getRoot().authStore.user;
@@ -58,23 +60,23 @@ export default class UserStore {
         `/workspaces/${defaultWorkspace}/user/${id}/time-entries`,
         {
           params: {
-            start:
-              new Date(this.queryStartDate).toISOString().split("T")[0] +
-              "T00:00:00.000Z",
+            start: `${
+              new Date(this.queryStartDate).toISOString().split('T')[0]
+            }T00:00:00.000Z`,
 
-            end:
-              new Date(this.queryEndDate).toISOString().split("T")[0] +
-              "T23:59:59.999Z",
+            end: `${
+              new Date(this.queryEndDate).toISOString().split('T')[0]
+            }T23:59:59.999Z`,
 
-            "page-size": pageSize,
+            'page-size': pageSize,
           },
-        }
+        },
       );
 
       if (response.status !== 200) {
         getRoot().authStore.feedFetchDataLog(
           `fetch user ${name} time entries error`,
-          "error"
+          'error',
         );
         return false;
       }
@@ -117,7 +119,7 @@ export default class UserStore {
 
         getRoot().authStore.feedFetchDataLog(
           `fetch user ${name} time entries success`,
-          "success"
+          'success',
         );
 
         return {
@@ -129,7 +131,7 @@ export default class UserStore {
 
       getRoot().authStore.feedFetchDataLog(
         `fetch user ${name} time entries error`,
-        "error"
+        'error',
       );
 
       return false;
@@ -137,7 +139,7 @@ export default class UserStore {
       console.log(error);
       getRoot().authStore.feedFetchDataLog(
         `fetch user ${name} time entries error`,
-        "error"
+        'error',
       );
       return false;
     }
@@ -151,11 +153,11 @@ export default class UserStore {
         const time = timeEntry?.timeInterval?.duration;
         const date = timeEntry?.timeInterval?.start;
         const project = getRoot().projectStore.projectList.find(
-          ({ id }) => id === timeEntry?.projectId
+          ({ id }) => id === timeEntry?.projectId,
         );
 
         const dateFound = timeEntriesByDay.find(
-          (entry) => entry.date === getDate(date)
+          (entry) => entry.date === getDate(date),
         );
 
         if (time?.length && date?.length) {
@@ -168,9 +170,10 @@ export default class UserStore {
                     ...entry.timeEntries,
                     {
                       ...timeEntry,
-                      project: project
-                        ? project
-                        : { name: "Sem projeto", color: "#ffffff" },
+                      project: project || {
+                        name: 'Sem projeto',
+                        color: '#ffffff',
+                      },
                     },
                   ],
                   hours: entry.hours + getDuration(time),
@@ -185,9 +188,7 @@ export default class UserStore {
               timeEntries: [
                 {
                   ...timeEntry,
-                  project: project
-                    ? project
-                    : { name: "Sem projeto", color: "#ffffff" },
+                  project: project || { name: 'Sem projeto', color: '#ffffff' },
                 },
               ],
               hours: getDuration(time),
@@ -226,7 +227,7 @@ export default class UserStore {
 
   *fetchUserList(payload = {}) {
     try {
-      getRoot().authStore.feedFetchDataLog("fetching user list...");
+      getRoot().authStore.feedFetchDataLog('fetching user list...');
 
       const { pageSize = 5000 } = payload;
       const { defaultWorkspace } = getRoot().authStore.user;
@@ -235,24 +236,24 @@ export default class UserStore {
         `/workspaces/${defaultWorkspace}/users`,
         {
           params: {
-            "page-size": pageSize,
-            status: "ACTIVE",
+            'page-size': pageSize,
+            status: 'ACTIVE',
           },
-        }
+        },
       );
 
       if (response.status !== 200) {
-        getRoot().authStore.feedFetchDataLog("fetch user list error", "error");
+        getRoot().authStore.feedFetchDataLog('fetch user list error', 'error');
         return false;
       }
 
       if (response?.data?.length) {
         getRoot().authStore.feedFetchDataLog(
-          "fetch user list success",
-          "success"
+          'fetch user list success',
+          'success',
         );
 
-        let newUsers = [];
+        const newUsers = [];
 
         for (const user of response.data) {
           const userTimeEntries = yield this.fetchUserTimeEntries(user);
@@ -270,18 +271,18 @@ export default class UserStore {
         if (newUsers.length) {
           this.setUserList(newUsers);
           getRoot().authStore.feedFetchDataLog(
-            "fetch all users time entries success",
-            "success"
+            'fetch all users time entries success',
+            'success',
           );
           return true;
         }
       }
 
-      getRoot().authStore.feedFetchDataLog("fetch user list error", "error");
+      getRoot().authStore.feedFetchDataLog('fetch user list error', 'error');
       return false;
     } catch (error) {
       console.log(error);
-      getRoot().authStore.feedFetchDataLog("fetch user list error", "error");
+      getRoot().authStore.feedFetchDataLog('fetch user list error', 'error');
       return false;
     }
   }
@@ -293,37 +294,37 @@ export default class UserStore {
       const response = yield reportsAPI.post(
         `/workspaces/${defaultWorkspace}/reports/summary`,
         {
-          amountShown: "HIDE_AMOUNT",
-          dateRangeStart:
-            new Date(this.queryStartDate).toISOString().split("T")[0] +
-            "T00:00:00.000Z",
-          dateRangeEnd:
-            new Date(this.queryEndDate).toISOString().split("T")[0] +
-            "T23:59:59.999Z",
-          exportType: "PDF",
+          amountShown: 'HIDE_AMOUNT',
+          dateRangeStart: `${
+            new Date(this.queryStartDate).toISOString().split('T')[0]
+          }T00:00:00.000Z`,
+          dateRangeEnd: `${
+            new Date(this.queryEndDate).toISOString().split('T')[0]
+          }T23:59:59.999Z`,
+          exportType: 'PDF',
           summaryFilter: {
-            groups: ["PROJECT", "TIMEENTRY"],
+            groups: ['PROJECT', 'TIMEENTRY'],
           },
           users: {
             ids: [user.id],
-            contains: "CONTAINS",
-            status: "ALL",
+            contains: 'CONTAINS',
+            status: 'ALL',
           },
-          userLocale: "pt_BR",
+          userLocale: 'pt_BR',
         },
         {
-          responseType: "blob",
-        }
+          responseType: 'blob',
+        },
       );
 
       console.log(user);
 
-      const fileName = `${user.name.replace(" ", "-")}__${formatDate(
-        this.queryStartDate
+      const fileName = `${user.name.replace(' ', '-')}__${formatDate(
+        this.queryStartDate,
       )}_${formatDate(this.queryEndDate)}`;
 
       const blob = new Blob([response.data], {
-        type: "application/pdf",
+        type: 'application/pdf',
       });
 
       // const url = window.URL.createObjectURL(blob);
@@ -332,11 +333,11 @@ export default class UserStore {
       if (window.navigator.msSaveOrOpenBlob) {
         navigator.msSaveBlob(blob, fileName);
       } else {
-        const link = document.createElement("a");
-        const body = document.querySelector("body");
+        const link = document.createElement('a');
+        const body = document.querySelector('body');
         link.href = window.URL.createObjectURL(blob);
         link.download = fileName;
-        link.style.display = "none";
+        link.style.display = 'none';
         body.appendChild(link);
         link.click();
         body.removeChild(link);
@@ -346,7 +347,7 @@ export default class UserStore {
       return false;
     } catch (error) {
       console.log(error);
-      getRoot().authStore.feedFetchDataLog("fetch user list error", "error");
+      getRoot().authStore.feedFetchDataLog('fetch user list error', 'error');
       return false;
     }
   }

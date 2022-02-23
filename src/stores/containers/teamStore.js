@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { action, makeObservable, observable } from "mobx";
-import { getRoot } from "mobx-easy";
-import useLocalStorage from "../../hooks/useLocalStorage";
-import getDuration from "../../utils/getDuration";
+import { action, makeObservable, observable } from 'mobx';
+import { getRoot } from 'mobx-easy';
+import useLocalStorage from '../../hooks/useLocalStorage';
+import getDuration from '../../utils/getDuration';
 
-import Team from "../models/Team";
+import Team from '../models/Team';
 
 export default class TeamStore {
   teamList = [];
@@ -24,7 +24,7 @@ export default class TeamStore {
   createTeam(team = {}) {
     try {
       const { users } = team;
-      const [_teamList, setTeamList] = useLocalStorage("team-list");
+      const [_teamList, setTeamList] = useLocalStorage('team-list');
 
       const teamList = _teamList || [];
 
@@ -61,7 +61,7 @@ export default class TeamStore {
 
   editTeam(id, team = {}) {
     try {
-      const [teamList, setTeamList] = useLocalStorage("team-list");
+      const [teamList, setTeamList] = useLocalStorage('team-list');
       const { users } = team;
 
       setTeamList(
@@ -74,7 +74,7 @@ export default class TeamStore {
             };
           }
           return team;
-        })
+        }),
       );
 
       return id;
@@ -88,7 +88,7 @@ export default class TeamStore {
 
   removeTeam(payload = {}) {
     try {
-      const [teamList, setTeamList] = useLocalStorage("team-list");
+      const [teamList, setTeamList] = useLocalStorage('team-list');
 
       const newTeamList = teamList.filter((team) => team.id !== payload.id);
 
@@ -98,9 +98,9 @@ export default class TeamStore {
         newTeamList.map((team) => ({
           ...team,
           users: getRoot().userStore.userList.filter((user) =>
-            team.users.includes(user.id)
+            team.users.includes(user.id),
           ),
-        }))
+        })),
       );
     } catch (error) {
       console.log(error);
@@ -113,9 +113,9 @@ export default class TeamStore {
 
   fetchTeamList() {
     try {
-      getRoot().authStore.feedFetchDataLog("fetching team list...");
+      getRoot().authStore.feedFetchDataLog('fetching team list...');
 
-      const [teamList] = useLocalStorage("team-list");
+      const [teamList] = useLocalStorage('team-list');
 
       if (teamList.length) {
         const newTeamList = [];
@@ -126,7 +126,7 @@ export default class TeamStore {
           newTeamList.push({
             ...newTeam,
             users: getRoot().userStore.userList.filter((user) =>
-              team.users.includes(user.id)
+              team.users.includes(user.id),
             ),
           });
         }
@@ -134,27 +134,27 @@ export default class TeamStore {
         this.setTeamList(newTeamList);
 
         getRoot().authStore.feedFetchDataLog(
-          "fetch team list success",
-          "success"
+          'fetch team list success',
+          'success',
         );
       }
 
       return false;
     } catch (error) {
       console.log(error);
-      getRoot().authStore.feedFetchDataLog("fetch team list error", "error");
+      getRoot().authStore.feedFetchDataLog('fetch team list error', 'error');
       return false;
     }
   }
 
   formatTeamData(team = {}) {
     try {
-      let usersWithTimeEntries = [];
+      const usersWithTimeEntries = [];
       let teamTimeEntriesByProject = [];
 
       for (const user of team.users) {
         const userFound = getRoot().userStore.userList.find(
-          (_user) => _user.id === user
+          (_user) => _user.id === user,
         );
 
         if (userFound) {
@@ -162,7 +162,7 @@ export default class TeamStore {
 
           for (const timeEntry of timeEntries) {
             const projectFound = teamTimeEntriesByProject.find(
-              (project) => project.id === timeEntry.projectId
+              (project) => project.id === timeEntry.projectId,
             );
 
             let hours = 0;
@@ -185,7 +185,7 @@ export default class TeamStore {
                   }
 
                   return project;
-                }
+                },
               );
             } else {
               teamTimeEntriesByProject.push({
@@ -197,7 +197,7 @@ export default class TeamStore {
           }
 
           const newUser = getRoot().userStore.userList.find(
-            (_user) => _user.id === user.id
+            (_user) => _user.id === user.id,
           );
 
           usersWithTimeEntries.push({
@@ -213,7 +213,7 @@ export default class TeamStore {
       for (const project of teamTimeEntriesByProject) {
         if (project.id) {
           const projectFound = getRoot().projectStore.projectList.find(
-            (_project) => _project.id === project.id
+            (_project) => _project.id === project.id,
           );
 
           if (projectFound) {
@@ -226,8 +226,8 @@ export default class TeamStore {
         } else {
           teamTimeEntriesByProject[index] = {
             ...teamTimeEntriesByProject[index],
-            name: "Sem projeto",
-            color: "#ffffff",
+            name: 'Sem projeto',
+            color: '#ffffff',
           };
         }
 

@@ -1,15 +1,24 @@
-import { makeObservable, observable } from "mobx";
+import { makeObservable, observable } from 'mobx';
 
 export default class User {
   id = null;
+
   name = null;
+
   email = null;
+
   defaultWorkspace = null;
+
   profilePicture = null;
+
   timeEntries = [];
+
   timeEntriesByDay = [];
+
   teams = [];
+
   hours = null;
+
   warnings = {};
 
   constructor(newUser) {
@@ -27,7 +36,7 @@ export default class User {
     });
 
     if (newUser == null || newUser.id == null) {
-      throw new Error("Invalid user constructor");
+      throw new Error('Invalid user constructor');
     }
 
     const {
@@ -44,10 +53,10 @@ export default class User {
     } = newUser;
 
     this.id = id;
-    this.name = name || "";
-    this.email = email || "";
-    this.defaultWorkspace = defaultWorkspace || "";
-    this.profilePicture = profilePicture || "";
+    this.name = name || '';
+    this.email = email || '';
+    this.defaultWorkspace = defaultWorkspace || '';
+    this.profilePicture = profilePicture || '';
     this.timeEntries = timeEntries || [];
     this.timeEntriesByDay = timeEntriesByDay || [];
     this.teams = teams || [];

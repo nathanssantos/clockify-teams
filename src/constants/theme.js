@@ -1,13 +1,18 @@
-const theme = {
+import { createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
   palette: {
-    type: "dark",
+    mode: 'dark',
     primary: {
-      main: "#ecf0f1",
+      main: '#ecf0f1',
     },
     secondary: {
-      main: "#2ecc71",
+      main: '#2ecc71',
+    },
+    background: {
+      default: '#222',
     },
   },
-};
+});
 
 export default theme;

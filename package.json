@@ -1,62 +1,64 @@
 {
-  "name": "clockify-teams",
-  "version": "1.0.0",
+  "name": "react-vite-boilerplate",
+  "private": true,
+  "version": "2.0.0",
+  "description": "Clockify team management app.",
   "author": {
     "name": "Nathan Silva Santos",
     "email": "nathansilvasantos@gmail.com"
   },
-  "homepage": "https://nathanssantos.github.io/clockify-teams/",
-  "private": true,
-  "dependencies": {
-    "@date-io/date-fns": "1.x",
-    "@fontsource/roboto": "^4.4.5",
-    "@material-ui/core": "^4.11.4",
-    "@material-ui/icons": "^4.11.2",
-    "@material-ui/pickers": "^3.3.10",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "axios": "^0.21.1",
-    "chart.js": "^3.4.0",
-    "date-fns": "^2.22.1",
-    "mobx": "^6.3.2",
-    "mobx-easy": "^1.0.11",
-    "mobx-react": "^7.2.0",
-    "react": "^17.0.2",
-    "react-chartjs-2": "^3.0.3",
-    "react-dom": "^17.0.2",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
-    "sass": "^1.35.1",
-    "web-vitals": "^1.0.1"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nathanssantos/clockify-teams.git"
   },
+  "bugs": {
+    "url": "https://github.com/nathanssantos/clockify-teams/issues"
+  },
+  "homepage": "https://nathanssantos.github.io/clockify-teams",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "start": "vite",
+    "build": "vite build --base=./",
+    "preview": "vite preview",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d dist"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "@emotion/react": "^11.8.1",
+    "@emotion/styled": "^11.8.1",
+    "@fontsource/roboto": "^4.5.3",
+    "@mui/icons-material": "^5.4.2",
+    "@mui/lab": "^5.0.0-alpha.70",
+    "@mui/material": "^5.4.3",
+    "@mui/styled-engine-sc": "^5.4.2",
+    "axios": "^0.26.0",
+    "chart.js": "^3.7.1",
+    "date-fns": "^2.28.0",
+    "formik": "^2.2.9",
+    "mobx": "^6.4.1",
+    "mobx-easy": "^1.0.11",
+    "mobx-react": "^7.3.0",
+    "prop-types": "^15.8.1",
+    "react": "^17.0.2",
+    "react-chartjs-2": "^4.0.1",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^6.2.1",
+    "sass": "^1.49.8",
+    "styled-components": "^5.3.3",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
-    "gh-pages": "^3.2.3"
+    "@vitejs/plugin-react": "^1.0.7",
+    "eslint": "^8.9.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.4.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "gh-pages": "^3.2.3",
+    "prettier": "^2.5.1",
+    "vite": "^2.8.0"
   }
 }

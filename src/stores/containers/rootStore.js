@@ -1,12 +1,15 @@
-import AuthStore from "./authStore";
-import UserStore from "./userStore";
-import ProjectStore from "./projectStore";
-import TeamStore from "./teamStore";
+import AuthStore from './authStore';
+import UserStore from './userStore';
+import ProjectStore from './projectStore';
+import TeamStore from './teamStore';
 
 export default class RootStore {
   authStore = null;
+
   userStore = null;
+
   projectStore = null;
+
   teamStore = null;
 
   init() {

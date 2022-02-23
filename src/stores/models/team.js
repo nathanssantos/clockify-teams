@@ -1,10 +1,14 @@
-import { makeObservable, observable } from "mobx";
+import { makeObservable, observable } from 'mobx';
 
 export default class Team {
   id = null;
+
   name = null;
+
   image = null;
+
   users = [];
+
   timeEntriesByProject = [];
 
   constructor(newTeam) {
@@ -17,14 +21,14 @@ export default class Team {
     });
 
     if (newTeam == null || newTeam.id == null) {
-      throw new Error("Invalid Team constructor");
+      throw new Error('Invalid Team constructor');
     }
 
     const { id, name, image, users, timeEntriesByProject } = newTeam;
 
     this.id = id;
-    this.name = name || "";
-    this.image = image || "";
+    this.name = name || '';
+    this.image = image || '';
     this.users = users || [];
     this.timeEntriesByProject = timeEntriesByProject || [];
   }

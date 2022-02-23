@@ -1,10 +1,11 @@
 /* eslint-disable no-loop-func */
-import { action, flow, makeObservable, observable } from "mobx";
-import { getEnv, getRoot } from "mobx-easy";
+import { action, flow, makeObservable, observable } from 'mobx';
+import { getEnv, getRoot } from 'mobx-easy';
 
-import Project from "../models/Project";
+import Project from '../models/Project';
 
-import getDuration from "../../utils/getDuration";
+import getDuration from '../../utils/getDuration';
+
 export default class ProjectStore {
   projectList = [];
 
@@ -29,12 +30,12 @@ export default class ProjectStore {
       let projectTimeEntriesByUser = [];
       for (const user of getRoot().userStore.userList) {
         const projectTimeEntriesFound = user.timeEntries.filter(
-          (entry) => entry.projectId === id
+          (entry) => entry.projectId === id,
         );
 
         for (const timeEntry of projectTimeEntriesFound) {
           const userFound = projectTimeEntriesByUser.find(
-            (user) => user.id === timeEntry.userId
+            (user) => user.id === timeEntry.userId,
           );
 
           let hours = 0;
@@ -90,7 +91,7 @@ export default class ProjectStore {
 
   *fetchProjectList(payload = {}) {
     try {
-      getRoot().authStore.feedFetchDataLog("fetching project list...");
+      getRoot().authStore.feedFetchDataLog('fetching project list...');
 
       const { pageSize = 5000 } = payload;
       const { defaultWorkspace } = getRoot().authStore.user;
@@ -100,15 +101,15 @@ export default class ProjectStore {
         {
           params: {
             archived: false,
-            "page-size": pageSize,
+            'page-size': pageSize,
           },
-        }
+        },
       );
 
       if (response.status !== 200) {
         getRoot().authStore.feedFetchDataLog(
-          "fetch project list error",
-          "error"
+          'fetch project list error',
+          'error',
         );
         return false;
       }
@@ -116,8 +117,8 @@ export default class ProjectStore {
       if (response?.data?.length) {
         this.setProjectList(response.data);
         getRoot().authStore.feedFetchDataLog(
-          "fetch project list success",
-          "success"
+          'fetch project list success',
+          'success',
         );
 
         return true;
@@ -126,7 +127,7 @@ export default class ProjectStore {
       return false;
     } catch (error) {
       console.log(error);
-      getRoot().authStore.feedFetchDataLog("fetch project list error", "error");
+      getRoot().authStore.feedFetchDataLog('fetch project list error', 'error');
       return false;
     }
   }
