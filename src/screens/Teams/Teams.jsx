@@ -1,28 +1,27 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
-import { observer } from "mobx-react";
-import { Container, TextField, Fab } from "@material-ui/core";
-import { Add } from "@material-ui/icons";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
+import { Container, TextField, Fab } from '@material-ui/core';
+import { Add } from '@material-ui/icons';
+import { useHistory } from 'react-router-dom';
 
-import { useStore } from "../../hooks";
+import { useStore } from '../../hooks';
 
-import Team from "../../components/Team/Team";
+import Team from '../../components/Team/Team';
 
-import "./styles.scss";
+import './styles.scss';
 
 const Teams = () => {
   const store = useStore();
   const history = useHistory();
-  const [filterTerm, setFilterTerm] = useState("");
+  const [filterTerm, setFilterTerm] = useState('');
   const [filteredList, setFilteredList] = useState([]);
 
   useEffect(() => {
     if (filterTerm.length) {
       setFilteredList(
         store.teamStore.teamList.filter((item) =>
-          item.name.toLowerCase().includes(filterTerm.toLowerCase())
-        )
+          item.name.toLowerCase().includes(filterTerm.toLowerCase()),
+        ),
       );
       return;
     }
@@ -35,17 +34,17 @@ const Teams = () => {
   }, []);
 
   return (
-    <div className="screen teams">
-      <Container maxWidth="lg">
-        <header className="screen__header">
+    <div className='screen teams'>
+      <Container maxWidth='lg'>
+        <header className='screen__header'>
           <h2>Equipes</h2>
 
-          <div className="screen__header__right">
+          <div className='screen__header__right'>
             {store?.teamStore?.teamList?.length ? (
               <TextField
-                id="filter-term"
-                label="Filtro"
-                variant="filled"
+                id='filter-term'
+                label='Filtro'
+                variant='filled'
                 value={filterTerm}
                 onChange={(e) => {
                   setFilterTerm(e.target.value);
@@ -72,11 +71,11 @@ const Teams = () => {
         </main>
       </Container>
       <Fab
-        className="teams__create-team"
-        color="primary"
-        aria-label="Criar equipe"
+        className='teams__create-team'
+        color='primary'
+        aria-label='Criar equipe'
         onClick={() => {
-          history.push("/teams/create");
+          history.push('/teams/create');
         }}
       >
         <Add />

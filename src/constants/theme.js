@@ -1,11 +1,11 @@
 const theme = {
   palette: {
-    type: "dark",
+    type: 'dark',
     primary: {
-      main: "#ecf0f1",
+      main: '#ecf0f1',
     },
     secondary: {
-      main: "#2ecc71",
+      main: '#2ecc71',
     },
   },
 };

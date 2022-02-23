@@ -1,26 +1,25 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
-import { observer } from "mobx-react";
-import { flowResult } from "mobx";
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
+import { flowResult } from 'mobx';
 import {
   TextField,
   Container,
   Button,
   LinearProgress,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
-import useLocalStorage from "../../hooks/useLocalStorage";
-import { useStore } from "../../hooks";
+import useLocalStorage from '../../hooks/useLocalStorage';
+import { useStore } from '../../hooks';
 
-import User from "../../components/User/User";
+import User from '../../components/User/User';
 
-import "./styles.scss";
+import './styles.scss';
 
 const Login = () => {
   const store = useStore();
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState('');
   const [fetching, setFetching] = useState(false);
-  const [apiKey] = useLocalStorage("clockify-api-key");
+  const [apiKey] = useLocalStorage('clockify-api-key');
 
   const authenticate = async () => {
     setFetching(true);
@@ -29,7 +28,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    const dataLogContainer = document.querySelector(".login .fetch-data-log");
+    const dataLogContainer = document.querySelector('.login .fetch-data-log');
     if (dataLogContainer) {
       dataLogContainer.scrollTop = dataLogContainer.scrollHeight;
     }
@@ -40,17 +39,17 @@ const Login = () => {
   }, []);
 
   return (
-    <div className="screen login">
-      <Container maxWidth="lg" className="login__container">
+    <div className='screen login'>
+      <Container maxWidth='lg' className='login__container'>
         <h1>Clockify Teams</h1>
-        <div className="login__box">
+        <div className='login__box'>
           {!store.authStore.isConfirmingIdentity ? (
             <>
               {!store.authStore.autoLogin ? (
                 <TextField
-                  id="api-key"
-                  label="Clockify API Key"
-                  variant="filled"
+                  id='api-key'
+                  label='Clockify API Key'
+                  variant='filled'
                   value={inputValue}
                   onChange={(e) => {
                     setInputValue(e.target.value);
@@ -60,7 +59,7 @@ const Login = () => {
               {fetching || store.authStore.autoLogin ? (
                 <LinearProgress />
               ) : (
-                <Button variant="outlined" onClick={authenticate}>
+                <Button variant='outlined' onClick={authenticate}>
                   Entrar
                 </Button>
               )}
@@ -74,7 +73,7 @@ const Login = () => {
                 email={store?.authStore?.user?.email}
               />
 
-              <div className="fetch-data-log">
+              <div className='fetch-data-log'>
                 {store.authStore.fetchDataLog.map(({ text, color }) => (
                   <div style={{ color }} key={text}>
                     {text}

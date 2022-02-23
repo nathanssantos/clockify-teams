@@ -1,14 +1,22 @@
-import { makeObservable, observable } from "mobx";
+import { makeObservable, observable } from 'mobx';
 
 export default class Project {
   id = null;
+
   name = null;
+
   email = null;
+
   workspaceId = null;
+
   color = null;
+
   duration = null;
+
   estimate = null;
+
   users = [];
+
   timeEntriesByUser = [];
 
   constructor(newProject) {
@@ -25,7 +33,7 @@ export default class Project {
     });
 
     if (newProject == null || newProject.id == null) {
-      throw new Error("Invalid Project constructor");
+      throw new Error('Invalid Project constructor');
     }
 
     const {
@@ -41,12 +49,12 @@ export default class Project {
     } = newProject;
 
     this.id = id;
-    this.name = name || "";
-    this.email = email || "";
-    this.workspaceId = workspaceId || "";
-    this.color = color || "";
-    this.duration = duration || "";
-    this.estimate = estimate || "";
+    this.name = name || '';
+    this.email = email || '';
+    this.workspaceId = workspaceId || '';
+    this.color = color || '';
+    this.duration = duration || '';
+    this.estimate = estimate || '';
     this.users = users || [];
     this.timeEntriesByUser = timeEntriesByUser || [];
   }

@@ -1,23 +1,22 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
-import { observer } from "mobx-react";
-import { Container, TextField } from "@material-ui/core";
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
+import { Container, TextField } from '@material-ui/core';
 
-import { useStore } from "../../hooks";
+import { useStore } from '../../hooks';
 
-import User from "../../components/User/User";
+import User from '../../components/User/User';
 
 const Users = () => {
   const store = useStore();
-  const [filterTerm, setFilterTerm] = useState("");
+  const [filterTerm, setFilterTerm] = useState('');
   const [filteredList, setFilteredList] = useState([]);
 
   useEffect(() => {
     if (filterTerm.length) {
       setFilteredList(
         store.userStore.userList.filter((item) =>
-          item.name.toLowerCase().includes(filterTerm.toLowerCase())
-        )
+          item.name.toLowerCase().includes(filterTerm.toLowerCase()),
+        ),
       );
       return;
     }
@@ -30,16 +29,16 @@ const Users = () => {
   }, []);
 
   return (
-    <div className="screen users">
-      <Container maxWidth="lg">
-        <header className="screen__header">
+    <div className='screen users'>
+      <Container maxWidth='lg'>
+        <header className='screen__header'>
           <h2>Colaboradores</h2>
 
           {store?.userStore?.userList?.length ? (
             <TextField
-              id="filter-term"
-              label="Filtro"
-              variant="filled"
+              id='filter-term'
+              label='Filtro'
+              variant='filled'
               value={filterTerm}
               onChange={(e) => {
                 setFilterTerm(e.target.value);

@@ -1,15 +1,16 @@
-import React from "react";
-import { observer } from "mobx-react";
-import { Avatar, ListItem } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+/* eslint-disable react/prop-types */
+import React from 'react';
+import { observer } from 'mobx-react';
+import { Avatar, ListItem } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 
-import "./styles.scss";
+import './styles.scss';
 
 const Team = (props) => {
   const {
     id,
-    name = "",
-    image = "",
+    name = '',
+    image = '',
     avatarSize = 50,
     fontSize = 16,
     disabled = false,
@@ -20,16 +21,16 @@ const Team = (props) => {
   if (card) {
     return (
       <ListItem
-        className="team card"
+        className='team card'
         button={!disabled}
         onClick={() => (!disabled ? history.push(`/teams/${id}`) : null)}
       >
         {image.length ? (
-          <img className="team__image" src={image} alt={name} />
+          <img className='team__image' src={image} alt={name} />
         ) : null}
 
-        <div className="team__data">
-          <div className="team__name" style={{ fontSize }}>
+        <div className='team__data'>
+          <div className='team__name' style={{ fontSize }}>
             {name}
           </div>
         </div>
@@ -39,19 +40,19 @@ const Team = (props) => {
 
   return (
     <ListItem
-      className="team"
+      className='team'
       button={!disabled}
       onClick={() => (!disabled ? history.push(`/teams/${id}`) : null)}
     >
       <Avatar
         alt={name}
         src={image}
-        className="team__avatar"
+        className='team__avatar'
         style={{ width: avatarSize, height: avatarSize }}
       />
 
-      <div className="team__data">
-        <div className="team__name" style={{ fontSize }}>
+      <div className='team__data'>
+        <div className='team__name' style={{ fontSize }}>
           {name}
         </div>
       </div>

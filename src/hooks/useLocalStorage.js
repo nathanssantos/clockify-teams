@@ -1,4 +1,4 @@
-const useLocalStorage = (key = "") => {
+const useLocalStorage = (key = '') => {
   const state = JSON.parse(localStorage.getItem(`clockify-teams@${key}`)) || {};
 
   const setState = (newState) => {

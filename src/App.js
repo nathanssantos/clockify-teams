@@ -1,23 +1,22 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
-import { flowResult } from "mobx";
-import { wrapRoot } from "mobx-easy";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
+import React, { useEffect, useState } from 'react';
+import { flowResult } from 'mobx';
+import { wrapRoot } from 'mobx-easy';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
-import baseAPI from "./services/baseAPI";
-import RootStore from "./stores/containers/rootStore";
+import baseAPI from './services/baseAPI';
+import RootStore from './stores/containers/rootStore';
 
-import { RootStoreProvider } from "./hooks";
-import useLocalStorage from "./hooks/useLocalStorage";
+import { RootStoreProvider } from './hooks';
+import useLocalStorage from './hooks/useLocalStorage';
 
-import Router from "./components/Router/Router";
-import Theme from "./components/Theme/Theme";
-import QueryDateSeletor from "./components/QueryDateSelector/QueryDateSeletor";
+import Router from './components/Router/Router';
+import Theme from './components/Theme/Theme';
+import QueryDateSeletor from './components/QueryDateSelector/QueryDateSeletor';
 
 const App = () => {
   const [rootStore, setRootStore] = useState(null);
-  const [apiKey] = useLocalStorage("clockify-api-key");
+  const [apiKey] = useLocalStorage('clockify-api-key');
 
   const init = async () => {
     const newRootStore = wrapRoot({ RootStore, env: baseAPI });
@@ -37,7 +36,7 @@ const App = () => {
   if (!rootStore) return null;
 
   return (
-    <div className="app">
+    <div className='app'>
       <RootStoreProvider value={rootStore}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <Theme>

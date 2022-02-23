@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 
-const baseURL = "https://api.clockify.me/api/v1";
-const reportsURL = "https://reports.api.clockify.me/";
+const baseURL = 'https://api.clockify.me/api/v1';
+const reportsURL = 'https://reports.api.clockify.me/';
 
 const baseAPI = axios.create({
   baseURL,

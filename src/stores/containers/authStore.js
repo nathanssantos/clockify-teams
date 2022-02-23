@@ -1,16 +1,19 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { action, flow, computed, makeObservable, observable } from "mobx";
-import { getEnv } from "mobx-easy";
-import { reportsAPI } from "../../services/baseAPI";
+import { action, flow, computed, makeObservable, observable } from 'mobx';
+import { getEnv } from 'mobx-easy';
+import { reportsAPI } from '../../services/baseAPI';
 
-import useLocalStorage from "../../hooks/useLocalStorage";
+import useLocalStorage from '../../hooks/useLocalStorage';
 
-import User from "../models/User";
+import User from '../models/user';
 
 export default class AuthStore {
   user = null;
-  authStatus = "unauthenticated";
+
+  authStatus = 'unauthenticated';
+
   autoLogin = false;
+
   fetchDataLog = [];
 
   constructor() {
@@ -37,15 +40,15 @@ export default class AuthStore {
   }
 
   get isAuthenticated() {
-    return this.authStatus === "authenticated";
+    return this.authStatus === 'authenticated';
   }
 
   get isConfirmingIdentity() {
-    return this.authStatus === "confirming-identity";
+    return this.authStatus === 'confirming-identity';
   }
 
   get isUnauthenticated() {
-    return this.authStatus === "unauthenticated";
+    return this.authStatus === 'unauthenticated';
   }
 
   setUser(user) {
@@ -53,7 +56,7 @@ export default class AuthStore {
   }
 
   confirmIdentity() {
-    this.authStatus = "authenticated";
+    this.authStatus = 'authenticated';
   }
 
   setAutoLogin(payload) {
@@ -61,24 +64,24 @@ export default class AuthStore {
   }
 
   feedFetchDataLog(text, status) {
-    let color = "";
+    let color = '';
     switch (status) {
-      case "success": {
-        color = "#27ae60";
+      case 'success': {
+        color = '#27ae60';
         break;
       }
 
-      case "error": {
-        color = "#c0392b";
+      case 'error': {
+        color = '#c0392b';
         break;
       }
 
       default: {
-        color = "#ffffff";
+        color = '#ffffff';
         break;
       }
     }
-    if (typeof text === "string" && text.length)
+    if (typeof text === 'string' && text.length)
       this.fetchDataLog.push({ text, color });
   }
 
@@ -87,32 +90,32 @@ export default class AuthStore {
   }
 
   setStatusConfirmingIdentity() {
-    this.authStatus = "confirming-identity";
+    this.authStatus = 'confirming-identity';
   }
 
   unauthenticate() {
-    this.authStatus = "unauthenticated";
+    this.authStatus = 'unauthenticated';
     this.user = null;
-    getEnv().defaults.headers.common["X-Api-Key"] = null;
+    getEnv().defaults.headers.common['X-Api-Key'] = null;
   }
 
   *authenticate(apiKey) {
     try {
-      const [, setApiKey] = useLocalStorage("clockify-api-key");
-      getEnv().defaults.headers.common["X-Api-Key"] = apiKey;
-      reportsAPI.defaults.headers.common["X-Api-Key"] = apiKey;
+      const [, setApiKey] = useLocalStorage('clockify-api-key');
+      getEnv().defaults.headers.common['X-Api-Key'] = apiKey;
+      reportsAPI.defaults.headers.common['X-Api-Key'] = apiKey;
       setApiKey(apiKey);
 
       const response = yield getEnv().get(`/user`);
 
       if (response?.status !== 200) {
-        alert("Invalid Clockify API Key");
+        alert('Invalid Clockify API Key');
         return false;
       }
 
       if (response?.data) {
         this.setUser(response.data);
-        this.authStatus = "confirming-identity";
+        this.authStatus = 'confirming-identity';
         return true;
       }
 
@@ -121,7 +124,7 @@ export default class AuthStore {
     } catch (error) {
       console.log(error);
       this.unauthenticate();
-      alert("Invalid Clockify API Key");
+      alert('Invalid Clockify API Key');
       return false;
     }
   }

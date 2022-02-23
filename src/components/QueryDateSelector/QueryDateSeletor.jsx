@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { flowResult } from "mobx";
-import { observer } from "mobx-react";
-import { Button } from "@material-ui/core";
-import { KeyboardDatePicker } from "@material-ui/pickers";
-import { Search } from "@material-ui/icons";
+import React, { useState } from 'react';
+import { flowResult } from 'mobx';
+import { observer } from 'mobx-react';
+import { Button } from '@material-ui/core';
+import { KeyboardDatePicker } from '@material-ui/pickers';
+import { Search } from '@material-ui/icons';
 
-import { useStore } from "../../hooks";
-import Loader from "../../components/Loader/Loader";
+import { useStore } from '../../hooks';
+import Loader from '../Loader/Loader';
 
-import "./styles.scss";
+import './styles.scss';
 
 const date = new Date();
 
@@ -16,10 +16,10 @@ const QueryDateSeletor = () => {
   const store = useStore();
   const [fetching, setFetching] = useState(false);
   const [startDate, setStartDate] = useState(
-    new Date(date.getFullYear(), date.getMonth(), 1)
+    new Date(date.getFullYear(), date.getMonth(), 1),
   );
   const [endDate, setEndDate] = useState(
-    new Date(date.getFullYear(), date.getMonth() + 1, 0)
+    new Date(date.getFullYear(), date.getMonth() + 1, 0),
   );
 
   const fetchData = async () => {
@@ -39,39 +39,39 @@ const QueryDateSeletor = () => {
   if (store.authStore.isUnauthenticated) return null;
 
   return (
-    <div className="query-date-selector">
+    <div className='query-date-selector'>
       <Loader active={fetching} />
 
-      <div className="query-date-selector__content">
+      <div className='query-date-selector__content'>
         <KeyboardDatePicker
-          inputVariant="filled"
-          id="start-date"
-          label="Data inicial"
-          format="dd/MM/yyyy"
+          inputVariant='filled'
+          id='start-date'
+          label='Data inicial'
+          format='dd/MM/yyyy'
           value={startDate}
           onChange={setStartDate}
           KeyboardButtonProps={{
-            "aria-label": "Selecione a data inicial",
+            'aria-label': 'Selecione a data inicial',
           }}
           disabled={fetching}
         />
         <KeyboardDatePicker
-          inputVariant="filled"
-          id="end-date"
-          label="Data final"
-          format="dd/MM/yyyy"
+          inputVariant='filled'
+          id='end-date'
+          label='Data final'
+          format='dd/MM/yyyy'
           value={endDate}
           onChange={setEndDate}
           KeyboardButtonProps={{
-            "aria-label": "Selecione a data final",
+            'aria-label': 'Selecione a data final',
           }}
           disabled={fetching}
         />
         <Button
-          variant="outlined"
+          variant='outlined'
           disabled={fetching}
           onClick={fetchData}
-          className="query-date-selector__bt-search"
+          className='query-date-selector__bt-search'
         >
           <Search />
         </Button>

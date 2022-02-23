@@ -1,26 +1,25 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
-import { observer } from "mobx-react";
-import { TextField, Button, Container } from "@material-ui/core";
-import { ArrowBack, ArrowForward } from "@material-ui/icons";
-import { useHistory } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import _ from "lodash";
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
+import { TextField, Button, Container } from '@material-ui/core';
+import { ArrowBack, ArrowForward } from '@material-ui/icons';
+import { useHistory, useParams } from 'react-router-dom';
 
-import { useStore } from "../../hooks";
+import _ from 'lodash';
 
-import User from "../../components/User/User";
-import Team from "../../components/Team/Team";
+import { useStore } from '../../hooks';
+
+import User from '../../components/User/User';
+import Team from '../../components/Team/Team';
 
 const EditTeam = () => {
   const store = useStore();
   const params = useParams();
   const history = useHistory();
   const teamData = store.teamStore.teamList.find(
-    (team) => team.id === Number(params.id)
+    (team) => team.id === Number(params.id),
   );
-  const [teamName, setTeamName] = useState("");
-  const [teamImage, setTeamImage] = useState("");
+  const [teamName, setTeamName] = useState('');
+  const [teamImage, setTeamImage] = useState('');
   const [userList, setUserList] = useState([]);
   const [newUserList, setNewUserList] = useState([]);
 
@@ -28,20 +27,20 @@ const EditTeam = () => {
     setUserList(
       _.sortBy(
         _userList.filter((user) => user.id !== _user.id),
-        "name"
-      )
+        'name',
+      ),
     );
-    setNewUserList(_.sortBy([..._newUserList, _user], "name"));
+    setNewUserList(_.sortBy([..._newUserList, _user], 'name'));
   };
 
   const removeUser = (_user, _userList, _newUserList) => {
     setNewUserList(
       _.sortBy(
         _newUserList.filter((user) => user.id !== _user.id),
-        "name"
-      )
+        'name',
+      ),
     );
-    setUserList(_.sortBy([..._userList, _user], "name"));
+    setUserList(_.sortBy([..._userList, _user], 'name'));
   };
 
   const editTeam = async () => {
@@ -75,35 +74,35 @@ const EditTeam = () => {
   }, []);
 
   return (
-    <div className="screen create-team">
-      <Container maxWidth="lg">
-        <header className="screen__header">
+    <div className='screen create-team'>
+      <Container maxWidth='lg'>
+        <header className='screen__header'>
           <h2>{`Editar equipe ${teamData.name}`}</h2>
         </header>
 
         <main>
-          <div className="create-team__form">
-            <div className="create-team__form__content">
+          <div className='create-team__form'>
+            <div className='create-team__form__content'>
               <TextField
-                id="team-name"
-                label="Nome"
-                variant="filled"
+                id='team-name'
+                label='Nome'
+                variant='filled'
                 value={teamName}
                 onChange={(e) => {
                   setTeamName(e.target.value);
                 }}
               />
               <TextField
-                id="team-image"
-                label="Imagem"
-                variant="filled"
+                id='team-image'
+                label='Imagem'
+                variant='filled'
                 value={teamImage}
                 onChange={(e) => {
                   setTeamImage(e.target.value);
                 }}
               />
               {teamName?.length || teamImage?.length ? (
-                <div className="screen__header__preview">
+                <div className='screen__header__preview'>
                   <Team
                     name={teamName}
                     image={teamImage}
@@ -114,18 +113,18 @@ const EditTeam = () => {
                 </div>
               ) : null}
             </div>
-            <Button variant="outlined" onClick={editTeam}>
+            <Button variant='outlined' onClick={editTeam}>
               Salvar
             </Button>
           </div>
 
-          <div className="create-team__user-lists">
-            <div className="user-list">
-              <header className="section-header">
+          <div className='create-team__user-lists'>
+            <div className='user-list'>
+              <header className='section-header'>
                 <h3>Todos os colaboradores</h3>
               </header>
               {userList.map((user) => (
-                <div className="user-list__item" key={user.id}>
+                <div className='user-list__item' key={user.id}>
                   <User
                     key={user.id}
                     id={user.id}
@@ -135,7 +134,7 @@ const EditTeam = () => {
                     hours={user?.hours}
                   />
                   <Button
-                    className="user-list__item__bt-add"
+                    className='user-list__item__bt-add'
                     onClick={() => addUser(user, userList, newUserList)}
                   >
                     <ArrowForward />
@@ -143,14 +142,14 @@ const EditTeam = () => {
                 </div>
               ))}
             </div>
-            <div className="user-list">
-              <header className="section-header">
+            <div className='user-list'>
+              <header className='section-header'>
                 <h3>Colaboradores na equipe</h3>
               </header>
               {newUserList.map((user) => (
-                <div className="user-list__item" key={user.id}>
+                <div className='user-list__item' key={user.id}>
                   <Button
-                    className="user-list__item__bt-add"
+                    className='user-list__item__bt-add'
                     onClick={() => removeUser(user, userList, newUserList)}
                   >
                     <ArrowBack />
