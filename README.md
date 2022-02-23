@@ -12,3 +12,4 @@ Clockify team management app.
 - Add mass actions selector on the user list for sending e-mails with the PDF report attached
 - Add value per hour, discounts and bonuses modal for month total incoming per user calc
 - Add export XML file from user list functionality
+- Documentation
