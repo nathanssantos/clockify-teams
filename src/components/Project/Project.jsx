@@ -38,7 +38,7 @@ const Project = (props) => {
 };
 
 Project.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   name: PropTypes.string,
   color: PropTypes.string,

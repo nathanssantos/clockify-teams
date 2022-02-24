@@ -175,9 +175,8 @@ const TeamDetail = () => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {`Are you sure you want to delete ${team.name} team?`}
+            {`Are you sure you want to delete "${team.name}" team?`}
           </DialogContentText>
-          <DialogContentText>Esta ação é irreversível.</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={closeConfirmationModal} color="primary">

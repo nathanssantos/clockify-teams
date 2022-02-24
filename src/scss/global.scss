@@ -9,6 +9,7 @@
     align-items: flex-start;
     flex-direction: column;
     gap: 20px;
+    min-height: 72px;
 
     @media screen and (min-width: 600px) {
       flex-direction: row;

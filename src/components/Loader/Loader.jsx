@@ -10,7 +10,7 @@ const Loader = (props) => {
   if (active) {
     return (
       <div className="loader">
-        <LinearProgress />
+        <LinearProgress style={{ height: 1 }} />
       </div>
     );
   }
