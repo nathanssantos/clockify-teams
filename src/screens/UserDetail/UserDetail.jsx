@@ -116,7 +116,7 @@ const UserDetail = () => {
           {user?.timeEntries?.length ? (
             <div className="time-entries">
               <header className="section-header">
-                <h3>Entradas de tempo</h3>
+                <h3>Time entries</h3>
                 <div className="time-entries__filter">
                   <FormControlLabel
                     control={
@@ -127,7 +127,7 @@ const UserDetail = () => {
                         color="primary"
                       />
                     }
-                    label="Filtrar warnings"
+                    label="Filter warnings"
                   />
                 </div>
               </header>
