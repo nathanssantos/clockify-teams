@@ -4,7 +4,7 @@ import { getEnv, getRoot } from 'mobx-easy';
 
 import Project from '../models/Project';
 
-import getDuration from '../../utils/getDuration';
+import { getDuration } from '../../utils';
 
 export default class ProjectStore {
   projectList = [];

@@ -6,7 +6,7 @@ import { observer } from 'mobx-react';
 // import _ from 'lodash';
 
 import { useStore } from '../../hooks';
-import getDuration from '../../utils/getDuration';
+import { getDuration } from '../../utils';
 
 import User from '../../components/User/User';
 // import HorizontalBarChart from '../../components/Chart/HorizontalBarChart';

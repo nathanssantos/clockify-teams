@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { action, makeObservable, observable } from 'mobx';
 import { getRoot } from 'mobx-easy';
+
 import useLocalStorage from '../../hooks/useLocalStorage';
-import getDuration from '../../utils/getDuration';
+import { getDuration } from '../../utils';
 
 import Team from '../models/Team';
 

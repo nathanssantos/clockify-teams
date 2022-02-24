@@ -2,9 +2,12 @@ import { action, flow, makeObservable, observable } from 'mobx';
 import { getEnv, getRoot } from 'mobx-easy';
 import { reportsAPI } from '../../services/baseAPI';
 
-import getDuration from '../../utils/getDuration';
-import getDate from '../../utils/getDate';
-import formatDate from '../../utils/formatDate';
+import {
+  getDuration,
+  getDate,
+  formatDate,
+  removeAllSpecialCharacters,
+} from '../../utils';
 
 import User from '../models/User';
 
@@ -317,11 +320,15 @@ export default class UserStore {
         },
       );
 
-      console.log(user);
+      const normalizedUserName = user.name
+        .toLowerCase()
+        .split(' ')
+        .map((word) => removeAllSpecialCharacters(word))
+        .join('-');
 
-      const fileName = `${user.name.replace(' ', '-')}__${formatDate(
+      const fileName = `${normalizedUserName}__from_${formatDate(
         this.queryStartDate,
-      )}_${formatDate(this.queryEndDate)}`;
+      )}_to_${formatDate(this.queryEndDate)}`;
 
       const blob = new Blob([response.data], {
         type: 'application/pdf',
