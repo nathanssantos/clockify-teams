@@ -32,6 +32,12 @@
     }
   }
 
+  &__date-picker {
+    > div {
+      width: 100%;
+    }
+  }
+
   &__bt-search {
     height: 40px;
   }

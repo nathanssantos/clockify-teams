@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import DatePicker from '@mui/lab/DatePicker';
-import DateRangePicker from '@mui/lab/DateRangePicker';
+import MobileDateRangePicker from '@mui/lab/MobileDateRangePicker';
 import SearchIcon from '@mui/icons-material/Search';
 
 import { Box } from '@mui/material';
@@ -53,61 +53,35 @@ const QueryDateSeletor = () => {
           display="flex"
           gap={2}
           width={{ xs: '100%', md: 'initial' }}
-          flex={{ md: 3 }}
+          flex={1}
+          className="query-date-selector__date-picker"
         >
-          <Box flex={{ xs: 1 }}>
-            <DateRangePicker
-              startText="Start date"
-              endText="End date"
-              value={[startDate, endDate]}
-              disabled={fetching}
-              onChange={(newValue) => {
-                const [start, end] = newValue;
-                setStartDate(start);
-                setEndDate(end);
-              }}
-              renderInput={(startProps, endProps) => (
-                <>
-                  <TextField {...startProps} helperText={null} size="small" />
-                  <Box sx={{ mx: 2 }}> to </Box>
-                  <TextField {...endProps} helperText={null} size="small" />
-                </>
-              )}
-            />
-            {/* <DatePicker
-              views={['day']}
-              label="From"
-              value={startDate}
-              disabled={fetching}
-              onChange={setStartDate}
-              renderInput={(params) => (
+          <MobileDateRangePicker
+            startText="Start date"
+            endText="End date"
+            value={[startDate, endDate]}
+            disabled={fetching}
+            onChange={([start, end]) => {
+              setStartDate(start);
+              setEndDate(end);
+            }}
+            renderInput={(startProps, endProps) => (
+              <Box display="flex" gap={2} style={{ width: '100%' }}>
                 <TextField
-                  {...params}
+                  {...startProps}
                   helperText={null}
                   size="small"
                   fullWidth
-                  sx={{ width: '100%' }}
                 />
-              )}
-            /> */}
-          </Box>
-          {/* <Box flex={{ xs: 1 }}>
-            <DatePicker
-              views={['day']}
-              label="To"
-              value={endDate}
-              disabled={fetching}
-              onChange={setEndDate}
-              renderInput={(params) => (
                 <TextField
-                  {...params}
+                  {...endProps}
                   helperText={null}
                   size="small"
-                  sx={{ width: '100%' }}
+                  fullWidth
                 />
-              )}
-            />
-          </Box> */}
+              </Box>
+            )}
+          />
         </Box>
 
         <Box width={{ xs: '100%', sm: 'initial' }}>
