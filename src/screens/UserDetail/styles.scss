@@ -1,0 +1,70 @@
+.user-detail {
+  .screen__header {
+    &__left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      .user-detail__avatar {
+        width: 80px;
+        height: 80px;
+      }
+    }
+
+    &__right {
+      gap: 8px;
+    }
+  }
+
+  .section-header {
+    padding: 32px 0;
+
+    h3 {
+      font-weight: 100;
+      margin: 0;
+      font-size: 18px;
+    }
+  }
+
+  &__teams {
+    margin-bottom: 32px;
+    .section-header {
+      padding-bottom: 16px;
+    }
+  }
+
+  &__chart {
+    margin-bottom: 32px;
+
+    .section-header {
+      padding-bottom: 16px;
+    }
+  }
+
+  .time-entries {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-top: 32px;
+
+    &__filter {
+      align-self: flex-end;
+    }
+
+    .section-header {
+      padding-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    &__day {
+      margin-bottom: 32px;
+
+      .date {
+        margin-bottom: 4px;
+        font-size: 18px;
+      }
+    }
+  }
+}

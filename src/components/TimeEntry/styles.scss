@@ -1,0 +1,64 @@
+.time-entry {
+  &.MuiListItem-root {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+    padding-right: 16px;
+    border-left: 5px solid transparent;
+    transition: border-color 1s ease-in,
+      background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    background-color: rgba(255, 255, 255, 0.03);
+    margin-bottom: 1px;
+  }
+
+  &__pressable {
+    flex: 1;
+    padding-left: 12px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+
+  &__project-name {
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+
+  &__time {
+    margin-right: 8px;
+    border: 1px solid;
+    border-radius: 4px;
+    padding: 4px 6px;
+    line-height: 1;
+    font-weight: 100;
+    white-space: nowrap;
+  }
+
+  &__description {
+    margin-left: 8px;
+  }
+
+  &__bottom {
+    display: flex;
+    align-items: center;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    &__item {
+      min-width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      &.warning {
+        color: #ff9800;
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+.teams {
+  padding-bottom: 180px;
+
+  &__create-team {
+    position: fixed !important;
+    bottom: 88px;
+    right: 16px;
+    z-index: 99;
+
+    @media screen and(min-width: 600px) {
+      bottom: 96px;
+      right: 24px;
+    }
+  }
+}

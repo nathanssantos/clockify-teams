@@ -1,0 +1,46 @@
+.login {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-top: 16px;
+
+  &__container {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    flex: 1;
+
+    h1 {
+      font-weight: 100;
+      font-size: 37px;
+    }
+  }
+
+  &__box {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .fetch-data-log {
+    max-height: 86px;
+    overflow-y: auto;
+    font-size: 12px;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(255, 255, 255, 0.03);
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: rgba(255, 255, 255, 0.03);
+    }
+  }
+}

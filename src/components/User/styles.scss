@@ -1,0 +1,99 @@
+.user {
+  display: flex;
+  align-items: center;
+  padding: 0 !important;
+  transition: border-color 1s ease-in,
+    background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  background-color: rgba(255, 255, 255, 0.03);
+  margin-bottom: 1px;
+  flex-wrap: wrap;
+  flex-direction: column;
+
+  @media screen and(min-width: 600px) {
+    flex-direction: row;
+  }
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+
+  &__pressable {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    cursor: pointer;
+    padding: 16px;
+  }
+
+  &__profile {
+    flex: 1;
+  }
+
+  &__avatar {
+    width: 50px !important;
+    height: 50px !important;
+    margin-right: 10px;
+  }
+
+  &__name {
+    font-size: 16px;
+  }
+
+  &__email {
+    font-size: 12px;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 16px;
+
+    &__item {
+      min-width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      &.warning {
+        color: #ff9800;
+      }
+    }
+  }
+
+  .pdf-viewer {
+    position: fixed;
+    top: 68px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    background-color: rgba(43, 43, 43, 0.95);
+
+    &__container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding-bottom: 20px;
+    }
+
+    .bt-close {
+      align-self: flex-end;
+      margin-bottom: 20px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.warning-list {
+  &__item {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
