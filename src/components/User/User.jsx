@@ -21,6 +21,7 @@ import { useStore } from '../../hooks';
 import { WARNING_TYPES } from '../../stores/containers/userStore';
 
 import './styles.scss';
+import { convertFloatIntoTime } from '../../utils';
 
 const UserMeta = (props) => {
   const store = useStore();
@@ -39,7 +40,7 @@ const UserMeta = (props) => {
         className="user__meta__item"
         style={{ color: hours >= 200 ? '#f44336' : '#ffffff' }}
       >
-        {hours.toFixed(2)}
+        {convertFloatIntoTime(hours)} • {hours.toFixed(2)}
         <AccessTimeIcon color={hours >= 200 ? 'error' : ''} />
       </div>
 

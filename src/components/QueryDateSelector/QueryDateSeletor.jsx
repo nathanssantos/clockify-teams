@@ -5,6 +5,7 @@ import { observer } from 'mobx-react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import DatePicker from '@mui/lab/DatePicker';
+import DateRangePicker from '@mui/lab/DateRangePicker';
 import SearchIcon from '@mui/icons-material/Search';
 
 import { Box } from '@mui/material';
@@ -55,7 +56,25 @@ const QueryDateSeletor = () => {
           flex={{ md: 3 }}
         >
           <Box flex={{ xs: 1 }}>
-            <DatePicker
+            <DateRangePicker
+              startText="Start date"
+              endText="End date"
+              value={[startDate, endDate]}
+              disabled={fetching}
+              onChange={(newValue) => {
+                const [start, end] = newValue;
+                setStartDate(start);
+                setEndDate(end);
+              }}
+              renderInput={(startProps, endProps) => (
+                <>
+                  <TextField {...startProps} helperText={null} size="small" />
+                  <Box sx={{ mx: 2 }}> to </Box>
+                  <TextField {...endProps} helperText={null} size="small" />
+                </>
+              )}
+            />
+            {/* <DatePicker
               views={['day']}
               label="From"
               value={startDate}
@@ -70,9 +89,9 @@ const QueryDateSeletor = () => {
                   sx={{ width: '100%' }}
                 />
               )}
-            />
+            /> */}
           </Box>
-          <Box flex={{ xs: 1 }}>
+          {/* <Box flex={{ xs: 1 }}>
             <DatePicker
               views={['day']}
               label="To"
@@ -88,7 +107,7 @@ const QueryDateSeletor = () => {
                 />
               )}
             />
-          </Box>
+          </Box> */}
         </Box>
 
         <Box width={{ xs: '100%', sm: 'initial' }}>
