@@ -9,7 +9,7 @@
   flex-wrap: wrap;
   flex-direction: column;
 
-  @media screen and(min-width: 600px) {
+  @media screen and(min-width: 900px) {
     flex-direction: row;
   }
 
@@ -26,7 +26,7 @@
     flex-direction: column;
     text-align: center;
 
-    @media screen and(min-width: 600px) {
+    @media screen and(min-width: 900px) {
       text-align: left;
       flex-direction: row;
     }
@@ -41,7 +41,7 @@
     height: 50px !important;
     margin-bottom: 10px;
 
-    @media screen and(min-width: 600px) {
+    @media screen and(min-width: 900px) {
       margin-right: 10px;
       margin-bottom: 0;
     }
@@ -62,12 +62,15 @@
     padding: 16px;
 
     &__item {
-      min-width: 48px;
       height: 48px;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
+
+      @media screen and(min-width: 900px) {
+        min-width: 48px;
+      }
 
       &.warning {
         color: #ff9800;
