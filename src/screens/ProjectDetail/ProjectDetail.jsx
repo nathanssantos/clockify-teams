@@ -39,7 +39,7 @@ const ProjectDetail = () => {
                 {`Estimativa: ${getDuration(project?.estimate.estimate)} horas`}
               </div> */}
               <div>
-                {`Total: ${getDuration(project?.duration).toFixed(2)} horas`}
+                {`Total: ${getDuration(project?.duration).toFixed(2)} hours`}
               </div>
 
               {/* {getDuration(project?.estimate.estimate) &&
