@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useState } from 'react';
 import { observer } from 'mobx-react';
 import { useNavigate } from 'react-router-dom';
@@ -49,15 +50,13 @@ const UserMeta = (props) => {
       </Tooltip>
 
       {pdf ? (
-        <Tooltip arrow placement="left" title="Visualizar relatório">
-          {fetchingPDF ? (
-            <CircularProgress style={{ width: 20, height: 20, margin: 14 }} />
-          ) : (
-            <IconButton onClick={fetchPdf}>
-              <PictureAsPdfIcon />
-            </IconButton>
-          )}
-        </Tooltip>
+        fetchingPDF ? (
+          <CircularProgress style={{ width: 20, height: 20, margin: 14 }} />
+        ) : (
+          <IconButton onClick={fetchPdf}>
+            <PictureAsPdfIcon />
+          </IconButton>
+        )
       ) : null}
 
       {Object.entries(warnings).filter(([, value]) => value > 0)?.length ? (

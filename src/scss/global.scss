@@ -6,7 +6,13 @@
     margin-bottom: 16px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 20px;
+
+    @media screen and (min-width: 600px) {
+      flex-direction: row;
+    }
 
     h2 {
       margin: 0;

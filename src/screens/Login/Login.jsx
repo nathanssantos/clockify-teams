@@ -7,6 +7,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 
+import { Box } from '@mui/system';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import { useStore } from '../../hooks';
 
@@ -40,48 +41,50 @@ const Login = () => {
   return (
     <div className="screen login">
       <Container maxWidth="lg" className="login__container">
-        <h1>Clockify Teams</h1>
-        <div className="login__box">
-          {!store.authStore.isConfirmingIdentity ? (
-            <>
-              {!store.authStore.autoLogin ? (
-                <TextField
-                  id="api-key"
-                  label="Clockify API Key"
-                  variant="filled"
-                  value={inputValue}
-                  onChange={(e) => {
-                    setInputValue(e.target.value);
-                  }}
+        <Box position="relative">
+          <h1>Clockify Teams</h1>
+          <div className="login__box">
+            {!store.authStore.isConfirmingIdentity ? (
+              <>
+                {!store.authStore.autoLogin ? (
+                  <TextField
+                    id="api-key"
+                    label="Clockify API Key"
+                    variant="filled"
+                    value={inputValue}
+                    onChange={(e) => {
+                      setInputValue(e.target.value);
+                    }}
+                  />
+                ) : null}
+                {fetching || store.authStore.autoLogin ? (
+                  <LinearProgress />
+                ) : (
+                  <Button variant="outlined" onClick={authenticate}>
+                    Entrar
+                  </Button>
+                )}
+              </>
+            ) : (
+              <>
+                <User
+                  disabled
+                  name={store?.authStore?.user?.name}
+                  profilePicture={store?.authStore?.user?.profilePicture}
+                  email={store?.authStore?.user?.email}
                 />
-              ) : null}
-              {fetching || store.authStore.autoLogin ? (
-                <LinearProgress />
-              ) : (
-                <Button variant="outlined" onClick={authenticate}>
-                  Entrar
-                </Button>
-              )}
-            </>
-          ) : (
-            <>
-              <User
-                disabled
-                name={store?.authStore?.user?.name}
-                profilePicture={store?.authStore?.user?.profilePicture}
-                email={store?.authStore?.user?.email}
-              />
 
-              <div className="fetch-data-log">
-                {store.authStore.fetchDataLog.map(({ text, color }) => (
-                  <div style={{ color }} key={text}>
-                    {text}
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
-        </div>
+                <div className="fetch-data-log">
+                  {store.authStore.fetchDataLog.map(({ text, color }) => (
+                    <div style={{ color }} key={text}>
+                      {text}
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        </Box>
       </Container>
     </div>
   );

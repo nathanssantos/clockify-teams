@@ -23,6 +23,13 @@
     flex: 1;
     cursor: pointer;
     padding: 16px;
+    flex-direction: column;
+    text-align: center;
+
+    @media screen and(min-width: 600px) {
+      text-align: left;
+      flex-direction: row;
+    }
   }
 
   &__profile {
@@ -32,7 +39,12 @@
   &__avatar {
     width: 50px !important;
     height: 50px !important;
-    margin-right: 10px;
+    margin-bottom: 10px;
+
+    @media screen and(min-width: 600px) {
+      margin-right: 10px;
+      margin-bottom: 0;
+    }
   }
 
   &__name {

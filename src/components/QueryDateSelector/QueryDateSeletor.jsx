@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 import DatePicker from '@mui/lab/DatePicker';
 import SearchIcon from '@mui/icons-material/Search';
 
+import { Box } from '@mui/material';
 import { useStore } from '../../hooks';
 import Loader from '../Loader/Loader';
 
@@ -42,39 +43,66 @@ const QueryDateSeletor = () => {
 
   return (
     <div className="query-date-selector">
-      <Loader active={fetching} />
-
-      <div className="query-date-selector__content">
-        <DatePicker
-          views={['day']}
-          label="Data inicial"
-          value={startDate}
-          disabled={fetching}
-          onChange={setStartDate}
-          renderInput={(params) => (
-            <TextField {...params} helperText={null} size="small" />
-          )}
-        />
-
-        <DatePicker
-          views={['day']}
-          label="Data final"
-          value={endDate}
-          disabled={fetching}
-          onChange={setEndDate}
-          renderInput={(params) => (
-            <TextField {...params} helperText={null} size="small" />
-          )}
-        />
-        <Button
-          variant="outlined"
-          disabled={fetching}
-          onClick={fetchData}
-          className="query-date-selector__bt-search"
-        >
-          <SearchIcon />
-        </Button>
+      <div className="query-date-selector__loader">
+        <Loader active={fetching} />
       </div>
+
+      <Box className="query-date-selector__content" gap={2}>
+        <Box
+          display="flex"
+          gap={2}
+          width={{ xs: '100%', md: 'initial' }}
+          flex={{ md: 3 }}
+        >
+          <Box flex={{ xs: 1 }}>
+            <DatePicker
+              views={['day']}
+              label="Data inicial"
+              value={startDate}
+              disabled={fetching}
+              onChange={setStartDate}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  helperText={null}
+                  size="small"
+                  fullWidth
+                  sx={{ width: '100%' }}
+                />
+              )}
+            />
+          </Box>
+          <Box flex={{ xs: 1 }}>
+            <DatePicker
+              views={['day']}
+              label="Data final"
+              value={endDate}
+              disabled={fetching}
+              onChange={setEndDate}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  helperText={null}
+                  size="small"
+                  sx={{ width: '100%' }}
+                />
+              )}
+            />
+          </Box>
+        </Box>
+
+        <Box width={{ xs: '100%', sm: 'initial' }}>
+          <Button
+            fullWidth
+            variant="outlined"
+            disabled={fetching}
+            onClick={fetchData}
+            className="query-date-selector__bt-search"
+          >
+            <SearchIcon />
+          </Button>
+        </Box>
+      </Box>
     </div>
   );
 };
