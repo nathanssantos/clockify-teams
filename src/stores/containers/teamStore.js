@@ -227,7 +227,7 @@ export default class TeamStore {
         } else {
           teamTimeEntriesByProject[index] = {
             ...teamTimeEntriesByProject[index],
-            name: 'Sem projeto',
+            name: 'Without project',
             color: '#ffffff',
           };
         }

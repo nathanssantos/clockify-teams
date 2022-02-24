@@ -91,7 +91,7 @@ const UserMeta = (props) => {
           <CheckIcon color="secondary" />
         </div>
       )}
-      {/*  <Tooltip arrow placement="left" title="Enviar relatório ao colaborador">
+      {/*  <Tooltip arrow placement="left" title="Send report">
         <IconButton onClick={() => {}}>
           <Email />
         </IconButton>

@@ -82,7 +82,7 @@ const EditTeam = () => {
     <div className="screen create-team">
       <Container maxWidth="lg">
         <header className="screen__header">
-          <h2>{`Editar equipe ${teamData.name}`}</h2>
+          <h2>{`Edit team ${teamData.name}`}</h2>
         </header>
 
         <main>
@@ -91,7 +91,6 @@ const EditTeam = () => {
               <TextField
                 id="team-name"
                 label="Nome"
-                variant="filled"
                 value={teamName}
                 onChange={(e) => {
                   setTeamName(e.target.value);
@@ -100,7 +99,6 @@ const EditTeam = () => {
               <TextField
                 id="team-image"
                 label="Imagem"
-                variant="filled"
                 value={teamImage}
                 onChange={(e) => {
                   setTeamImage(e.target.value);
@@ -126,7 +124,7 @@ const EditTeam = () => {
           <div className="create-team__user-lists">
             <div className="user-list">
               <header className="section-header">
-                <h3>Todos os colaboradores</h3>
+                <h3>All collaborators</h3>
               </header>
               {userList.map((user) => (
                 <div className="user-list__item" key={user.id}>
@@ -149,7 +147,7 @@ const EditTeam = () => {
             </div>
             <div className="user-list">
               <header className="section-header">
-                <h3>Colaboradores na equipe</h3>
+                <h3>Selected collaborators</h3>
               </header>
               {newUserList.map((user) => (
                 <div className="user-list__item" key={user.id}>

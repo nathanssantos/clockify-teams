@@ -34,14 +34,13 @@ const Projects = () => {
     <div className="screen projects">
       <Container maxWidth="lg">
         <header className="screen__header">
-          <h2>Projetos</h2>
+          <h2>Projects</h2>
 
           {store?.projectStore?.projectList?.length ? (
             <TextField
               id="filter-term"
-              label="Filtro"
+              label="Filter"
               size="small"
-              // variant="filled"
               value={filterTerm}
               onChange={(e) => {
                 setFilterTerm(e.target.value);
@@ -52,7 +51,7 @@ const Projects = () => {
 
         <main>
           {!filteredList?.length ? (
-            <div>Nenhum projeto encontrado.</div>
+            <div>No projects found.</div>
           ) : (
             filteredList.map((project, index) => (
               <Project

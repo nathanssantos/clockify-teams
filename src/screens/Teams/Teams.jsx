@@ -40,15 +40,14 @@ const Teams = () => {
     <div className="screen teams">
       <Container maxWidth="lg">
         <header className="screen__header">
-          <h2>Equipes</h2>
+          <h2>Teams</h2>
 
           <div className="screen__header__right">
             {store?.teamStore?.teamList?.length ? (
               <TextField
                 id="filter-term"
-                label="Filtro"
+                label="Filter"
                 size="small"
-                // variant="filled"
                 value={filterTerm}
                 onChange={(e) => {
                   setFilterTerm(e.target.value);
@@ -60,7 +59,7 @@ const Teams = () => {
 
         <main>
           {!filteredList?.length ? (
-            <div>Nenhuma equipe encontrada.</div>
+            <div>No teams found.</div>
           ) : (
             filteredList.map((team) => (
               <Team
@@ -77,7 +76,7 @@ const Teams = () => {
       <Fab
         className="teams__create-team"
         color="primary"
-        aria-label="Criar equipe"
+        aria-label="Create team"
         onClick={() => {
           navigate('/teams/create');
         }}

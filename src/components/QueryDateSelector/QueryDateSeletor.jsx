@@ -57,7 +57,7 @@ const QueryDateSeletor = () => {
           <Box flex={{ xs: 1 }}>
             <DatePicker
               views={['day']}
-              label="Data inicial"
+              label="From"
               value={startDate}
               disabled={fetching}
               onChange={setStartDate}
@@ -75,7 +75,7 @@ const QueryDateSeletor = () => {
           <Box flex={{ xs: 1 }}>
             <DatePicker
               views={['day']}
-              label="Data final"
+              label="To"
               value={endDate}
               disabled={fetching}
               onChange={setEndDate}

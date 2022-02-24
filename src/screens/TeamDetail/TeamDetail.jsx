@@ -75,7 +75,7 @@ const TeamDetail = () => {
           <main>
             <div className="user-list">
               <header className="section-header">
-                <h3>Colaboradores na equipe</h3>
+                <h3>Team collaborators</h3>
               </header>
               {team?.users?.length
                 ? team.users.map((user) => (
@@ -97,7 +97,7 @@ const TeamDetail = () => {
               <>
                 <div className="team-detail__chart">
                   <header className="section-header">
-                    <h3>Horas por projeto</h3>
+                    <h3>Hours per project</h3>
                   </header>
                   <HorizontalBarChart
                     data={{
@@ -130,7 +130,7 @@ const TeamDetail = () => {
 
                 <div className="team-detail__chart">
                   <header className="section-header">
-                    <h3>Horas por colaborador</h3>
+                    <h3>Hours per collaborator</h3>
                   </header>
                   <HorizontalBarChart
                     data={{
@@ -157,7 +157,7 @@ const TeamDetail = () => {
         <Fab
           className="team-detail__edit-team"
           color="primary"
-          aria-label="Editar equipe"
+          aria-label="Edit team"
           onClick={() => {
             navigate(`/teams/edit/${team.id}`);
           }}
@@ -171,11 +171,11 @@ const TeamDetail = () => {
         aria-labelledby="draggable-dialog-title"
       >
         <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-          {`Excluir equipe ${team.name}`}
+          {`Delete team ${team.name}`}
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {`Você tem certeza que deseja excluir a equipe ${team.name}?`}
+            {`Are you sure you want to delete ${team.name} team?`}
           </DialogContentText>
           <DialogContentText>Esta ação é irreversível.</DialogContentText>
         </DialogContent>

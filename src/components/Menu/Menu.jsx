@@ -8,15 +8,15 @@ import './styles.scss';
 const menuButtons = [
   {
     route: '/',
-    label: 'Colaboradores',
+    label: 'Collaborators',
   },
   {
     route: '/teams',
-    label: 'Equipes',
+    label: 'Teams',
   },
   {
     route: '/projects',
-    label: 'Projetos',
+    label: 'Projects',
   },
 ];
 

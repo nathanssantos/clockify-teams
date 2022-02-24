@@ -59,7 +59,7 @@ const ProjectDetail = () => {
           {project?.timeEntriesByUser?.length ? (
             <div className="user-list">
               <header className="section-header">
-                <h3>Colaboradores no projeto</h3>
+                <h3>Project collaborators</h3>
               </header>
               {project.timeEntriesByUser.map((user) => (
                 <User
@@ -77,7 +77,7 @@ const ProjectDetail = () => {
           {/* {project?.timeEntriesByUser.length ? (
             <div className="project-detail__chart">
               <header className="section-header">
-                <h3>Horas por colaborador</h3>
+                <h3>Hours per collaborator</h3>
               </header>
               <HorizontalBarChart
                 data={{
@@ -106,10 +106,7 @@ const ProjectDetail = () => {
           ) : null} */}
 
           {!project?.timeEntriesByUser?.length ? (
-            <div>
-              Nenhuma entrada encontrada para este projeto no período
-              selecionado.
-            </div>
+            <div>No time entries found.</div>
           ) : null}
         </main>
       </Container>

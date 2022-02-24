@@ -73,7 +73,7 @@ const UserDetail = () => {
           {user?.teams.length ? (
             <div className="user-detail__teams">
               <header className="section-header">
-                <h3>Equipes do colaborador</h3>
+                <h3>Collaborator teams</h3>
               </header>
               {user.teams.map((team) => (
                 <Team

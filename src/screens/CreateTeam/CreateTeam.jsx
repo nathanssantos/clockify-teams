@@ -55,7 +55,7 @@ const CreateTeam = () => {
 
     navigate(`/teams/${newTeamId}`);
 
-    if (newTeamId) alert(`A equipe ${teamName} foi criada.`);
+    if (newTeamId) alert(`Team ${teamName} created.`);
   };
 
   useEffect(() => {
@@ -67,7 +67,7 @@ const CreateTeam = () => {
     <div className="screen create-team">
       <Container maxWidth="lg">
         <header className="screen__header">
-          <h2>Criar equipe</h2>
+          <h2>Create team</h2>
         </header>
 
         <main>
@@ -76,7 +76,6 @@ const CreateTeam = () => {
               <TextField
                 id="team-name"
                 label="Nome"
-                variant="filled"
                 value={teamName}
                 onChange={(e) => {
                   setTeamName(e.target.value);
@@ -85,7 +84,6 @@ const CreateTeam = () => {
               <TextField
                 id="team-image"
                 label="Imagem"
-                variant="filled"
                 value={teamImage}
                 onChange={(e) => {
                   setTeamImage(e.target.value);
@@ -111,7 +109,7 @@ const CreateTeam = () => {
           <div className="create-team__user-lists">
             <div className="user-list">
               <header className="section-header">
-                <h3>Todos os colaboradores</h3>
+                <h3>All collaborators</h3>
               </header>
               {userList.map((user) => (
                 <div className="user-list__item" key={user.id}>
@@ -134,7 +132,7 @@ const CreateTeam = () => {
             </div>
             <div className="user-list">
               <header className="section-header">
-                <h3>Colaboradores na equipe</h3>
+                <h3>Selected collaborators</h3>
               </header>
               {newUserList.map((user) => (
                 <div className="user-list__item" key={user.id}>

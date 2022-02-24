@@ -21,15 +21,22 @@ const Users = () => {
   const [orderBy, setOrderBy] = useState('name');
 
   useEffect(() => {
+    const order = orderBy === 'hours' ? 'desc' : 'asc';
+
     if (filterTerm.length) {
       setFilteredList(
-        store.userStore.userList.filter((item) =>
-          item.name.toLowerCase().includes(filterTerm.toLowerCase()),
+        _.orderBy(
+          store.userStore.userList.filter((item) =>
+            item.name.toLowerCase().includes(filterTerm.toLowerCase()),
+          ),
+          orderBy,
+          order,
         ),
       );
       return;
     }
-    setFilteredList(store.userStore.userList);
+
+    setFilteredList(_.orderBy(store.userStore.userList, orderBy, order));
   }, [filterTerm]);
 
   useEffect(() => {
@@ -47,7 +54,7 @@ const Users = () => {
     <div className="screen users">
       <Container maxWidth="lg">
         <Box component="header" className="screen__header">
-          <h2>Colaboradores</h2>
+          <h2>Collaborators</h2>
 
           <Box display="flex" gap={2} width={{ xs: '100%', sm: 'initial' }}>
             {store?.userStore?.userList?.length ? (
@@ -75,9 +82,8 @@ const Users = () => {
                 <TextField
                   fullWidth
                   id="filter-term"
-                  label="Filtro"
+                  label="Filter"
                   size="small"
-                  // variant="filled"
                   value={filterTerm}
                   onChange={(e) => {
                     setFilterTerm(e.target.value);
@@ -90,7 +96,7 @@ const Users = () => {
 
         <main>
           {!filteredList?.length ? (
-            <div>Nenhum colaborador encontrado.</div>
+            <div>No collaborators found.</div>
           ) : (
             filteredList.map((user) => (
               <User

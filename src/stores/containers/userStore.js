@@ -12,9 +12,9 @@ import {
 import User from '../models/User';
 
 export const WARNING_TYPES = {
-  NO_PROJECT: 'Entrada sem projeto',
-  NO_DESCRIPTION: 'Entrada sem descrição',
-  TIME_LIMIT: 'Entrada maior que 6 horas',
+  NO_PROJECT: 'Time entry without project',
+  NO_DESCRIPTION: 'Time entry without description',
+  TIME_LIMIT: 'Time entry longer than 6 hours',
 };
 export default class UserStore {
   userList = [];
@@ -174,7 +174,7 @@ export default class UserStore {
                     {
                       ...timeEntry,
                       project: project || {
-                        name: 'Sem projeto',
+                        name: 'Without project',
                         color: '#ffffff',
                       },
                     },
@@ -191,7 +191,10 @@ export default class UserStore {
               timeEntries: [
                 {
                   ...timeEntry,
-                  project: project || { name: 'Sem projeto', color: '#ffffff' },
+                  project: project || {
+                    name: 'Without project',
+                    color: '#ffffff',
+                  },
                 },
               ],
               hours: getDuration(time),

@@ -50,7 +50,6 @@ const Login = () => {
                   <TextField
                     id="api-key"
                     label="Clockify API Key"
-                    variant="filled"
                     value={inputValue}
                     onChange={(e) => {
                       setInputValue(e.target.value);
