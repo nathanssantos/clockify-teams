@@ -4,7 +4,6 @@ Team management app used to generate warnings and send reports about collaborato
 
 ## To do
 
-- Add order by name, email, and workload functionality in user list
 - Add time also in format HH:MM on each user list item
 - Add send email button on each user list item
 - Add mass actions selector on the user list for sending e-mails with the PDF report attached
