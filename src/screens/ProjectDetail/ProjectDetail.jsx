@@ -35,14 +35,14 @@ const ProjectDetail = () => {
           </div>
           <div className="screen__header__right">
             <div className="project-detail__estimate">
-              <div>
+              {/* <div>
                 {`Estimativa: ${getDuration(project?.estimate.estimate)} horas`}
-              </div>
+              </div> */}
               <div>
                 {`Total: ${getDuration(project?.duration).toFixed(2)} horas`}
               </div>
 
-              {getDuration(project?.estimate.estimate) &&
+              {/* {getDuration(project?.estimate.estimate) &&
               getDuration(project?.duration) ? (
                 <div>
                   {`Esforço: ${(
@@ -51,7 +51,7 @@ const ProjectDetail = () => {
                     100
                   ).toFixed(2)}%`}
                 </div>
-              ) : null}
+              ) : null} */}
             </div>
           </div>
         </header>

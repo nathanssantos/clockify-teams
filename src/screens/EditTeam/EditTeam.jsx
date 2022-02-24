@@ -90,7 +90,7 @@ const EditTeam = () => {
             <div className="create-team__form__content">
               <TextField
                 id="team-name"
-                label="Nome"
+                label="Name"
                 value={teamName}
                 onChange={(e) => {
                   setTeamName(e.target.value);
@@ -98,7 +98,7 @@ const EditTeam = () => {
               />
               <TextField
                 id="team-image"
-                label="Imagem"
+                label="Image"
                 value={teamImage}
                 onChange={(e) => {
                   setTeamImage(e.target.value);
