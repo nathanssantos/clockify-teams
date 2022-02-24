@@ -35,19 +35,13 @@ const UserMeta = (props) => {
 
   return (
     <div className="user__meta">
-      <Tooltip
-        arrow
-        placement="left"
-        title="Horas trabalhadas no período selecionado"
+      <div
+        className="user__meta__item"
+        style={{ color: hours >= 200 ? '#f44336' : '#ffffff' }}
       >
-        <div
-          className="user__meta__item"
-          style={{ color: hours >= 200 ? '#f44336' : '#ffffff' }}
-        >
-          {hours.toFixed(2)}
-          <AccessTimeIcon color={hours >= 200 ? 'error' : ''} />
-        </div>
-      </Tooltip>
+        {hours.toFixed(2)}
+        <AccessTimeIcon color={hours >= 200 ? 'error' : ''} />
+      </div>
 
       {pdf ? (
         fetchingPDF ? (
