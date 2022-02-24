@@ -24,7 +24,7 @@ const Drawer = () => {
         <MenuIcon color="primary" />
       </Button>
       <SwipeableDrawer
-        anchor="left"
+        anchor="right"
         open={isOpen}
         onClose={close}
         onOpen={open}
