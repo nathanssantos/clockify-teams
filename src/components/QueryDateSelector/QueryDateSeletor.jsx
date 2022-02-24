@@ -8,7 +8,7 @@ import DatePicker from '@mui/lab/DatePicker';
 import MobileDateRangePicker from '@mui/lab/MobileDateRangePicker';
 import SearchIcon from '@mui/icons-material/Search';
 
-import { Box } from '@mui/material';
+import { AppBar, Box } from '@mui/material';
 import { useStore } from '../../hooks';
 import Loader from '../Loader/Loader';
 
@@ -43,7 +43,7 @@ const QueryDateSeletor = () => {
   if (store.authStore.isUnauthenticated) return null;
 
   return (
-    <div className="query-date-selector">
+    <AppBar className="query-date-selector" component="footer">
       <div className="query-date-selector__loader">
         <Loader active={fetching} />
       </div>
@@ -96,7 +96,7 @@ const QueryDateSeletor = () => {
           </Button>
         </Box>
       </Box>
-    </div>
+    </AppBar>
   );
 };
 

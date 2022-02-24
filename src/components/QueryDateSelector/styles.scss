@@ -1,14 +1,19 @@
 .query-date-selector {
-  position: fixed;
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  background-color: rgba(#222, 0.75);
-  backdrop-filter: blur(5px);
-  width: 100%;
-  align-items: center;
-  z-index: 99;
+  &.MuiAppBar-root {
+    background-color: rgba(#222, 0.75);
+    backdrop-filter: blur(5px);
+    background-image: none;
+    box-shadow: none;
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+    align-items: center;
+    z-index: 99;
+    top: initial;
+  }
 
   &__loader {
     position: absolute;
