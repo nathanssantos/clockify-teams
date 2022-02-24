@@ -11,7 +11,7 @@ import './styles.scss';
 
 const Header = () => {
   return (
-    <AppBar className="header">
+    <AppBar className="header" position="sticky">
       <Container maxWidth="lg">
         <div className="header__content">
           <Logo />
