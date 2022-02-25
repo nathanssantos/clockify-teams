@@ -6,12 +6,13 @@ import TextField from '@mui/material/TextField';
 import LinearProgress from '@mui/material/LinearProgress';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
+import Avatar from '@mui/material/Avatar';
+import IconButton from '@mui/material/IconButton';
+import Box from '@mui/material/Box';
+import LogoutIcon from '@mui/icons-material/Logout';
 
-import { Box } from '@mui/system';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import { useStore } from '../../hooks';
-
-import User from '../../components/User/User';
 
 import './styles.scss';
 
@@ -66,12 +67,27 @@ const Login = () => {
               </>
             ) : (
               <>
-                <User
-                  disabled
-                  name={store?.authStore?.user?.name}
-                  profilePicture={store?.authStore?.user?.profilePicture}
-                  email={store?.authStore?.user?.email}
-                />
+                <div className="login__user">
+                  <Avatar
+                    alt={store?.authStore?.user?.name}
+                    src={store?.authStore?.user?.profilePicture}
+                    className="login__user__avatar"
+                  />
+                  <div className="login__user__profile">
+                    <div className="login__user__name">
+                      {store?.authStore?.user?.name}
+                    </div>
+                    <div className="login__user__email">
+                      {store?.authStore?.user?.email}
+                    </div>
+                  </div>
+
+                  <div className="login__user__logout">
+                    <IconButton onClick={store.authStore.unauthenticate}>
+                      <LogoutIcon />
+                    </IconButton>
+                  </div>
+                </div>
 
                 <div className="fetch-data-log">
                   {store.authStore.fetchDataLog.map(({ text, color }) => (

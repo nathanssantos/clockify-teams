@@ -39,6 +39,7 @@
     "class-methods-use-this": "off",
     "no-shadow": "off",
     "no-plusplus": "off",
-    "react/jsx-props-no-spreading": "off"
+    "react/jsx-props-no-spreading": "off",
+    "camelcase": "off"
   }
 }

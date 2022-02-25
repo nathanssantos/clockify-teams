@@ -29,6 +29,33 @@
     }
   }
 
+  &__user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    &__avatar {
+      &.MuiAvatar-root {
+        margin-bottom: 16px;
+        width: 100px;
+        height: 100px;
+      }
+    }
+
+    &__profile {
+      margin-bottom: 10px;
+    }
+
+    &__name {
+      font-size: 22px;
+    }
+
+    &__email {
+      font-weight: 300;
+    }
+  }
+
   .fetch-data-log {
     max-height: 86px;
     overflow-y: auto;

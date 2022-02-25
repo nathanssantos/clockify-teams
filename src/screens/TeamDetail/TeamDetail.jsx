@@ -165,14 +165,8 @@ const TeamDetail = () => {
           <EditIcon />
         </Fab>
       </div>
-      <Dialog
-        open={showConfirmationModal}
-        onClose={closeConfirmationModal}
-        aria-labelledby="draggable-dialog-title"
-      >
-        <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-          {`Delete team ${team.name}`}
-        </DialogTitle>
+      <Dialog open={showConfirmationModal} onClose={closeConfirmationModal}>
+        <DialogTitle>{`Delete team ${team.name}`}</DialogTitle>
         <DialogContent>
           <DialogContentText>
             {`Are you sure you want to delete "${team.name}" team?`}
@@ -180,10 +174,10 @@ const TeamDetail = () => {
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={closeConfirmationModal} color="primary">
-            Cancelar
+            Cancel
           </Button>
           <Button onClick={removeTeam} color="primary">
-            Confirmar
+            Confirm
           </Button>
         </DialogActions>
       </Dialog>

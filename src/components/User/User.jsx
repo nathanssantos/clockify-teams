@@ -11,7 +11,15 @@ import WarningIcon from '@mui/icons-material/Warning';
 import CheckIcon from '@mui/icons-material/Check';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-// import EmailIcon from '@mui/icons-material/Email';
+import EmailIcon from '@mui/icons-material/Email';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Checkbox from '@mui/material/Checkbox';
+
 import PropTypes from 'prop-types';
 
 import { flowResult } from 'mobx';
@@ -20,18 +28,62 @@ import { useStore } from '../../hooks';
 
 import { WARNING_TYPES } from '../../stores/containers/userStore';
 
-import './styles.scss';
 import { convertFloatIntoTime } from '../../utils';
+
+import './styles.scss';
 
 const UserMeta = (props) => {
   const store = useStore();
-  const { hours, warnings, user, pdf } = props;
+  const { hours, warnings, error, success, user, pdf } = props;
   const [fetchingPDF, setFetchingPDF] = useState(false);
+  const [sendingReport, setSendingReport] = useState(false);
+  const [reportModalIsOpen, setReportModalIsOpen] = useState(false);
+  const [reportState, setReportState] = useState('idle');
 
   const fetchPdf = async () => {
     setFetchingPDF(true);
     await flowResult(store.userStore.fetchUserSummaryReport(user));
     setFetchingPDF(false);
+  };
+
+  const getReportState = () => {
+    if (success) return '#2ecc71';
+    if (error) return '#f44336';
+
+    switch (reportState) {
+      case 'success': {
+        return '#2ecc71';
+      }
+
+      case 'error': {
+        return '#f44336';
+      }
+
+      default: {
+        return '#fff';
+      }
+    }
+  };
+
+  const sendReport = async () => {
+    try {
+      setReportModalIsOpen(false);
+      setSendingReport(true);
+      const response = await flowResult(
+        store.userStore.sendReport({ collaborator_id: user.id }),
+      );
+
+      if (response.error) {
+        setReportState('error');
+        return;
+      }
+
+      setReportState('success');
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setSendingReport(false);
+    }
   };
 
   return (
@@ -44,15 +96,27 @@ const UserMeta = (props) => {
         <AccessTimeIcon color={hours >= 200 ? 'error' : ''} />
       </div>
 
-      {pdf ? (
-        fetchingPDF ? (
-          <CircularProgress style={{ width: 20, height: 20, margin: 14 }} />
-        ) : (
-          <IconButton onClick={fetchPdf}>
-            <PictureAsPdfIcon />
+      <div className="user__meta__item" style={{ color: getReportState() }}>
+        {pdf ? (
+          <IconButton onClick={fetchPdf} disabled={fetchingPDF}>
+            {fetchingPDF ? (
+              <CircularProgress style={{ width: 20, height: 20 }} />
+            ) : (
+              <PictureAsPdfIcon />
+            )}
           </IconButton>
-        )
-      ) : null}
+        ) : null}
+      </div>
+
+      <div className="user__meta__item" style={{ color: getReportState() }}>
+        <IconButton onClick={setReportModalIsOpen} disabled={sendingReport}>
+          {sendingReport ? (
+            <CircularProgress style={{ width: 20, height: 20 }} />
+          ) : (
+            <EmailIcon />
+          )}
+        </IconButton>
+      </div>
 
       {Object.entries(warnings).filter(([, value]) => value > 0)?.length ? (
         <Tooltip
@@ -86,11 +150,30 @@ const UserMeta = (props) => {
           <CheckIcon color="secondary" />
         </div>
       )}
-      {/*  <Tooltip arrow placement="left" title="Send report">
-        <IconButton onClick={() => {}}>
-          <Email />
-        </IconButton>
-      </Tooltip> */}
+
+      <Dialog
+        open={reportModalIsOpen}
+        onClose={() => setReportModalIsOpen(false)}
+      >
+        <DialogTitle>Report</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {`Send report to "${user.email}"?`}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            autoFocus
+            onClick={() => setReportModalIsOpen(false)}
+            color="primary"
+          >
+            Cancel
+          </Button>
+          <Button onClick={sendReport} color="primary">
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
@@ -100,10 +183,14 @@ UserMeta.propTypes = {
   user: PropTypes.instanceOf(Object).isRequired,
   pdf: PropTypes.bool,
   warnings: PropTypes.instanceOf(Object).isRequired,
+  error: PropTypes.bool,
+  success: PropTypes.bool,
 };
 
 UserMeta.defaultProps = {
   pdf: false,
+  error: false,
+  success: false,
 };
 
 const User = (props) => {
@@ -118,11 +205,23 @@ const User = (props) => {
     disabled,
     hours,
     warnings,
+    error,
+    success,
+    checked,
+    onCheck,
   } = props;
   const navigate = useNavigate();
 
   return (
     <ListItem className="user">
+      <div className="user__checkbox">
+        <Checkbox
+          checked={checked}
+          onChange={(event) => onCheck(event.target.checked)}
+          color="primary"
+        />
+      </div>
+
       <div
         className="user__pressable"
         onClick={() => (!disabled ? navigate(`/users/${id}`) : null)}
@@ -140,6 +239,8 @@ const User = (props) => {
           hours={hours}
           warnings={warnings}
           user={{ id, name, lastName, email }}
+          error={error}
+          success={success}
         />
       ) : null}
     </ListItem>
@@ -157,6 +258,10 @@ User.propTypes = {
   disabled: PropTypes.bool,
   hours: PropTypes.number,
   warnings: PropTypes.instanceOf(Object),
+  checked: PropTypes.bool,
+  error: PropTypes.bool,
+  success: PropTypes.bool,
+  onCheck: PropTypes.func,
 };
 
 User.defaultProps = {
@@ -170,6 +275,10 @@ User.defaultProps = {
   disabled: false,
   hours: 0,
   warnings: null,
+  checked: false,
+  success: false,
+  error: false,
+  onCheck: () => '',
 };
 
 export default observer(User);

@@ -4,8 +4,6 @@ Team management app used to generate warnings and send reports about collaborato
 
 ## To do
 
-- Add send email button on each user list item
-- Add mass actions selector on the user list for sending e-mails with the PDF report attached
 - Add value per hour, discounts and bonuses modal on user component for month total incoming calc
 - Add export XML file from user list functionality
 - Documentation

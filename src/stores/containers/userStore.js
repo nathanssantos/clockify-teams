@@ -36,6 +36,8 @@ export default class UserStore {
       fetchUserList: flow,
       fetchUserTimeEntries: flow,
       fetchUserSummaryReport: flow,
+      sendReports: flow,
+      sendReport: flow,
     });
   }
 
@@ -358,6 +360,44 @@ export default class UserStore {
     } catch (error) {
       console.log(error);
       getRoot().authStore.feedFetchDataLog('fetch user list error', 'error');
+      return false;
+    }
+  }
+
+  *sendReports(payload = {}) {
+    try {
+      const { collaborator_ids } = payload;
+
+      const response = yield getEnv().post('/send-reports', {
+        collaborator_ids,
+      });
+
+      if (response.status !== 200) {
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  *sendReport(payload = {}) {
+    try {
+      const { collaborator_id } = payload;
+
+      const response = yield getEnv().post('/send-reports', {
+        collaborator_ids: [collaborator_id],
+      });
+
+      if (response.status !== 200) {
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      console.log(error);
       return false;
     }
   }
