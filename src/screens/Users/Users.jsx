@@ -18,12 +18,14 @@ import Checkbox from '@mui/material/Checkbox';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import EmailIcon from '@mui/icons-material/Email';
-import IconButton from '@mui/material/IconButton';
+import DownloadIcon from '@mui/icons-material/Download';
+import exportFromJSON from 'export-from-json';
 
 import { flowResult } from 'mobx';
 import { useStore } from '../../hooks';
 
 import User from '../../components/User/User';
+import { formatDate } from '../../utils';
 
 const Users = () => {
   const store = useStore();
@@ -90,6 +92,33 @@ const Users = () => {
     }
   };
 
+  const exportXLS = async () => {
+    try {
+      exportFromJSON({
+        data: filteredList.map(({ name, email, hours, warnings }) => ({
+          name,
+          email,
+          hours: hours.toFixed(2),
+          warnings: JSON.stringify(warnings)
+            .replace('"', '')
+            .replace('"', '')
+            .replace('"', ' ')
+            .replace('"', '')
+            .replace('_', ' ')
+            .replace('_', ' ')
+            .replace('{', '')
+            .replace('}', ''),
+        })),
+        fileName: `Clockify_Teams_REPORT___from_${formatDate(
+          store.userStore.queryStartDate,
+        )}_to_${formatDate(store.userStore.queryEndDate)}`,
+        exportType: exportFromJSON.types.xls,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleCheck = (id, checked) => {
     setListState((list) =>
       list.map((item) => (item.id === id ? { ...item, checked } : item)),
@@ -151,7 +180,23 @@ const Users = () => {
             alignItems: { sm: 'flex-start' },
           }}
         >
-          <h2>Collaborators</h2>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            width="100%"
+            gap={2}
+          >
+            <h2>Collaborators</h2>
+            <Button
+              onClick={exportXLS}
+              variant="outlined"
+              startIcon={<DownloadIcon />}
+              size="large"
+            >
+              XLS
+            </Button>
+          </Box>
 
           <Box
             className="screen__header__content"
@@ -161,14 +206,14 @@ const Users = () => {
               alignItems: 'center',
               justifyContent: 'space-between',
               width: '100%',
-              gap: 1,
+              gap: 2,
             }}
           >
             <Box
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 1,
+                gap: 2,
                 marginLeft: 1,
               }}
             >
@@ -181,16 +226,23 @@ const Users = () => {
 
               {listState.filter((item) => item.checked).length ? (
                 <div className="screen__header__content__item">
-                  <IconButton
+                  <Button
                     onClick={() => setReportsModalIsOpen(true)}
                     disabled={sendingReports}
+                    variant="outlined"
+                    size="large"
+                    sx={{
+                      paddingLeft: 0,
+                      paddingRight: 0,
+                      minWidth: 40,
+                    }}
                   >
                     {sendingReports ? (
                       <CircularProgress style={{ width: 20, height: 20 }} />
                     ) : (
                       <EmailIcon />
                     )}
-                  </IconButton>
+                  </Button>
                 </div>
               ) : null}
             </Box>

@@ -12,7 +12,7 @@ import {
 import User from '../models/User';
 
 export const WARNING_TYPES = {
-  NO_PROJECT: 'Time entry without project',
+  // NO_PROJECT: 'Time entry without project',
   NO_DESCRIPTION: 'Time entry without description',
   TIME_LIMIT: 'Time entry longer than 6 hours',
 };
@@ -52,7 +52,7 @@ export default class UserStore {
 
   *fetchUserTimeEntries(payload = {}) {
     const { id, name, pageSize = 5000 } = payload;
-    const { NO_DESCRIPTION, NO_PROJECT, TIME_LIMIT } = WARNING_TYPES;
+    const { NO_DESCRIPTION, /* NO_PROJECT, */ TIME_LIMIT } = WARNING_TYPES;
 
     try {
       getRoot().authStore.feedFetchDataLog(
@@ -97,10 +97,10 @@ export default class UserStore {
           const time = entry?.timeInterval?.duration;
           const newTimeEntry = { ...entry, warnings: [] };
 
-          if (!entry?.projectId?.length) {
-            newTimeEntry.warnings.push(NO_PROJECT);
-            warnings.NO_PROJECT++;
-          }
+          // if (!entry?.projectId?.length) {
+          //   newTimeEntry.warnings.push(NO_PROJECT);
+          //   warnings.NO_PROJECT++;
+          // }
 
           if (!entry?.description?.length) {
             newTimeEntry.warnings.push(NO_DESCRIPTION);

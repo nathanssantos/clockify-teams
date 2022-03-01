@@ -18,6 +18,8 @@ import Router from './components/Router/Router';
 import ThemeProvider from './components/ThemeProvider/ThemeProvider';
 import QueryDateSeletor from './components/QueryDateSelector/QueryDateSeletor';
 
+window.cptable = {};
+
 const App = () => {
   const [rootStore, setRootStore] = useState(null);
   const [apiKey] = useLocalStorage('clockify-api-key');
