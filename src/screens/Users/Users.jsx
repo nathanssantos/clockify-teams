@@ -307,6 +307,7 @@ const Users = () => {
                 onCheck={(checked) => handleCheck(user.id, checked)}
                 showMeta
                 pdf
+                hasCheckBox
               />
             ))
           )}

@@ -34,7 +34,9 @@ import './styles.scss';
 
 const UserMeta = (props) => {
   const store = useStore();
+
   const { hours, warnings, error, success, user, pdf } = props;
+
   const [fetchingPDF, setFetchingPDF] = useState(false);
   const [sendingReport, setSendingReport] = useState(false);
   const [reportModalIsOpen, setReportModalIsOpen] = useState(false);
@@ -207,6 +209,7 @@ const User = (props) => {
     warnings,
     error,
     success,
+    hasCheckBox,
     checked,
     onCheck,
   } = props;
@@ -214,13 +217,15 @@ const User = (props) => {
 
   return (
     <ListItem className="user">
-      <div className="user__checkbox">
-        <Checkbox
-          checked={checked}
-          onChange={(event) => onCheck(event.target.checked)}
-          color="primary"
-        />
-      </div>
+      {hasCheckBox ? (
+        <div className="user__checkbox">
+          <Checkbox
+            checked={checked}
+            onChange={(event) => onCheck(event.target.checked)}
+            color="primary"
+          />
+        </div>
+      ) : null}
 
       <div
         className="user__pressable"
@@ -260,6 +265,7 @@ User.propTypes = {
   warnings: PropTypes.instanceOf(Object),
   checked: PropTypes.bool,
   error: PropTypes.bool,
+  hasCheckBox: PropTypes.bool,
   success: PropTypes.bool,
   onCheck: PropTypes.func,
 };
@@ -278,6 +284,7 @@ User.defaultProps = {
   checked: false,
   success: false,
   error: false,
+  hasCheckBox: false,
   onCheck: () => '',
 };
 
