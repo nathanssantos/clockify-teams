@@ -59,7 +59,7 @@ const Teams = () => {
 
         <main>
           {!filteredList?.length ? (
-            <div>No teams found.</div>
+            <div>No team found.</div>
           ) : (
             filteredList.map((team) => (
               <Team

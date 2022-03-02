@@ -87,7 +87,8 @@ const TeamDetail = () => {
                       email={user?.email}
                       hours={user?.hours}
                       warnings={user?.warnings}
-                      showMeta
+                      // meta={user?.meta}
+                      // showMeta
                     />
                   ))
                 : null}

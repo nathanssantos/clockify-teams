@@ -42,9 +42,16 @@ const Login = () => {
   return (
     <div className="screen login">
       <Container maxWidth="lg" className="login__container">
-        <Box position="relative">
+        <Box
+          position="relative"
+          display="flex"
+          alignItems="center"
+          flexDirection="column"
+          width="100%"
+          maxWidth="400px"
+        >
           <h1>Clockify Teams</h1>
-          <div className="login__box">
+          <Box className="login__box" width="100%">
             {!store.authStore.isConfirmingIdentity ? (
               <>
                 {!store.authStore.autoLogin ? (
@@ -89,16 +96,16 @@ const Login = () => {
                   </div>
                 </div>
 
-                <div className="fetch-data-log">
+                <Box className="fetch-data-log" width="100%">
                   {store.authStore.fetchDataLog.map(({ text, color }) => (
                     <div style={{ color }} key={text}>
                       {text}
                     </div>
                   ))}
-                </div>
+                </Box>
               </>
             )}
-          </div>
+          </Box>
         </Box>
       </Container>
     </div>

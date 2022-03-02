@@ -51,7 +51,7 @@ const Projects = () => {
 
         <main>
           {!filteredList?.length ? (
-            <div>No projects found.</div>
+            <div>No project found.</div>
           ) : (
             filteredList.map((project, index) => (
               <Project

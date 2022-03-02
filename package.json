@@ -1,7 +1,7 @@
 {
   "name": "react-vite-boilerplate",
   "private": true,
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Clockify team management app.",
   "author": {
     "name": "Nathan Silva Santos",
@@ -42,6 +42,7 @@
     "react": "^17.0.2",
     "react-chartjs-2": "^4.0.1",
     "react-dom": "^17.0.2",
+    "react-number-format": "^4.9.1",
     "react-router-dom": "^6.2.1",
     "sass": "^1.49.8",
     "yup": "^0.32.11"

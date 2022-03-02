@@ -70,8 +70,11 @@
   &__meta {
     display: flex;
     align-items: center;
-    gap: 20px;
-    padding: 16px;
+    flex-direction: column;
+
+    @media screen and(min-width: 900px) {
+      align-items: flex-end;
+    }
 
     &__item {
       height: 48px;
@@ -86,6 +89,26 @@
 
       &.warning {
         color: #ff9800;
+      }
+    }
+
+    &__payment-report-icon {
+      position: relative;
+      display: flex;
+
+      &__money-icon {
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translate(calc(100% - 4px), calc(-100% + 10px));
+        z-index: 1;
+        display: flex;
+        color: #2ecc71;
+
+        svg {
+          width: 16px;
+          height: 16px;
+        }
       }
     }
   }

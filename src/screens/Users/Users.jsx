@@ -287,7 +287,7 @@ const Users = () => {
 
         <main>
           {!filteredList?.length ? (
-            <div>No collaborators found.</div>
+            <div>No collaborator found.</div>
           ) : (
             filteredList.map((user, index) => (
               <User
@@ -300,6 +300,7 @@ const Users = () => {
                 hours={user?.hours}
                 payment={user?.payment}
                 warnings={user?.warnings}
+                meta={user?.meta}
                 checked={listState[index]?.checked}
                 requesting={listState[index]?.requesting}
                 error={listState[index]?.error}

@@ -1,4 +1,4 @@
-# Clockify Teams v2.0.0
+# Clockify Teams
 
 Team management app used to generate warnings and send reports about collaborator's performance and payments.
 

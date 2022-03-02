@@ -21,6 +21,11 @@ export default class User {
 
   warnings = {};
 
+  meta = {
+    valuePerHour: 0,
+    attachments: [],
+  };
+
   constructor(newUser) {
     makeObservable(this, {
       id: observable,
@@ -33,6 +38,7 @@ export default class User {
       teams: observable,
       hours: observable,
       warnings: observable,
+      meta: observable,
     });
 
     if (newUser == null || newUser.id == null) {
@@ -50,6 +56,7 @@ export default class User {
       teams,
       hours,
       warnings,
+      meta,
     } = newUser;
 
     this.id = id;
@@ -62,6 +69,7 @@ export default class User {
     this.teams = teams || [];
     this.hours = hours || 0;
     this.warnings = warnings || {};
+    this.meta = meta || {};
   }
 
   static fromApi({
@@ -75,6 +83,7 @@ export default class User {
     teams,
     hours,
     warnings,
+    meta,
   } = {}) {
     return new User({
       id,
@@ -87,6 +96,7 @@ export default class User {
       teams,
       hours,
       warnings,
+      meta,
     });
   }
 }

@@ -1,6 +1,7 @@
 import { action, flow, makeObservable, observable } from 'mobx';
 import { getEnv, getRoot } from 'mobx-easy';
 import { reportsAPI } from '../../services/baseAPI';
+import useLocalStorage from '../../hooks/useLocalStorage';
 
 import {
   getDuration,
@@ -32,6 +33,7 @@ export default class UserStore {
       setUserList: action.bound,
       formatUserData: action.bound,
       getUsersTeams: action.bound,
+      storeUserMeta: action.bound,
 
       fetchUserList: flow,
       fetchUserTimeEntries: flow,
@@ -80,7 +82,7 @@ export default class UserStore {
 
       if (response.status !== 200) {
         getRoot().authStore.feedFetchDataLog(
-          `fetch user ${name} time entries error`,
+          `error fetching ${name} time entries`,
           'error',
         );
         return false;
@@ -123,7 +125,7 @@ export default class UserStore {
         });
 
         getRoot().authStore.feedFetchDataLog(
-          `fetch user ${name} time entries success`,
+          `fetched ${name} time entries`,
           'success',
         );
 
@@ -135,7 +137,7 @@ export default class UserStore {
       }
 
       getRoot().authStore.feedFetchDataLog(
-        `fetch user ${name} time entries error`,
+        `error fetching ${name} time entries`,
         'error',
       );
 
@@ -143,7 +145,7 @@ export default class UserStore {
     } catch (error) {
       console.log(error);
       getRoot().authStore.feedFetchDataLog(
-        `fetch user ${name} time entries error`,
+        `error fetching ${name} time entries`,
         'error',
       );
       return false;
@@ -233,9 +235,28 @@ export default class UserStore {
     this.setUserList(newUsers);
   }
 
+  storeUserMeta(payload = {}) {
+    const { id, userMeta } = payload;
+
+    const [storedUsersMeta, setStoredUsersMeta] = useLocalStorage('user-meta');
+
+    const newUserMeta = {
+      ...storedUsersMeta,
+      [id]: userMeta,
+    };
+
+    if (storedUsersMeta[id]) {
+      newUserMeta[id] = { ...storedUsersMeta[id].meta, ...userMeta };
+    }
+
+    setStoredUsersMeta(newUserMeta);
+  }
+
   *fetchUserList(payload = {}) {
     try {
       getRoot().authStore.feedFetchDataLog('fetching user list...');
+
+      const [storedUsersMeta] = useLocalStorage('user-meta');
 
       const { pageSize = 5000 } = payload;
       const { defaultWorkspace } = getRoot().authStore.user;
@@ -251,15 +272,15 @@ export default class UserStore {
       );
 
       if (response.status !== 200) {
-        getRoot().authStore.feedFetchDataLog('fetch user list error', 'error');
+        getRoot().authStore.feedFetchDataLog(
+          'error fecthing user list',
+          'error',
+        );
         return false;
       }
 
       if (response?.data?.length) {
-        getRoot().authStore.feedFetchDataLog(
-          'fetch user list success',
-          'success',
-        );
+        getRoot().authStore.feedFetchDataLog('fetched user list', 'success');
 
         const newUsers = [];
 
@@ -267,10 +288,16 @@ export default class UserStore {
           const userTimeEntries = yield this.fetchUserTimeEntries(user);
 
           if (userTimeEntries) {
-            const newUser = this.formatUserData({
+            const userData = {
               ...user,
               ...userTimeEntries,
-            });
+            };
+
+            if (storedUsersMeta && storedUsersMeta[user.id]) {
+              userData.meta = storedUsersMeta[user.id];
+            }
+
+            const newUser = this.formatUserData(userData);
 
             newUsers.push(newUser);
           }
@@ -279,18 +306,18 @@ export default class UserStore {
         if (newUsers.length) {
           this.setUserList(newUsers);
           getRoot().authStore.feedFetchDataLog(
-            'fetch all users time entries success',
+            'fetched all users time entries',
             'success',
           );
           return true;
         }
       }
 
-      getRoot().authStore.feedFetchDataLog('fetch user list error', 'error');
+      getRoot().authStore.feedFetchDataLog('error fetching user list', 'error');
       return false;
     } catch (error) {
       console.log(error);
-      getRoot().authStore.feedFetchDataLog('fetch user list error', 'error');
+      getRoot().authStore.feedFetchDataLog('error fetching user list', 'error');
       return false;
     }
   }
@@ -359,7 +386,7 @@ export default class UserStore {
       return false;
     } catch (error) {
       console.log(error);
-      getRoot().authStore.feedFetchDataLog('fetch user list error', 'error');
+      getRoot().authStore.feedFetchDataLog('error fetching user list', 'error');
       return false;
     }
   }

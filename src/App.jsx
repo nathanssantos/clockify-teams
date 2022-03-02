@@ -11,7 +11,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import baseAPI from './services/baseAPI';
 import RootStore from './stores/containers/rootStore';
 
-import { RootStoreProvider } from './hooks';
+import { RootStoreProvider } from './hooks/useStore';
 import useLocalStorage from './hooks/useLocalStorage';
 
 import Router from './components/Router/Router';
