@@ -22,10 +22,12 @@ import DownloadIcon from '@mui/icons-material/Download';
 import exportFromJSON from 'export-from-json';
 
 import { flowResult } from 'mobx';
-import { useStore } from '../../hooks';
+import { useStore, useLocalStorage } from '../../hooks';
 
 import User from '../../components/User/User';
 import { formatDate } from '../../utils';
+
+import './styles.scss';
 
 const Users = () => {
   const store = useStore();
@@ -35,6 +37,8 @@ const Users = () => {
   const [listState, setListState] = useState([]);
   const [sendingReports, setSendingReports] = useState(false);
   const [reportsModalIsOpen, setReportsModalIsOpen] = useState(false);
+
+  const order = orderBy === 'hours' ? 'desc' : 'asc';
 
   const sendReports = async (_photos) => {
     try {
@@ -92,36 +96,39 @@ const Users = () => {
     }
   };
 
-  const getTotal = (hours, meta) => {
+  const getTotal = (hours, meta = { valuePerHour: 0, attachments: [] }) => {
     let total = 0;
-    let valuePerHour = meta?.valuePerHour || 0;
+    const { valuePerHour } = meta;
 
-    if (!meta?.attachments?.length) return total;
+    if (!meta?.attachments?.length) return hours * valuePerHour;
 
     if (meta?.attachments?.length > 1) {
-      total += meta?.attachments.reduce(
-        (acc, item) => Number(acc.value) + Number(item.value),
-      );
-    } else if (meta?.attachments.length === 1) {
+      total += meta.attachments.reduce((acc, item) => acc.value + item.value);
+    } else if (meta?.attachments?.length === 1) {
       total += Number(meta?.attachments[0].value);
     }
 
-    return String(Number(hours * valuePerHour + total).toFixed(2));
+    return hours * valuePerHour + total;
   };
 
   const exportXLS = async () => {
+    const [storedUsersMeta] = useLocalStorage('user-meta');
+
     try {
       exportFromJSON({
-        data: filteredList.map(({ name, email, hours, warnings, meta }) => {
+        data: filteredList.map(({ id, name, email, hours, warnings }) => {
+          const meta = storedUsersMeta[id];
+
+          console.log(meta);
           return {
             name,
             email,
             hours: hours.toFixed(2),
-            valuePerHour: meta.valuePerHour,
+            valuePerHour: meta?.valuePerHour || 0,
             attachments: meta?.attachments?.length
               ? JSON.stringify(meta.attachments)
               : '',
-            total: getTotal(hours, meta),
+            total: String(getTotal(hours, meta).toFixed(2)),
             warnings: JSON.stringify(warnings),
           };
         }),
@@ -146,8 +153,6 @@ const Users = () => {
   };
 
   useEffect(() => {
-    const order = orderBy === 'hours' ? 'desc' : 'asc';
-
     if (filterTerm.length) {
       setFilteredList(
         _.orderBy(

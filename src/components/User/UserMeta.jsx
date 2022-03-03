@@ -269,7 +269,8 @@ const UserMeta = (props) => {
                     size="small"
                     value={valuePerHour}
                     onChange={(e) => {
-                      setValuePerHour(e.target.value);
+                      const { value } = e.target;
+                      if (value) setValuePerHour(Number(value));
                     }}
                     InputProps={{
                       startAdornment: (
@@ -333,10 +334,14 @@ const UserMeta = (props) => {
                           inputComponent: Currency,
                         }}
                         onChange={(e) => {
+                          if (!e?.target?.value) return;
+
                           setAttachments((prevState) => {
                             const newAttachments = [...prevState];
-                            newAttachments[index].value = e.target.value;
-                            updateTotal(prevState);
+                            newAttachments[index].value = Number(
+                              e.target.value,
+                            );
+                            updateTotal(newAttachments);
                             return newAttachments;
                           });
                         }}
