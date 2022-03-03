@@ -4,5 +4,5 @@ Team management app used to generate warnings and send reports about collaborato
 
 ## To do
 
-- Add value per hour, discounts and bonuses modal on user component for month total incoming calc
-- Documentation
+[x] Add value per hour, discounts and bonuses modal on user component for month total incoming calc
+[ ] Documentation
