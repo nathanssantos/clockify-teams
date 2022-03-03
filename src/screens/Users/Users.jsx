@@ -92,23 +92,39 @@ const Users = () => {
     }
   };
 
+  const getTotal = (hours, meta) => {
+    let total = 0;
+    let valuePerHour = meta?.valuePerHour || 0;
+
+    if (!meta?.attachments?.length) return total;
+
+    if (meta?.attachments?.length > 1) {
+      total += meta?.attachments.reduce(
+        (acc, item) => Number(acc.value) + Number(item.value),
+      );
+    } else if (meta?.attachments.length === 1) {
+      total += Number(meta?.attachments[0].value);
+    }
+
+    return String(Number(hours * valuePerHour + total).toFixed(2));
+  };
+
   const exportXLS = async () => {
     try {
       exportFromJSON({
-        data: filteredList.map(({ name, email, hours, warnings }) => ({
-          name,
-          email,
-          hours: hours.toFixed(2),
-          warnings: JSON.stringify(warnings)
-            .replace('"', '')
-            .replace('"', '')
-            .replace('"', ' ')
-            .replace('"', '')
-            .replace('_', ' ')
-            .replace('_', ' ')
-            .replace('{', '')
-            .replace('}', ''),
-        })),
+        data: filteredList.map(({ name, email, hours, warnings, meta }) => {
+          return {
+            name,
+            email,
+            hours: hours.toFixed(2),
+            valuePerHour: meta.valuePerHour,
+            attachments: meta?.attachments?.length
+              ? JSON.stringify(meta.attachments)
+              : '',
+            total: getTotal(hours, meta),
+            warnings: JSON.stringify(warnings),
+          };
+        }),
         fileName: `Clockify_Teams_REPORT___from_${formatDate(
           store.userStore.queryStartDate,
         )}_to_${formatDate(store.userStore.queryEndDate)}`,
