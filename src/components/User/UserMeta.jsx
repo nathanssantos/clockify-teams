@@ -37,13 +37,11 @@ const { Currency } = masks;
 const UserMeta = (props) => {
   const store = useStore();
 
-  const { hours, warnings, error, success, user, pdf } = props;
+  const { hours, warnings, user, reportState, pdf, onSendReport } = props;
 
   const [mounted, setMounted] = useState(false);
   const [fetchingPDF, setFetchingPDF] = useState(false);
-  const [sendingReport, setSendingReport] = useState(false);
   const [reportModalIsOpen, setReportModalIsOpen] = useState(false);
-  const [reportState, setReportState] = useState('idle');
   const [valuePerHour, setValuePerHour] = useState(0);
   const [attachments, setAttachments] = useState([]);
   const [total, setTotal] = useState(0);
@@ -55,10 +53,7 @@ const UserMeta = (props) => {
     setFetchingPDF(false);
   };
 
-  const getReportState = () => {
-    if (success) return '#2ecc71';
-    if (error) return '#f44336';
-
+  const getReportStateColor = () => {
     switch (reportState) {
       case 'success': {
         return '#2ecc71';
@@ -77,21 +72,9 @@ const UserMeta = (props) => {
   const sendReport = async () => {
     try {
       setReportModalIsOpen(false);
-      setSendingReport(true);
-      const response = await flowResult(
-        store.userStore.sendReport({ collaborator_id: user.id }),
-      );
-
-      if (response.error) {
-        setReportState('error');
-        return;
-      }
-
-      setReportState('success');
+      await onSendReport(user.id);
     } catch (error) {
       console.log(error);
-    } finally {
-      setSendingReport(false);
     }
   };
 
@@ -130,7 +113,7 @@ const UserMeta = (props) => {
     setTotal(_total + _attachmentsTotal);
   };
 
-  const getColor = (value) => {
+  const getValueColor = (value) => {
     if (value < 0) return '#f44336';
     if (value > 0) return '#2ecc71';
     return '#fff';
@@ -162,7 +145,7 @@ const UserMeta = (props) => {
   return (
     <div className="user__meta">
       <Box display="flex" alignItems="center" gap={2} padding={2}>
-        <div className="user__meta__item" style={{ color: getReportState() }}>
+        <div className="user__meta__item">
           {pdf ? (
             <IconButton onClick={fetchPdf} disabled={fetchingPDF}>
               {fetchingPDF ? (
@@ -174,15 +157,18 @@ const UserMeta = (props) => {
           ) : null}
         </div>
 
-        <div className="user__meta__item" style={{ color: getReportState() }}>
+        <div className="user__meta__item">
           <IconButton
             onClick={() => setReportModalIsOpen(true)}
-            disabled={sendingReport}
+            disabled={reportState === 'requesting'}
           >
-            {sendingReport ? (
+            {reportState === 'requesting' ? (
               <CircularProgress style={{ width: 20, height: 20 }} />
             ) : (
-              <div className="user__meta__payment-report-icon">
+              <div
+                className="user__meta__payment-report-icon"
+                style={{ color: getReportStateColor() }}
+              >
                 <EmailIcon />
                 <div className="user__meta__payment-report-icon__money-icon">
                   <AttachMoneyIcon />
@@ -358,7 +344,7 @@ const UserMeta = (props) => {
                   </IconButton>
                 </Box>
               </Box>
-              <Box alignSelf="flex-end" color={getColor(total)}>
+              <Box alignSelf="flex-end" color={getValueColor(total)}>
                 Total: R${' '}
                 <NumberFormat
                   value={total}
@@ -413,7 +399,7 @@ const UserMeta = (props) => {
           />
         </Box>
         +
-        <Box color={getColor(attachmentsTotal)}>
+        <Box color={getValueColor(attachmentsTotal)}>
           R${' '}
           <NumberFormat
             value={attachmentsTotal}
@@ -426,7 +412,7 @@ const UserMeta = (props) => {
           />
         </Box>
         =
-        <Box color={getColor(total)}>
+        <Box color={getValueColor(total)}>
           R${' '}
           <NumberFormat
             value={total}

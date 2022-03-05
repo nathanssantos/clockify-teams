@@ -1,7 +1,7 @@
 {
   "name": "react-vite-boilerplate",
   "private": true,
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Clockify team management app.",
   "author": {
     "name": "Nathan Silva Santos",

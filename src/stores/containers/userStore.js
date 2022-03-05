@@ -1,5 +1,6 @@
 import { action, flow, makeObservable, observable } from 'mobx';
 import { getEnv, getRoot } from 'mobx-easy';
+import axios from 'axios';
 import { reportsAPI } from '../../services/baseAPI';
 import useLocalStorage from '../../hooks/useLocalStorage';
 
@@ -38,7 +39,6 @@ export default class UserStore {
       fetchUserList: flow,
       fetchUserTimeEntries: flow,
       fetchUserSummaryReport: flow,
-      sendReports: flow,
       sendReport: flow,
     });
   }
@@ -391,41 +391,42 @@ export default class UserStore {
     }
   }
 
-  *sendReports(payload = {}) {
-    try {
-      const { collaborator_ids } = payload;
-
-      const response = yield getEnv().post('/send-reports', {
-        collaborator_ids,
-      });
-
-      if (response.status !== 200) {
-        return false;
-      }
-
-      return true;
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
-  }
-
   *sendReport(payload = {}) {
     try {
-      const { collaborator_id } = payload;
+      const { toId, attachments, valuePerHour } = payload;
+      const [token] = useLocalStorage('clockify-api-key');
 
-      const response = yield getEnv().post('/send-reports', {
-        collaborator_ids: [collaborator_id],
-      });
+      const response = yield axios.post(
+        import.meta.env.VITE_API_URL,
+        {
+          toId,
+          attachments,
+          valuePerHour,
+          dateRangeStart: this.queryStartDate,
+          dateRangeEnd: this.queryEndDate,
+        },
+        { headers: { secret: import.meta.env.VITE_API_SECRET, token } },
+      );
+
+      const { status } = response;
 
       if (response.status !== 200) {
-        return false;
+        return {
+          error: {
+            status,
+          },
+        };
       }
 
       return true;
     } catch (error) {
       console.log(error);
-      return false;
+
+      return {
+        error: {
+          status: 400,
+        },
+      };
     }
   }
 }

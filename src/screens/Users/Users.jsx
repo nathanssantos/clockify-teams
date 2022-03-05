@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
@@ -40,42 +41,43 @@ const Users = () => {
 
   const order = orderBy === 'hours' ? 'desc' : 'asc';
 
-  const sendReports = async (_photos) => {
+  const sendReport = async (toId) => {
     try {
-      setSendingReports(true);
+      const [storedUsersMeta] = useLocalStorage('user-meta');
 
       setListState((list) =>
         list.map((item) =>
-          _photos.map(({ id }) => id).includes(item.id)
-            ? { ...item, requesting: true }
-            : item,
+          toId === item.id ? { ...item, state: 'requesting' } : item,
         ),
       );
 
       const response = await flowResult(
-        store.userStore.sendReports({
-          collaborator_ids: _photos.map(({ id }) => id),
+        store.userStore.sendReport({
+          toId,
+          ...storedUsersMeta[toId],
         }),
       );
 
-      if (response.error) {
-        // toast.error(SYSTEM_INSTABILITY);
-        return;
-      }
+      if (response?.error) {
+        setListState((list) =>
+          list.map((item) =>
+            toId === item.id ? { ...item, state: 'error' } : item,
+          ),
+        );
 
-      // onDeletePhoto();
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setSendingReports(false);
+        return { error: response.error };
+      }
 
       setListState((list) =>
         list.map((item) =>
-          _photos.map(({ id }) => id).includes(item.id)
-            ? { ...item, requesting: false }
-            : item,
+          toId === item.id ? { ...item, state: 'success' } : item,
         ),
       );
+
+      return response;
+    } catch (error) {
+      console.log(error);
+      return null;
     }
   };
 
@@ -84,11 +86,11 @@ const Users = () => {
       setSendingReports(true);
       setReportsModalIsOpen(false);
 
-      const photosToDelete = filteredList.filter(
+      const reportsToSend = filteredList.filter(
         (_, index) => listState[index].checked && !listState[index].requesting,
       );
 
-      await sendReports(photosToDelete);
+      for (const report of reportsToSend) await sendReport(report.id);
     } catch (error) {
       console.log(error);
     } finally {
@@ -181,9 +183,7 @@ const Users = () => {
       _.orderBy(store.userStore.userList, orderBy).map(({ id }) => ({
         id,
         checked: false,
-        requesting: false,
-        error: false,
-        sent: false,
+        state: 'Idle',
       })),
     );
 
@@ -323,10 +323,9 @@ const Users = () => {
                 warnings={user?.warnings}
                 meta={user?.meta}
                 checked={listState[index]?.checked}
-                requesting={listState[index]?.requesting}
-                error={listState[index]?.error}
-                success={listState[index]?.success}
+                reportState={listState[index]?.state}
                 onCheck={(checked) => handleCheck(user.id, checked)}
+                onSendReport={sendReport}
                 showMeta
                 pdf
                 hasCheckBox

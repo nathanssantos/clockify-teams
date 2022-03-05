@@ -22,12 +22,12 @@ const User = (props) => {
     disabled,
     hours,
     warnings,
-    error,
-    success,
     meta,
     hasCheckBox,
+    reportState,
     checked,
     onCheck,
+    onSendReport,
   } = props;
   const navigate = useNavigate();
 
@@ -60,8 +60,8 @@ const User = (props) => {
           hours={hours}
           warnings={warnings}
           user={{ id, name, lastName, email, meta }}
-          error={error}
-          success={success}
+          reportState={reportState}
+          onSendReport={onSendReport}
         />
       ) : null}
     </ListItem>
@@ -81,10 +81,10 @@ User.propTypes = {
   warnings: PropTypes.instanceOf(Object),
   meta: PropTypes.instanceOf(Object),
   checked: PropTypes.bool,
-  error: PropTypes.bool,
+  reportState: PropTypes.string,
   hasCheckBox: PropTypes.bool,
-  success: PropTypes.bool,
   onCheck: PropTypes.func,
+  onSendReport: PropTypes.func,
 };
 
 User.defaultProps = {
@@ -100,10 +100,10 @@ User.defaultProps = {
   warnings: null,
   meta: { valuePerHour: 0, attachments: [] },
   checked: false,
-  success: false,
-  error: false,
+  reportState: 'idle',
   hasCheckBox: false,
   onCheck: () => '',
+  onSendReport: () => '',
 };
 
 export default observer(User);
