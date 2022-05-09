@@ -93,11 +93,9 @@ const UserMeta = (props) => {
     let _total = 0;
 
     if (_attachments?.length > 1) {
-      _total += _attachments.reduce(
-        (acc, item) => Number(acc.value) + Number(item.value),
-      );
+      _total = _attachments.reduce((acc, item) => acc + item.value, 0);
     } else if (_attachments.length === 1) {
-      _total += Number(_attachments[0].value);
+      _total += _attachments[0].value;
     }
 
     setAttachmentsTotal(_total);
