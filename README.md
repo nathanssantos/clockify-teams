@@ -1,3 +1,3 @@
 # Clockify Teams
 
-Team management app used to generate warnings and send email reports about collaborator's performance and payments.
+Team management app used to generate warnings and send email reports about collaborator's performance.
